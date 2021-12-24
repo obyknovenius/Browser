@@ -7,6 +7,10 @@
 
 #import "AppDelegate.h"
 
+#include "Tokenizer.h"
+
+using namespace std;
+
 @interface AppDelegate ()
 
 
@@ -16,6 +20,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    
+    HTML::Tokenizer tokenizer;
+    tokenizer.tokenize();
 }
 
 
