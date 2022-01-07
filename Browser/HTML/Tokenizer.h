@@ -32,7 +32,7 @@ class Tokenizer {
     
     State m_state { State::Data };
     
-    ifstream m_input_stream { "/Users/obyknovenius/Developer/Personal/Browser/test.html" };
+    std::ifstream m_input_stream { "/Users/obyknovenius/Developer/Personal/Browser/test.html" };
     
     int m_next_input_character { m_input_stream.get() };
     int m_current_input_character {};

@@ -10,13 +10,11 @@
 #include <string>
 #include <list>
 
-using namespace std;
-
 namespace HTML {
 
 struct Attribute {
-    string name {};
-    string value {};
+    std::string name {};
+    std::string value {};
 };
 
 class Token {
@@ -32,19 +30,19 @@ class Tag : public Token {
 public:
     ~Tag() {}
     
-    string& tag_name() { return m_tag_name; }
+    std::string& tag_name() { return m_tag_name; }
     
     bool& self_closing() { return m_self_closing; }
     
     void start_new_attribute() { m_attributes.push_back(Attribute{}); }
     Attribute* current_attribute() { return m_attributes.empty() ? nullptr : &m_attributes.back(); }
-    list<Attribute> attributes() { return m_attributes; }
+    std::list<Attribute> attributes() { return m_attributes; }
 private:
-    string m_tag_name {};
+    std::string m_tag_name {};
     
     bool m_self_closing { false };
     
-    list<Attribute> m_attributes {};
+    std::list<Attribute> m_attributes {};
 };
 
 struct StartTag : public Tag {

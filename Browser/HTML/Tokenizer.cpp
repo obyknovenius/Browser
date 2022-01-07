@@ -9,8 +9,6 @@
 
 #include <iostream>
 
-using namespace std;
-
 namespace HTML {
 
 void Tokenizer::consume_next_input_character() {
@@ -46,31 +44,31 @@ Tag* Tokenizer::current_tag_token() {
 
 void Tokenizer::emit(Token* token) {
     if (DOCTYPE* doctype = dynamic_cast<DOCTYPE*>(token)) {
-        cout << "DOCTYPE";
+        std::cout << "DOCTYPE";
     }
     
     if (StartTag* start_tag = dynamic_cast<StartTag*>(token)) {
-        cout << "<" << start_tag->tag_name();
+        std::cout << "<" << start_tag->tag_name();
         for (Attribute attribute : start_tag->attributes()) {
-            cout << " " << attribute.name << "=" << attribute.value;
+            std::cout << " " << attribute.name << "=" << attribute.value;
         }
-        cout << ">";
+        std::cout << ">";
     }
     
     if (EndTag* end_tag = dynamic_cast<EndTag*>(token)) {
-        cout << "</" << end_tag->tag_name() << ">";
+        std::cout << "</" << end_tag->tag_name() << ">";
     }
     
     if (Comment* comment = dynamic_cast<Comment*>(token)) {
-        cout << "//" << comment->data;
+        std::cout << "//" << comment->data;
     }
     
     if (Character* character = dynamic_cast<Character*>(token)) {
-        cout << character->data();
+        std::cout << character->data();
     }
     
     if (EndOfFile* end_of_file = dynamic_cast<EndOfFile*>(token)) {
-        cout << "end-of-file";
+        std::cout << "end-of-file";
     }
     
     delete token;
