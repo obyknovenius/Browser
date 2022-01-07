@@ -14,9 +14,7 @@
 namespace HTML {
 
 class Tokenizer {
-public:
-    void tokenize();
-private:
+    
     enum class State {
         Data,
         TagOpen,
@@ -35,21 +33,29 @@ private:
     State m_state { State::Data };
     
     ifstream m_input_stream { "/Users/obyknovenius/Developer/Personal/Browser/test.html" };
-    int* m_next_input_character { nullptr };
+    
+    int m_next_input_character { m_input_stream.get() };
+    int m_current_input_character {};
+    bool m_reconsume { false };
         
-    int consume_next_input_character();
+    Token* m_current_token;
+    
+    void consume_next_input_character();
+    
+    bool is(int);
     
     void switch_to(State);
-    void reconsume_in(State, int*);
-    
-    Token* m_current_token;
-    Tag* current_tag_token();
+    void reconsume_in(State);
     
     template<class T>
     void create_token();
-        
+    
+    Tag* current_tag_token();
+    
     void emit(Token*);
-
+    
+public:
+    void tokenize();
 };
 
 }
