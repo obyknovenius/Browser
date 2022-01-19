@@ -21,135 +21,94 @@ void Tokenizer::consume_next_input_character() {
 }
 
 Token* Tokenizer::next_token() {
-    while (true) {
-        switch (m_state) {
-            case State::Data: {
-                consume_next_input_character();
-                
-                if (at('<')) {
-                    switch_to(State::TagOpen);
-                    break;
-                }
-                
-                if (at(EOF)) {
-                    return new EndOfFile{};
-                }
-                
-                return new Character{(char)current_input_character()};
+    for(;;) {
+        if (in(State::Data)) {
+            consume_next_input_character();
+            if (at('<')) {
+                switch_to(State::TagOpen);
+            } else if (at(EOF)) {
+                return new EndOfFile {};
+            } else {
+                return new Character {(char)current_input_character()};
             }
-                
-            case State::TagOpen: {
-                consume_next_input_character();
-                
-                if (at('/')) {
-                    switch_to(State::EndTagOpen);
-                    break;
-                }
-                
-                if (at_ascii_alpha()) {
-                    create_token<StartTag>();
-                    reconsume_in(State::TagName);
-                    break;
-                }
-            }
+        }
         
-            case State::EndTagOpen: {
-                consume_next_input_character();
-                
-                if (at_ascii_alpha()) {
-                    create_token<EndTag>();
-                    reconsume_in(State::TagName);
-                    break;
-                }
-                
-                break;
+        if (in(State::TagOpen)) {
+            consume_next_input_character();
+            if (at('/')) {
+                switch_to(State::EndTagOpen);
+            } else if (at_ascii_alpha()) {
+                create_token<StartTag>();
+                reconsume_in(State::TagName);
             }
+        }
         
-            case State::TagName: {
-                consume_next_input_character();
-                
-                if (at('\t') || at('\n') || at('\f') || at(' ')) {
-                    switch_to(State::BeforeAttributeName);
-                    break;
-                }
-                
-                if (at('>')) {
-                    switch_to(State::Data);
-                    return current_tag_token();
-                }
-                
+        if (in(State::EndTagOpen)) {
+            consume_next_input_character();
+            if (at_ascii_alpha()) {
+                create_token<EndTag>();
+                reconsume_in(State::TagName);
+            }
+        }
+        
+        if (in(State::TagName)) {
+            consume_next_input_character();
+            if (at('\t') || at('\n') || at('\f') || at(' ')) {
+                switch_to(State::BeforeAttributeName);
+            } else if (at('>')) {
+                switch_to(State::Data);
+                return current_tag_token();
+            } else {
                 current_tag_token()->tag_name() += current_input_character();
-                break;
             }
+        }
         
-            case State::BeforeAttributeName: {
-                consume_next_input_character();
-                
-                current_tag_token()->start_new_attribute();
-                reconsume_in(State::AttributeName);
-                break;
-            }
+        if (in(State::BeforeAttributeName)) {
+            consume_next_input_character();
+            current_tag_token()->start_new_attribute();
+            reconsume_in(State::AttributeName);
+        }
         
-            case State::AttributeName: {
-                consume_next_input_character();
-                
-                if (at('=')) {
-                    switch_to(State::BeforeAttributeValue);
-                    break;
-                }
-                
-                if (at_ascii_upper_alpha()){
-                    current_tag_token()->current_attribute()->name += lowercase_current_input_character();
-                    break;
-                }
-                
+        if (in(State::AttributeName)) {
+            consume_next_input_character();
+            if (at('=')) {
+                switch_to(State::BeforeAttributeValue);
+            } else if (at_ascii_upper_alpha()){
+                current_tag_token()->current_attribute()->name += lowercase_current_input_character();
+            } else {
                 current_tag_token()->current_attribute()->name += current_input_character();
-                
-                break;
             }
+        }
         
-            case State::AfterAttributeName: {
-                consume_next_input_character();
-                
-                break;
-            }
-        
-            case State::BeforeAttributeValue: {
-                consume_next_input_character();
-                
-                reconsume_in(State::AttributeValueUnquoted);
-                break;
-            }
-        
-            case State::AttributeValueDoubleQuoted: {
-                consume_next_input_character();
-                
-                break;
-            }
-        
-            case State::AttributeValueSingleQuoted: {
-                consume_next_input_character();
-                
-                break;
-            }
-        
-            case State::AttributeValueUnquoted: {
-                consume_next_input_character();
-                
-                if (at('>')) {
-                    switch_to(State::Data);
-                    return current_tag_token();
-                }
-                
+        if (in(State::AfterAttributeName)) {
+            consume_next_input_character();
+        }
+
+        if (in(State::BeforeAttributeValue)) {
+            consume_next_input_character();
+            reconsume_in(State::AttributeValueUnquoted);
+        }
+
+        if (in(State::AttributeValueDoubleQuoted)) {
+            consume_next_input_character();
+        }
+
+        if (in(State::AttributeValueSingleQuoted)) {
+            consume_next_input_character();
+        }
+
+        if (in(State::AttributeValueUnquoted)) {
+            consume_next_input_character();
+            if (at('>')) {
+                switch_to(State::Data);
+                return current_tag_token();
+            } else {
                 current_tag_token()->current_attribute()->value += current_input_character();
-                break;
             }
-        
-            case State::AfterAttributeValueQuoted: {
-                consume_next_input_character();
-                
-                break;
-            }
+        }
+
+        if (in(State::AfterAttributeValueQuoted)) {
+            consume_next_input_character();
         }
     }
 }
