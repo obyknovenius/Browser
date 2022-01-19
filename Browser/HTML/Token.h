@@ -34,8 +34,8 @@ public:
     
     bool& self_closing() { return m_self_closing; }
     
-    void start_new_attribute() { m_attributes.push_back(Attribute{}); }
-    Attribute* current_attribute() { return m_attributes.empty() ? nullptr : &m_attributes.back(); }
+    void start_new_attribute() { m_attributes.push_back(Attribute {}); }
+    Attribute* current_attribute() { return &m_attributes.back(); }
     std::list<Attribute> attributes() { return m_attributes; }
 private:
     std::string m_tag_name {};
