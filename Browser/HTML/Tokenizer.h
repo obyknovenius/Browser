@@ -49,18 +49,20 @@ class Tokenizer {
     bool at_ascii_alpha() { return isalpha(m_current_input_character); }
     bool at_ascii_upper_alpha() { return isupper(m_current_input_character); }
     
-    void switch_to(State);
-    void reconsume_in(State);
+    void switch_to(State state) { m_state = state; }
+    void reconsume_in(State state)
+    {
+        m_reconsume = true;
+        m_state = state;
+    }
     
     template<class T>
-    void create_token();
+    void create_token() { m_current_token = new T {}; }
     
-    Tag* current_tag_token();
-    
-    void emit(Token*);
+    Tag* current_tag_token() { return dynamic_cast<Tag*>(m_current_token); }
     
 public:
-    void tokenize();
+    Token* next_token();
 };
 
 }

@@ -20,58 +20,8 @@ void Tokenizer::consume_next_input_character() {
     m_next_input_character = m_input_stream.get();
 }
 
-void Tokenizer::reconsume_in(State state) {
-    m_reconsume = true;
-    m_state = state;
-}
-
-void Tokenizer::switch_to(State state) {
-    m_state = state;
-}
-
-template <class T>
-void Tokenizer::create_token() {
-    m_current_token = new T {};
-}
-
-Tag* Tokenizer::current_tag_token() {
-    return dynamic_cast<Tag*>(m_current_token);
-}
-
-void Tokenizer::emit(Token* token) {
-    if (DOCTYPE* doctype = dynamic_cast<DOCTYPE*>(token)) {
-        std::cout << "DOCTYPE";
-    }
-    
-    if (StartTag* start_tag = dynamic_cast<StartTag*>(token)) {
-        std::cout << "<" << start_tag->tag_name();
-        for (Attribute attribute : start_tag->attributes()) {
-            std::cout << " " << attribute.name << "=" << attribute.value;
-        }
-        std::cout << ">";
-    }
-    
-    if (EndTag* end_tag = dynamic_cast<EndTag*>(token)) {
-        std::cout << "</" << end_tag->tag_name() << ">";
-    }
-    
-    if (Comment* comment = dynamic_cast<Comment*>(token)) {
-        std::cout << "//" << comment->data;
-    }
-    
-    if (Character* character = dynamic_cast<Character*>(token)) {
-        std::cout << character->data();
-    }
-    
-    if (EndOfFile* end_of_file = dynamic_cast<EndOfFile*>(token)) {
-        std::cout << "end-of-file";
-    }
-    
-    delete token;
-}
-
-void Tokenizer::tokenize() {
-    do {
+Token* Tokenizer::next_token() {
+    while (true) {
         switch (m_state) {
             case State::Data: {
                 consume_next_input_character();
@@ -82,12 +32,10 @@ void Tokenizer::tokenize() {
                 }
                 
                 if (at(EOF)) {
-                    emit(new EndOfFile{});
-                    break;
+                    return new EndOfFile{};
                 }
                 
-                emit(new Character{(char)current_input_character()});
-                break;
+                return new Character{(char)current_input_character()};
             }
                 
             case State::TagOpen: {
@@ -127,8 +75,7 @@ void Tokenizer::tokenize() {
                 
                 if (at('>')) {
                     switch_to(State::Data);
-                    emit(current_tag_token());
-                    break;
+                    return current_tag_token();
                 }
                 
                 current_tag_token()->tag_name() += current_input_character();
@@ -191,8 +138,7 @@ void Tokenizer::tokenize() {
                 
                 if (at('>')) {
                     switch_to(State::Data);
-                    emit(current_tag_token());
-                    break;
+                    return current_tag_token();
                 }
                 
                 current_tag_token()->current_attribute()->value += current_input_character();
@@ -205,7 +151,7 @@ void Tokenizer::tokenize() {
                 break;
             }
         }
-    } while(!at(EOF));
+    }
 }
 
 }
