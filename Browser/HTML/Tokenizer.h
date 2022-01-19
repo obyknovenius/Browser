@@ -42,7 +42,12 @@ class Tokenizer {
     
     void consume_next_input_character();
     
-    bool is(int);
+    int current_input_character() { return m_current_input_character; }
+    int lowercase_current_input_character() { return tolower(m_current_input_character); };
+    
+    bool at(int character) { return m_current_input_character == character; }
+    bool at_ascii_alpha() { return isalpha(m_current_input_character); }
+    bool at_ascii_upper_alpha() { return isupper(m_current_input_character); }
     
     void switch_to(State);
     void reconsume_in(State);

@@ -20,10 +20,6 @@ void Tokenizer::consume_next_input_character() {
     m_next_input_character = m_input_stream.get();
 }
 
-bool Tokenizer::is(int character) {
-    return m_current_input_character == character;
-}
-
 void Tokenizer::reconsume_in(State state) {
     m_reconsume = true;
     m_state = state;
@@ -80,29 +76,29 @@ void Tokenizer::tokenize() {
             case State::Data: {
                 consume_next_input_character();
                 
-                if (is('<')) {
+                if (at('<')) {
                     switch_to(State::TagOpen);
                     break;
                 }
                 
-                if (is(EOF)) {
+                if (at(EOF)) {
                     emit(new EndOfFile{});
                     break;
                 }
                 
-                emit(new Character{(char)m_current_input_character});
+                emit(new Character{(char)current_input_character()});
                 break;
             }
                 
             case State::TagOpen: {
                 consume_next_input_character();
                 
-                if (is('/')) {
+                if (at('/')) {
                     switch_to(State::EndTagOpen);
                     break;
                 }
                 
-                if (isascii(m_current_input_character)) {
+                if (at_ascii_alpha()) {
                     create_token<StartTag>();
                     reconsume_in(State::TagName);
                     break;
@@ -112,7 +108,7 @@ void Tokenizer::tokenize() {
             case State::EndTagOpen: {
                 consume_next_input_character();
                 
-                if (isascii(m_current_input_character)) {
+                if (at_ascii_alpha()) {
                     create_token<EndTag>();
                     reconsume_in(State::TagName);
                     break;
@@ -124,18 +120,18 @@ void Tokenizer::tokenize() {
             case State::TagName: {
                 consume_next_input_character();
                 
-                if (is('\t') || is('\n') || is('\f') || is(' ')) {
+                if (at('\t') || at('\n') || at('\f') || at(' ')) {
                     switch_to(State::BeforeAttributeName);
                     break;
                 }
                 
-                if (is('>')) {
+                if (at('>')) {
                     switch_to(State::Data);
                     emit(current_tag_token());
                     break;
                 }
                 
-                current_tag_token()->tag_name() += m_current_input_character;
+                current_tag_token()->tag_name() += current_input_character();
                 break;
             }
         
@@ -150,15 +146,17 @@ void Tokenizer::tokenize() {
             case State::AttributeName: {
                 consume_next_input_character();
                 
-                if (is('=')) {
+                if (at('=')) {
                     switch_to(State::BeforeAttributeValue);
                     break;
                 }
                 
-                if (isascii(m_current_input_character)){
-                    current_tag_token()->current_attribute()->name += m_current_input_character;
+                if (at_ascii_upper_alpha()){
+                    current_tag_token()->current_attribute()->name += lowercase_current_input_character();
                     break;
                 }
+                
+                current_tag_token()->current_attribute()->name += current_input_character();
                 
                 break;
             }
@@ -191,13 +189,13 @@ void Tokenizer::tokenize() {
             case State::AttributeValueUnquoted: {
                 consume_next_input_character();
                 
-                if (is('>')) {
+                if (at('>')) {
                     switch_to(State::Data);
                     emit(current_tag_token());
                     break;
                 }
                 
-                current_tag_token()->current_attribute()->value += m_current_input_character;
+                current_tag_token()->current_attribute()->value += current_input_character();
                 break;
             }
         
@@ -207,7 +205,7 @@ void Tokenizer::tokenize() {
                 break;
             }
         }
-    } while(m_current_input_character != EOF);
+    } while(!at(EOF));
 }
 
 }
