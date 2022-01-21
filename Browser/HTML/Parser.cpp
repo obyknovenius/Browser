@@ -9,8 +9,10 @@
 
 namespace HTML {
 
-void Parser::process(Token *token) {
-    switch (m_parse_state.m_insertion_mode) {
+void Parser::process(Token *token)
+{
+    switch (m_parse_state.m_insertion_mode)
+    {
         case InsertionMode::Initial:
             /*if (Character* character = dynamic_cast<Character*>(token) && *character == ' ') {
             } else if (Comment* comment = dynamic_cast<Comment*>(token)) {
