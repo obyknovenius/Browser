@@ -37,17 +37,10 @@ class Tokenizer {
     int m_next_input_character { m_input_stream.get() };
     int m_current_input_character {};
     bool m_reconsume { false };
-        
+    
     Token* m_current_token;
     
-    void consume_next_input_character();
-    
-    int current_input_character() { return m_current_input_character; }
-    int lowercase_current_input_character() { return tolower(m_current_input_character); };
-    
-    bool at(int character) { return m_current_input_character == character; }
-    bool at_ascii_alpha() { return isalpha(m_current_input_character); }
-    bool at_ascii_upper_alpha() { return isupper(m_current_input_character); }
+    int consume_next_input_character();
     
     State state() { return m_state; }
     void switch_to(State state) { m_state = state; }
@@ -65,5 +58,9 @@ class Tokenizer {
 public:
     Token* next_token();
 };
+
+int lowercase(int character) { return tolower(character); }
+bool is_ascii_alpha(int character) { return isalpha(character); }
+bool is_ascii_upper_alpha(int character) { return isupper(character); }
 
 }

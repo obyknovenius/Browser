@@ -11,15 +11,18 @@
 
 namespace HTML {
 
-void Tokenizer::consume_next_input_character()
+int Tokenizer::consume_next_input_character()
 {
     if (m_reconsume)
     {
         m_reconsume = false;
-        return;
+        return m_current_input_character;
     }
+    
     m_current_input_character = m_next_input_character;
     m_next_input_character = m_input_stream.get();
+    
+    return m_current_input_character;
 }
 
 Token* Tokenizer::next_token()
@@ -30,33 +33,33 @@ Token* Tokenizer::next_token()
         {
             case State::Data:
             {
-                consume_next_input_character();
+                int current_input_character = consume_next_input_character();
                 
-                if (at('<'))
+                if (current_input_character == '<')
                 {
                     switch_to(State::TagOpen);
                     break;
                 }
                 
-                if (at(EOF))
+                if (current_input_character == EOF)
                 {
                     return new EndOfFile {};
                 }
                 
-                return new Character {(char)current_input_character()};
+                return new Character {(char)current_input_character};
             }
                 
             case State::TagOpen:
             {
-                consume_next_input_character();
+                int current_input_character = consume_next_input_character();
                 
-                if (at('/'))
+                if (current_input_character == '/')
                 {
                     switch_to(State::EndTagOpen);
                     break;
                 }
                 
-                if (at_ascii_alpha())
+                if (is_ascii_alpha(current_input_character))
                 {
                     create_token<StartTag>();
                     reconsume_in(State::TagName);
@@ -66,9 +69,9 @@ Token* Tokenizer::next_token()
                 
             case State::EndTagOpen:
             {
-                consume_next_input_character();
+                int current_input_character = consume_next_input_character();
                 
-                if (at_ascii_alpha())
+                if (is_ascii_alpha(current_input_character))
                 {
                     create_token<EndTag>();
                     reconsume_in(State::TagName);
@@ -78,21 +81,24 @@ Token* Tokenizer::next_token()
                 
             case State::TagName:
             {
-                consume_next_input_character();
+                int current_input_character = consume_next_input_character();
                 
-                if (at('\t') || at('\n') || at('\f') || at(' '))
+                if (current_input_character == '\t'
+                    || current_input_character == '\n'
+                    || current_input_character == '\f'
+                    || current_input_character == ' ')
                 {
                     switch_to(State::BeforeAttributeName);
                     break;
                 }
                 
-                if (at('>'))
+                if (current_input_character == '>')
                 {
                     switch_to(State::Data);
                     return current_tag_token();
                 }
                 
-                current_tag_token()->tag_name() += current_input_character();
+                current_tag_token()->tag_name() += current_input_character;
                 break;
             }
                 
@@ -107,21 +113,21 @@ Token* Tokenizer::next_token()
                 
             case State::AttributeName:
             {
-                consume_next_input_character();
+                int current_input_character = consume_next_input_character();
                 
-                if (at('='))
+                if (current_input_character == '=')
                 {
                     switch_to(State::BeforeAttributeValue);
                     break;
                 }
                 
-                if (at_ascii_upper_alpha())
+                if (is_ascii_upper_alpha(current_input_character))
                 {
-                    current_tag_token()->current_attribute()->name += lowercase_current_input_character();
+                    current_tag_token()->current_attribute()->name += lowercase(current_input_character);
                     break;
                 }
-
-                current_tag_token()->current_attribute()->name += current_input_character();
+                
+                current_tag_token()->current_attribute()->name += current_input_character;
                 break;
             }
                 
@@ -156,15 +162,15 @@ Token* Tokenizer::next_token()
                 
             case State::AttributeValueUnquoted:
             {
-                consume_next_input_character();
+                int current_input_character = consume_next_input_character();
                 
-                if (at('>'))
+                if (current_input_character == '>')
                 {
                     switch_to(State::Data);
                     return current_tag_token();
                 }
                 
-                current_tag_token()->current_attribute()->value += current_input_character();
+                current_tag_token()->current_attribute()->value += current_input_character;
                 break;
                 
             }
