@@ -49,7 +49,7 @@ class Tokenizer {
     bool at_ascii_alpha() { return isalpha(m_current_input_character); }
     bool at_ascii_upper_alpha() { return isupper(m_current_input_character); }
     
-    bool in(State state) { return m_state == state; }
+    State state() { return m_state; }
     void switch_to(State state) { m_state = state; }
     void reconsume_in(State state)
     {
