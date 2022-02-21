@@ -32,9 +32,9 @@ class Tokenizer {
     
     State m_state { State::Data };
     
-    std::ifstream m_input_stream { "/Users/obyknovenius/Developer/Personal/Browser/test.html" };
+    std::ifstream& m_input_stream;
     
-    int m_next_input_character { m_input_stream.get() };
+    int m_next_input_character {};
     int m_current_input_character {};
     bool m_reconsume { false };
     
@@ -56,6 +56,11 @@ class Tokenizer {
     Tag* current_tag_token() { return static_cast<Tag*>(m_current_token); }
     
 public:
+    Tokenizer(std::ifstream& input_stream) : m_input_stream { input_stream }
+    {
+        m_next_input_character = m_input_stream.get();
+    }
+    
     Token* next_token();
 };
 

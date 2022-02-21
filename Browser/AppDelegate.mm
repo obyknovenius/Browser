@@ -20,8 +20,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
-        
-    HTML::Tokenizer tokenizer;
+    
+    std::ifstream input_stream { "/Users/obyknovenius/Developer/Personal/Browser/test.html" };
+    HTML::Tokenizer tokenizer { input_stream };
     
     auto done { false };
     while (!done)
