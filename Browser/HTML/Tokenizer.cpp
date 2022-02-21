@@ -44,7 +44,7 @@ Token* Tokenizer::next_token()
 {
     for(;;)
     {
-        switch (state())
+        switch (m_state)
         {
             case State::Data:
             {

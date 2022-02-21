@@ -42,7 +42,6 @@ class Tokenizer {
     
     int consume_next_input_character();
     
-    State state() { return m_state; }
     void switch_to(State state) { m_state = state; }
     void reconsume_in(State state)
     {
