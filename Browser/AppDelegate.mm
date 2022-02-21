@@ -25,34 +25,34 @@
     auto done { false };
     while (!done)
     {
-        auto token = tokenizer.next_token();
-        
-        if (auto doctype = dynamic_cast<HTML::DOCTYPE*>(token))
+        auto* token = tokenizer.next_token();
+                        
+        if (auto* doctype = token->as<HTML::DOCTYPE*>())
         {
             std::cout << *doctype;
         }
         
-        if (auto start_tag = dynamic_cast<HTML::StartTag*>(token))
+        if (auto* start_tag = token->as<HTML::StartTag*>())
         {
             std::cout << *start_tag;
         }
         
-        if (auto end_tag = dynamic_cast<HTML::EndTag*>(token))
+        if (auto* end_tag = token->as<HTML::EndTag*>())
         {
             std::cout << *end_tag;
         }
         
-        if (auto comment = dynamic_cast<HTML::Comment*>(token))
+        if (auto* comment = token->as<HTML::Comment*>())
         {
             std::cout << *comment;
         }
         
-        if (auto character = dynamic_cast<HTML::Character*>(token))
+        if (auto* character = token->as<HTML::Character*>())
         {
             std::cout << *character;
         }
         
-        if (auto end_of_file = dynamic_cast<HTML::EndOfFile*>(token))
+        if (auto* end_of_file = token->as<HTML::EndOfFile*>())
         {
             std::cout << *end_of_file;
             done = true;
