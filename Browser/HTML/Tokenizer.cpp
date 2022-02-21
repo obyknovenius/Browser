@@ -61,7 +61,7 @@ Token* Tokenizer::next_token()
                     return new EndOfFile {};
                 }
                 
-                return new Character {(char)current_input_character};
+                return new Character { static_cast<char>(current_input_character) };
             }
                 
             case State::TagOpen:
