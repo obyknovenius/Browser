@@ -9,8 +9,6 @@
 
 #include "Tokenizer.h"
 
-#include <iostream>
-
 @interface AppDelegate ()
 
 
@@ -31,37 +29,32 @@
         
         if (auto doctype = dynamic_cast<HTML::DOCTYPE*>(token))
         {
-            std::cout << "DOCTYPE";
+            std::cout << *doctype;
         }
         
         if (auto start_tag = dynamic_cast<HTML::StartTag*>(token))
         {
-            std::cout << "<" << start_tag->tag_name();
-            for (const auto& attribute : start_tag->attributes())
-            {
-                std::cout << " " << attribute.name << "=" << attribute.value;
-            }
-            std::cout << ">";
+            std::cout << *start_tag;
         }
         
         if (auto end_tag = dynamic_cast<HTML::EndTag*>(token))
         {
-            std::cout << "</" << end_tag->tag_name() << ">";
+            std::cout << *end_tag;
         }
         
         if (auto comment = dynamic_cast<HTML::Comment*>(token))
         {
-            std::cout << "//" << comment->data;
+            std::cout << *comment;
         }
         
         if (auto character = dynamic_cast<HTML::Character*>(token))
         {
-            std::cout << character->data();
+            std::cout << *character;
         }
         
         if (auto end_of_file = dynamic_cast<HTML::EndOfFile*>(token))
         {
-            std::cout << "end-of-file";
+            std::cout << *end_of_file;
             done = true;
         }
         

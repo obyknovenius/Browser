@@ -120,7 +120,6 @@ Token* Tokenizer::next_token()
             case State::BeforeAttributeName:
             {
                 consume_next_input_character();
-                
                 current_tag_token()->start_new_attribute();
                 reconsume_in(State::AttributeName);
                 break;
