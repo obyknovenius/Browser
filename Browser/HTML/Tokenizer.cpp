@@ -11,6 +11,21 @@
 
 namespace HTML {
 
+int lowercase(int character)
+{
+    return tolower(character);
+}
+
+bool is_ascii_alpha(int character)
+{
+    return isalpha(character);
+}
+
+bool is_ascii_upper_alpha(int character)
+{
+    return isupper(character);
+}
+
 int Tokenizer::consume_next_input_character()
 {
     if (m_reconsume)

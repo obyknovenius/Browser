@@ -59,8 +59,4 @@ public:
     Token* next_token();
 };
 
-int lowercase(int character) { return tolower(character); }
-bool is_ascii_alpha(int character) { return isalpha(character); }
-bool is_ascii_upper_alpha(int character) { return isupper(character); }
-
 }
