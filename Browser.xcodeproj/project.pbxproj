@@ -21,6 +21,7 @@
 		B754B2BE2772635C003E8566 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B754B2BC2772635C003E8566 /* Tokenizer.cpp */; };
 		B754B2C1277338C8003E8566 /* Token.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B754B2BF277338C8003E8566 /* Token.cpp */; };
 		B754B2C327747F07003E8566 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = B754B2C227747F07003E8566 /* test.html */; };
+		B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,8 @@
 		B754B2BF277338C8003E8566 /* Token.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Token.cpp; sourceTree = "<group>"; };
 		B754B2C0277338C8003E8566 /* Token.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
 		B754B2C227747F07003E8566 /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
+		B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TreeConstruction.cpp; sourceTree = "<group>"; };
+		B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TreeConstruction.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +171,8 @@
 				B754B2C0277338C8003E8566 /* Token.h */,
 				B71C118C2784A2E40098A611 /* Parser.cpp */,
 				B71C118D2784A2E40098A611 /* Parser.h */,
+				B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */,
+				B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */,
 			);
 			path = HTML;
 			sourceTree = "<group>";
@@ -305,6 +310,7 @@
 				B71C118E2784A2E40098A611 /* Parser.cpp in Sources */,
 				B754B2B52772463E003E8566 /* View.mm in Sources */,
 				B754B2892772461D003E8566 /* ViewController.m in Sources */,
+				B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */,
 				B754B2902772461F003E8566 /* main.m in Sources */,
 				B754B2C1277338C8003E8566 /* Token.cpp in Sources */,
 				B754B2BE2772635C003E8566 /* Tokenizer.cpp in Sources */,

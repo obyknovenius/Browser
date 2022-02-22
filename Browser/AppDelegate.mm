@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 
 #include "Tokenizer.h"
+#include "TreeConstruction.h"
 
 @interface AppDelegate ()
 
@@ -21,44 +22,16 @@
     
     std::ifstream input_stream { "/Users/obyknovenius/Developer/Personal/Browser/test.html" };
     HTML::Tokenizer tokenizer { input_stream };
+    HTML::TreeConstruction tree_construction {};
     
     auto done { false };
     while (!done)
     {
-        auto* token = tokenizer.next_token();
-                        
-        if (auto* doctype = token->as<HTML::DOCTYPE*>())
-        {
-            std::cout << *doctype;
-        }
+        auto* next_token = tokenizer.next_token();
         
-        if (auto* start_tag = token->as<HTML::StartTag*>())
-        {
-            std::cout << *start_tag;
-        }
+        done = tree_construction.dispatch(next_token);
         
-        if (auto* end_tag = token->as<HTML::EndTag*>())
-        {
-            std::cout << *end_tag;
-        }
-        
-        if (auto* comment = token->as<HTML::Comment*>())
-        {
-            std::cout << *comment;
-        }
-        
-        if (auto* character = token->as<HTML::Character*>())
-        {
-            std::cout << *character;
-        }
-        
-        if (auto* end_of_file = token->as<HTML::EndOfFile*>())
-        {
-            std::cout << *end_of_file;
-            done = true;
-        }
-        
-        delete token;
+        delete next_token;
     }
 }
 
