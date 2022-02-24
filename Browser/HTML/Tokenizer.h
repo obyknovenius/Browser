@@ -7,9 +7,8 @@
 
 #pragma once
 
-#include <fstream>
-
 #include "Token.h"
+#include <fstream>
 
 namespace HTML {
 
@@ -33,32 +32,52 @@ class Tokenizer {
     State m_state { State::Data };
     
     std::ifstream& m_input_stream;
-    
-    int m_next_input_character {};
-    int m_current_input_character {};
-    bool m_reconsume { false };
-    
+        
     Token* m_current_token;
-    
-    int consume_next_input_character();
     
     void switch_to(State state) { m_state = state; }
     void reconsume_in(State state)
     {
-        m_reconsume = true;
+        m_input_stream.unget();
         m_state = state;
     }
     
+    void consume_next_input_character()
+    {
+        m_input_stream.get();
+    }
+    
+    void consume_next_input_characters(int count)
+    {
+        m_input_stream.ignore(count);
+    }
+    
+    int current_input_character() {
+        return m_input_stream.peek();
+    }
+    
+    bool current_input_character_is(int character)
+    {
+        return current_input_character() == character;
+    }
+    
+    bool current_input_character_is_ascii_alpha()
+    {
+        return isalpha(current_input_character());
+    }
+    
+    bool current_input_character_is_ascii_upper_alpha()
+    {
+        return isupper(current_input_character());
+    }
+        
     template<class T>
     void create_token() { m_current_token = new T {}; }
     
     Tag* current_tag_token() { return static_cast<Tag*>(m_current_token); }
     
 public:
-    Tokenizer(std::ifstream& input_stream) : m_input_stream { input_stream }
-    {
-        m_next_input_character = m_input_stream.get();
-    }
+    Tokenizer(std::ifstream& input_stream) : m_input_stream { input_stream } {}
     
     Token* next_token();
 };
