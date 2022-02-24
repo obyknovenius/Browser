@@ -31,7 +31,7 @@ std::ostream& operator<<(std::ostream& out, const EndTag& end_tag)
 
 std::ostream& operator<<(std::ostream& out, const Comment& comment)
 {
-    return out << "//" << comment.m_data;
+    return out << "<!--" << comment.m_data << "-->";
 }
 
 std::ostream& operator<<(std::ostream& out, const Character& character)

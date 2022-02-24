@@ -68,12 +68,12 @@ public:
 };
 
 class Comment : public Token {
-    char m_data;
+    std::string m_data;
 public:
-    Comment(char data) : m_data { data } {}
+    Comment(std::string data) : m_data { data } {}
     ~Comment() {}
     
-    char data() { return m_data; };
+    std::string& data() { return m_data; };
     
     friend std::ostream& operator<<(std::ostream& out, const Comment& comment);
 };

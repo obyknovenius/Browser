@@ -27,11 +27,19 @@ class Tokenizer {
         AttributeValueSingleQuoted,
         AttributeValueUnquoted,
         AfterAttributeValueQuoted,
+        MarkupDeclarationOpen,
+        CommentStart,
+        CommentStartDash,
+        Comment,
+        CommentEndDash,
+        CommentEnd,
     };
     
     State m_state { State::Data };
     
     std::ifstream& m_input_stream;
+    
+    int m_current_input_character;
         
     Token* m_current_token;
     
@@ -44,16 +52,18 @@ class Tokenizer {
     
     void consume_next_input_character()
     {
-        m_input_stream.get();
+        m_current_input_character = m_input_stream.get();
     }
     
     void consume_next_input_characters(int count)
     {
-        m_input_stream.ignore(count);
+        for (int i { 0 }; i < count; ++i) {
+            consume_next_input_character();
+        }
     }
     
     int current_input_character() {
-        return m_input_stream.peek();
+        return m_current_input_character;
     }
     
     bool current_input_character_is(int character)
@@ -70,11 +80,20 @@ class Tokenizer {
     {
         return isupper(current_input_character());
     }
-        
-    template<class T>
-    void create_token() { m_current_token = new T {}; }
     
-    Tag* current_tag_token() { return static_cast<Tag*>(m_current_token); }
+    bool next_input_characters_are(std::string_view characters);
+    
+    template<typename T, typename... Args>
+    void create_token(Args... args)
+    {
+        m_current_token = new T { args... };
+    }
+    
+    template<typename T>
+    T current_token()
+    {
+        return dynamic_cast<T>(m_current_token);
+    }
     
 public:
     Tokenizer(std::ifstream& input_stream) : m_input_stream { input_stream } {}

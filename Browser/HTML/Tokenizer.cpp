@@ -14,6 +14,19 @@ int lowercase(int character)
     return tolower(character);
 }
 
+bool Tokenizer::next_input_characters_are(std::string_view characters)
+{
+    std::streampos pos = m_input_stream.tellg();
+    for (char character : characters) {
+        if (character != m_input_stream.get()) {
+            m_input_stream.seekg(pos);
+            return false;
+        }
+    }
+    m_input_stream.seekg(pos);
+    return true;
+}
+
 Token* Tokenizer::next_token()
 {
     for(;;)
@@ -90,17 +103,17 @@ Token* Tokenizer::next_token()
                 if (current_input_character_is('>'))
                 {
                     switch_to(State::Data);
-                    return current_tag_token();
+                    return current_token<Tag*>();
                 }
                 
-                current_tag_token()->tag_name() += current_input_character();
+                current_token<Tag*>()->tag_name() += current_input_character();
                 break;
             }
                 
             case State::BeforeAttributeName:
             {
                 consume_next_input_character();
-                current_tag_token()->start_new_attribute();
+                current_token<Tag*>()->start_new_attribute();
                 reconsume_in(State::AttributeName);
                 break;
             }
@@ -117,11 +130,11 @@ Token* Tokenizer::next_token()
                 
                 if (current_input_character_is_ascii_upper_alpha())
                 {
-                    current_tag_token()->current_attribute()->name += lowercase(current_input_character());
+                    current_token<Tag*>()->current_attribute()->name += lowercase(current_input_character());
                     break;
                 }
                 
-                current_tag_token()->current_attribute()->name += current_input_character();
+                current_token<Tag*>()->current_attribute()->name += current_input_character();
                 break;
             }
                 
@@ -161,10 +174,10 @@ Token* Tokenizer::next_token()
                 if (current_input_character_is('>'))
                 {
                     switch_to(State::Data);
-                    return current_tag_token();
+                    return current_token<Tag*>();
                 }
                 
-                current_tag_token()->current_attribute()->value += current_input_character();
+                current_token<Tag*>()->current_attribute()->value += current_input_character();
                 break;
                 
             }
@@ -174,6 +187,73 @@ Token* Tokenizer::next_token()
                 consume_next_input_character();
                 
                 break;
+            }
+                
+            case State::MarkupDeclarationOpen:
+            {
+                if (next_input_characters_are("--"))
+                {
+                    consume_next_input_characters(2);
+                    create_token<Comment>("");
+                    switch_to(State::CommentStart);
+                    break;
+                }
+            }
+                
+            case State::CommentStart:
+            {
+                consume_next_input_character();
+                
+                if (current_input_character_is('-')) {
+                    switch_to(State::CommentStartDash);
+                    break;
+                }
+                
+                reconsume_in(State::Comment);
+                break;
+            }
+                
+            case State::CommentStartDash:
+            {
+                consume_next_input_character();
+                
+                if (current_input_character_is('-')) {
+                    switch_to(State::CommentEnd);
+                    break;
+                }
+            }
+                
+            case State::Comment:
+            {
+                consume_next_input_character();
+                
+                if (current_input_character_is('-')) {
+                    switch_to(State::CommentEndDash);
+                    break;
+                }
+                
+                current_token<Comment*>()->data() += current_input_character();
+                break;
+            }
+                
+            case State::CommentEndDash:
+            {
+                consume_next_input_character();
+                
+                if (current_input_character_is('-')) {
+                    switch_to(State::CommentEnd);
+                    break;
+                }
+            }
+                
+            case State::CommentEnd:
+            {
+                consume_next_input_character();
+                
+                if (current_input_character_is('>')) {
+                    switch_to(State::Data);
+                    return current_token<Comment*>();
+                }
             }
         }
     }
