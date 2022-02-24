@@ -11,7 +11,7 @@ namespace HTML {
 
 bool TreeConstruction::dispatch(Token* token)
 {
-    if (auto* doctype = token->as<HTML::DOCTYPE*>())
+    if (auto* doctype = token->as<HTML::Doctype*>())
     {
         std::cout << *doctype;
     }

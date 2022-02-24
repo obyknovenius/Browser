@@ -26,11 +26,11 @@ public:
     T as() { return dynamic_cast<T>(this); }
 };
 
-class DOCTYPE : public Token {
+class Doctype : public Token {
 public:
-    ~DOCTYPE() {}
+    ~Doctype() {}
     
-    friend std::ostream& operator<<(std::ostream& out, const DOCTYPE& doctype);
+    friend std::ostream& operator<<(std::ostream& out, const Doctype& doctype);
 };
 
 class Tag : public Token {
