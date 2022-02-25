@@ -27,7 +27,7 @@ bool Tokenizer::next_input_characters_are(std::string_view characters)
     return true;
 }
 
-Token* Tokenizer::next_token()
+void Tokenizer::operator>>(Token** token)
 {
     for(;;)
     {
@@ -45,10 +45,12 @@ Token* Tokenizer::next_token()
                 
                 if (current_input_character_is(EOF))
                 {
-                    return new EndOfFile {};
+                    *token = new EndOfFile {};
+                    return;
                 }
                 
-                return new Character { static_cast<char>(current_input_character()) };
+                *token = new Character { static_cast<char>(current_input_character()) };
+                return;
             }
                 
             case State::TagOpen:
@@ -103,7 +105,8 @@ Token* Tokenizer::next_token()
                 if (current_input_character_is('>'))
                 {
                     switch_to(State::Data);
-                    return current_token<Tag*>();
+                    *token = current_token<Tag*>();
+                    return;
                 }
                 
                 current_token<Tag*>()->tag_name() += current_input_character();
@@ -174,7 +177,8 @@ Token* Tokenizer::next_token()
                 if (current_input_character_is('>'))
                 {
                     switch_to(State::Data);
-                    return current_token<Tag*>();
+                    *token = current_token<Tag*>();
+                    return;
                 }
                 
                 current_token<Tag*>()->current_attribute()->value += current_input_character();
@@ -252,7 +256,8 @@ Token* Tokenizer::next_token()
                 
                 if (current_input_character_is('>')) {
                     switch_to(State::Data);
-                    return current_token<Comment*>();
+                    *token = current_token<Comment*>();
+                    return;
                 }
             }
         }

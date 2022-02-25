@@ -24,15 +24,10 @@
     HTML::Tokenizer tokenizer { input_stream };
     HTML::TreeConstruction tree_construction {};
     
-    auto done { false };
-    while (!done)
-    {
-        auto* next_token = tokenizer.next_token();
-        
-        done = tree_construction.dispatch(next_token);
-        
-        delete next_token;
-    }
+    HTML::Token* next_token {};
+    do {
+        tokenizer >> &next_token;
+    } while (!tree_construction.dispatch(next_token));
 }
 
 

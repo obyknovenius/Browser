@@ -98,7 +98,7 @@ class Tokenizer {
 public:
     Tokenizer(std::ifstream& input_stream) : m_input_stream { input_stream } {}
     
-    Token* next_token();
+    void operator>>(Token**);
 };
 
 }
