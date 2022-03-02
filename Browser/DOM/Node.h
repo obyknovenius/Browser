@@ -17,10 +17,14 @@ class Node : public Tree::Participant<Node> {
     Node* pre_insert(Node* node, Node* parent, Node *child);
 
 public:
+    virtual ~Node() {}
+    
     Node insert_efore(Node* node, Node* child);
     Node append_child(Node* node);
     Node replace_child(Node* node, Node* child);
     Node remove_child(Node* child);
 };
+
+void print_tree(const Node* root, int level = 0);
 
 }

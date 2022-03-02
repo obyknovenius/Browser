@@ -20,6 +20,7 @@ public:
     T* parent() { m_parent; }
     
     std::list<T*>& children() { return m_children; }
+    const std::list<T*>& children() const { return m_children; }
     
     T* root()
     {

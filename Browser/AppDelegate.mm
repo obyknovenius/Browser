@@ -31,6 +31,9 @@
     do {
         tokenizer >> &next_token;
     } while (!tree_construction.dispatch(next_token));
+    
+    std::cout << "DOM\n";
+    print_tree(&document);
 }
 
 
