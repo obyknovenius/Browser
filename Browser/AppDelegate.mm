@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 
+#include "Document.h"
 #include "Tokenizer.h"
 #include "TreeConstruction.h"
 
@@ -20,9 +21,11 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
     
+    DOM::Document document = DOM::Document {};
+    
     std::ifstream input_stream { "/Users/obyknovenius/Developer/Personal/Browser/test.html" };
     HTML::Tokenizer tokenizer { input_stream };
-    HTML::TreeConstruction tree_construction {};
+    HTML::TreeConstruction tree_construction { document };
     
     HTML::Token* next_token {};
     do {

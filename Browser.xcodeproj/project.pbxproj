@@ -21,7 +21,11 @@
 		B754B2BE2772635C003E8566 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B754B2BC2772635C003E8566 /* Tokenizer.cpp */; };
 		B754B2C1277338C8003E8566 /* Token.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B754B2BF277338C8003E8566 /* Token.cpp */; };
 		B754B2C327747F07003E8566 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = B754B2C227747F07003E8566 /* test.html */; };
+		B795C20D27C8D4E90032297C /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20B27C8D4E90032297C /* Node.cpp */; };
+		B795C21027C8EDBA0032297C /* Comment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20E27C8EDBA0032297C /* Comment.cpp */; };
+		B795C21327C8F9B10032297C /* Tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C21127C8F9B10032297C /* Tree.cpp */; };
 		B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */; };
+		B7C70AE427C5388000BCBE9A /* Document.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70AE227C5387F00BCBE9A /* Document.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,8 +71,16 @@
 		B754B2BF277338C8003E8566 /* Token.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Token.cpp; sourceTree = "<group>"; };
 		B754B2C0277338C8003E8566 /* Token.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
 		B754B2C227747F07003E8566 /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
+		B795C20B27C8D4E90032297C /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
+		B795C20C27C8D4E90032297C /* Node.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		B795C20E27C8EDBA0032297C /* Comment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Comment.cpp; sourceTree = "<group>"; };
+		B795C20F27C8EDBA0032297C /* Comment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		B795C21127C8F9B10032297C /* Tree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tree.cpp; sourceTree = "<group>"; };
+		B795C21227C8F9B10032297C /* Tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tree.h; sourceTree = "<group>"; };
 		B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TreeConstruction.cpp; sourceTree = "<group>"; };
 		B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TreeConstruction.h; sourceTree = "<group>"; };
+		B7C70AE227C5387F00BCBE9A /* Document.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Document.cpp; sourceTree = "<group>"; };
+		B7C70AE327C5387F00BCBE9A /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +132,7 @@
 		B754B2832772461D003E8566 /* Browser */ = {
 			isa = PBXGroup;
 			children = (
+				B7C70AE127C5383400BCBE9A /* DOM */,
 				B754B2BB277262C0003E8566 /* HTML */,
 				B754B2B627724678003E8566 /* CSS */,
 				B754B2842772461D003E8566 /* AppDelegate.h */,
@@ -175,6 +188,21 @@
 				B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */,
 			);
 			path = HTML;
+			sourceTree = "<group>";
+		};
+		B7C70AE127C5383400BCBE9A /* DOM */ = {
+			isa = PBXGroup;
+			children = (
+				B7C70AE227C5387F00BCBE9A /* Document.cpp */,
+				B7C70AE327C5387F00BCBE9A /* Document.h */,
+				B795C20B27C8D4E90032297C /* Node.cpp */,
+				B795C20C27C8D4E90032297C /* Node.h */,
+				B795C20E27C8EDBA0032297C /* Comment.cpp */,
+				B795C20F27C8EDBA0032297C /* Comment.h */,
+				B795C21127C8F9B10032297C /* Tree.cpp */,
+				B795C21227C8F9B10032297C /* Tree.h */,
+			);
+			path = DOM;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,9 +338,13 @@
 				B71C118E2784A2E40098A611 /* Parser.cpp in Sources */,
 				B754B2B52772463E003E8566 /* View.mm in Sources */,
 				B754B2892772461D003E8566 /* ViewController.m in Sources */,
+				B795C21027C8EDBA0032297C /* Comment.cpp in Sources */,
 				B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */,
+				B795C20D27C8D4E90032297C /* Node.cpp in Sources */,
 				B754B2902772461F003E8566 /* main.m in Sources */,
 				B754B2C1277338C8003E8566 /* Token.cpp in Sources */,
+				B795C21327C8F9B10032297C /* Tree.cpp in Sources */,
+				B7C70AE427C5388000BCBE9A /* Document.cpp in Sources */,
 				B754B2BE2772635C003E8566 /* Tokenizer.cpp in Sources */,
 				B754B2862772461D003E8566 /* AppDelegate.mm in Sources */,
 				B754B2B92772468A003E8566 /* Box.cpp in Sources */,
