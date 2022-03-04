@@ -6,3 +6,12 @@
 //
 
 #include "Document.h"
+
+namespace DOM {
+
+std::string Document::to_string() const
+{
+    return "Document";
+}
+
+}

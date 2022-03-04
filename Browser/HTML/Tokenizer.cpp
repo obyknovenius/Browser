@@ -14,7 +14,7 @@ int lowercase(int character)
     return tolower(character);
 }
 
-bool Tokenizer::next_input_characters_are(std::string_view characters)
+bool Tokenizer::next_few_characters_are(std::string_view characters)
 {
     std::streampos pos = m_input_stream.tellg();
     for (char character : characters) {
@@ -23,8 +23,32 @@ bool Tokenizer::next_input_characters_are(std::string_view characters)
             return false;
         }
     }
+    m_number_of_characters_to_consume = characters.length();
     m_input_stream.seekg(pos);
     return true;
+}
+
+bool Tokenizer::next_few_characters_are_ascii_case_insensitive(const std::string_view characters)
+{
+    std::streampos pos = m_input_stream.tellg();
+    for (char character : characters) {
+        if (tolower(character) != tolower(m_input_stream.get())) {
+            m_input_stream.seekg(pos);
+            return false;
+        }
+    }
+    m_number_of_characters_to_consume = characters.length();
+    m_input_stream.seekg(pos);
+    return true;
+}
+
+
+void Tokenizer::consume_those_characters()
+{
+    for (int i { 0 }; i < m_number_of_characters_to_consume; ++i) {
+        consume_next_input_character();
+    }
+    m_number_of_characters_to_consume = 0;
 }
 
 void Tokenizer::operator>>(Token** token)
@@ -195,11 +219,18 @@ void Tokenizer::operator>>(Token** token)
                 
             case State::MarkupDeclarationOpen:
             {
-                if (next_input_characters_are("--"))
+                if (next_few_characters_are("--"))
                 {
-                    consume_next_input_characters(2);
+                    consume_those_characters();
                     create_token<Comment>("");
                     switch_to(State::CommentStart);
+                    break;
+                }
+                
+                if (next_few_characters_are_ascii_case_insensitive("DOCTYPE"))
+                {
+                    consume_those_characters();
+                    switch_to(State::Doctype);
                     break;
                 }
             }
@@ -208,7 +239,8 @@ void Tokenizer::operator>>(Token** token)
             {
                 consume_next_input_character();
                 
-                if (current_input_character_is('-')) {
+                if (current_input_character_is('-'))
+                {
                     switch_to(State::CommentStartDash);
                     break;
                 }
@@ -221,7 +253,8 @@ void Tokenizer::operator>>(Token** token)
             {
                 consume_next_input_character();
                 
-                if (current_input_character_is('-')) {
+                if (current_input_character_is('-'))
+                {
                     switch_to(State::CommentEnd);
                     break;
                 }
@@ -231,7 +264,8 @@ void Tokenizer::operator>>(Token** token)
             {
                 consume_next_input_character();
                 
-                if (current_input_character_is('-')) {
+                if (current_input_character_is('-'))
+                {
                     switch_to(State::CommentEndDash);
                     break;
                 }
@@ -244,7 +278,8 @@ void Tokenizer::operator>>(Token** token)
             {
                 consume_next_input_character();
                 
-                if (current_input_character_is('-')) {
+                if (current_input_character_is('-'))
+                {
                     switch_to(State::CommentEnd);
                     break;
                 }
@@ -254,11 +289,83 @@ void Tokenizer::operator>>(Token** token)
             {
                 consume_next_input_character();
                 
-                if (current_input_character_is('>')) {
+                if (current_input_character_is('>'))
+                {
                     switch_to(State::Data);
                     *token = current_token<Comment*>();
                     return;
                 }
+            }
+                
+            case State::CommentEndBang:
+            {
+                consume_next_input_character();
+                
+                reconsume_in(State::Comment);
+                break;
+            }
+                
+            case State::Doctype:
+            {
+                consume_next_input_character();
+                
+                if (current_input_character_is('\t')
+                    || current_input_character_is('\n')
+                    || current_input_character_is('\f')
+                    || current_input_character_is(' '))
+                {
+                    switch_to(State::BeforeDoctypeName);
+                    break;
+                }
+                
+                if (current_input_character_is('>'))
+                {
+                    reconsume_in(State::BeforeDoctypeName);
+                    break;
+                }
+            }
+                
+            case State::BeforeDoctypeName:
+            {
+                consume_next_input_character();
+                
+                if (current_input_character_is('\t')
+                    || current_input_character_is('\n')
+                    || current_input_character_is('\f')
+                    || current_input_character_is(' '))
+                {
+                    break;
+                }
+                
+                if (current_input_character_is_ascii_alpha())
+                {
+                    create_token<Doctype>(static_cast<char>(lowercase(current_input_character())));
+                    switch_to(State::DoctypeName);
+                    break;
+                }
+            }
+                
+            case State::DoctypeName:
+            {
+                consume_next_input_character();
+                
+                if (current_input_character_is('\t')
+                    || current_input_character_is('\n')
+                    || current_input_character_is('\f')
+                    || current_input_character_is(' '))
+                {
+                    switch_to(State::AfterDoctypeName);
+                    break;
+                }
+                
+                if (current_input_character_is('>')) {
+                    switch_to(State::Data);
+                    *token = current_token<Doctype*>();
+                    return;
+                }
+                
+                *current_token<Doctype*>()->name() += current_input_character();
+                break;
             }
         }
     }

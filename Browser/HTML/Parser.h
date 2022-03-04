@@ -11,16 +11,20 @@
 
 namespace HTML {
 
-enum class InsertionMode {
+enum class InsertionMode
+{
     Initial,
 };
 
-struct ParseState {
+struct ParseState
+{
     InsertionMode m_insertion_mode { InsertionMode::Initial };
 };
 
-class Parser {
+class Parser
+{
     ParseState m_parse_state;
+    
 public:
     void process(Token* token);
 };

@@ -12,9 +12,10 @@
 
 namespace HTML {
 
-class TreeConstruction {
-    
-    enum class InsertionMode {
+class TreeConstruction
+{
+    enum class InsertionMode
+    {
         Initial,
         BeforeHtml,
     };
@@ -42,7 +43,7 @@ class TreeConstruction {
 public:
     TreeConstruction(DOM::Document& document) : m_document { document } {}
     
-    bool dispatch(Token*);
+    void dispatch(Token*);
 };
 
 }

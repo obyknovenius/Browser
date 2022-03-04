@@ -8,17 +8,21 @@
 #pragma once
 
 #include <string>
+#include <optional>
 #include <list>
 #include <iostream>
 
-namespace HTML {
+namespace HTML
+{
 
-struct Attribute {
+struct Attribute
+{
     std::string name {};
     std::string value {};
 };
 
-class Token {
+class Token
+{
 public:
     virtual ~Token() {}
     
@@ -26,14 +30,22 @@ public:
     T as() { return dynamic_cast<T>(this); }
 };
 
-class Doctype : public Token {
+class Doctype : public Token
+{
+    std::optional<std::string> m_name;
+
 public:
+    explicit Doctype(char character) : m_name { std::string { character } } {}
     ~Doctype() {}
+    
+    std::optional<std::string>& name() { return m_name; };
+    const std::optional<std::string>& name() const { return m_name; };
     
     friend std::ostream& operator<<(std::ostream& out, const Doctype& doctype);
 };
 
-class Tag : public Token {
+class Tag : public Token
+{
 protected:
     std::string m_tag_name {};
     
@@ -53,21 +65,24 @@ public:
     std::list<Attribute> attributes() { return m_attributes; }
 };
 
-class StartTag : public Tag {
+class StartTag : public Tag
+{
 public:
     ~StartTag() {}
     
     friend std::ostream& operator<<(std::ostream& out, const StartTag& start_tag);
 };
 
-class EndTag : public Tag {
+class EndTag : public Tag
+{
 public:
     ~EndTag() {}
     
     friend std::ostream& operator<<(std::ostream& out, const EndTag& end_tag);
 };
 
-class Comment : public Token {
+class Comment : public Token
+{
     std::string m_data;
 
 public:
@@ -80,7 +95,8 @@ public:
     friend std::ostream& operator<<(std::ostream& out, const Comment& comment);
 };
 
-class Character : public Token {
+class Character : public Token
+{
     char m_data;
 
 public:
@@ -92,7 +108,8 @@ public:
     friend std::ostream& operator<<(std::ostream& out, const Character& character);
 };
 
-class EndOfFile : public Token {
+class EndOfFile : public Token
+{
     ~EndOfFile() {}
     
     friend std::ostream& operator<<(std::ostream& out, const EndOfFile& end_of_file);

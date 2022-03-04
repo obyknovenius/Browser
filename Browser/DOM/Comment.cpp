@@ -6,3 +6,12 @@
 //
 
 #include "Comment.h"
+
+namespace DOM {
+
+std::string Comment::to_string() const
+{
+    return "Comment: " + m_data;
+}
+
+}

@@ -11,8 +11,10 @@
 
 namespace DOM {
 
-class Document : public Node {
-    
+class Document : public Node
+{
+public:
+    std::string to_string() const override;
 };
 
 }

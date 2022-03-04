@@ -7,7 +7,7 @@
 
 #import "AppDelegate.h"
 
-#include "Document.h"
+#include "DOM/Document.h"
 #include "Tokenizer.h"
 #include "TreeConstruction.h"
 
@@ -27,13 +27,21 @@
     HTML::Tokenizer tokenizer { input_stream };
     HTML::TreeConstruction tree_construction { document };
     
-    HTML::Token* next_token {};
-    do {
+    for (;;)
+    {
+        HTML::Token* next_token {};
+        
         tokenizer >> &next_token;
-    } while (!tree_construction.dispatch(next_token));
+        if (next_token->as<HTML::EndOfFile*>()) {
+            break;
+        }
+        tree_construction.dispatch(next_token);
+        
+        delete next_token;
+    }
     
-    std::cout << "DOM\n";
-    print_tree(&document);
+    std::cout << "\n";
+    DOM::print_tree(&document);
 }
 
 

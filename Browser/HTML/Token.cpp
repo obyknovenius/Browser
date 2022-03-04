@@ -11,7 +11,7 @@ namespace HTML {
 
 std::ostream& operator<<(std::ostream& out, const Doctype& doctype)
 {
-    return out << "DOCTYPE";
+    return out << "<!DOCTYPE " << *doctype.name() << ">";
 }
 
 std::ostream& operator<<(std::ostream& out, const StartTag& start_tag)

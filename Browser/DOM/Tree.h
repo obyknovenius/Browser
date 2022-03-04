@@ -1,34 +1,49 @@
 //
-//  Tree.h
+//  Tree.hpp
 //  Browser
 //
-//  Created by Vitaly Dyachkov on 25.02.22.
+//  Created by Vitaly Dyachkov on 04.03.22.
 //
 
 #pragma once
 
-#include <list>
+#include "../Infra/List.h"
 
-namespace DOM::Tree {
+namespace DOM {
+
+using namespace Infra;
 
 template <typename T>
-class Participant {
-    T* m_parent {};
-    std::list<T*> m_children {};
-    
+class Tree
+{
 public:
-    T* parent() { m_parent; }
     
-    std::list<T*>& children() { return m_children; }
-    const std::list<T*>& children() const { return m_children; }
-    
-    T* root()
+    class Participant : public List<T>::Item
     {
-        if (!parent()) {
-            return this;
+        T* m_parent { nullptr };
+        List<T> m_children {};
+        
+    public:
+        T* parent() { return m_parent; }
+        
+        List<T>& children() { return m_children; }
+        const List<T>& children() const { return m_children; }
+        
+        T* root()
+        {
+            if (!m_parent)
+            {
+                return this;
+            }
+            return m_parent->root();
         }
-        return root()->parent();
-    }
+        
+        T* first_child() { return m_children.first(); }
+        T* last_child() { return m_children.last(); }
+        
+        T* previous_sibling() { return this->previous(); }
+        T* next_sibling() { return this->next(); }
+    };
 };
 
 }
