@@ -16,33 +16,30 @@ using namespace Infra;
 template <typename T>
 class Tree
 {
+    Tree() = delete;
+
 public:
-    
-    class Participant : public List<T>::Item
+    class Participant
     {
-        T* m_parent { nullptr };
-        List<T> m_children {};
-        
     public:
-        T* parent() { return m_parent; }
+        virtual T* parent() = 0;
         
-        List<T>& children() { return m_children; }
-        const List<T>& children() const { return m_children; }
+        virtual List<T*>& children() = 0;
+        virtual const List<T*>& children() const = 0;
         
-        T* root()
-        {
-            if (!m_parent)
-            {
-                return this;
-            }
-            return m_parent->root();
-        }
+        virtual T* root() = 0;
         
-        T* first_child() { return m_children.first(); }
-        T* last_child() { return m_children.last(); }
+        virtual T* first_child() = 0;
+        virtual const T* first_child() const = 0;
         
-        T* previous_sibling() { return this->previous(); }
-        T* next_sibling() { return this->next(); }
+        virtual T* last_child() = 0;
+        virtual const T* last_child() const = 0;
+        
+        virtual T* previous_sibling() = 0;
+        virtual const T* previous_sibling() const = 0;
+        
+        virtual T* next_sibling() = 0;
+        virtual const T* next_sibling() const = 0;
     };
 };
 

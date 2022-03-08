@@ -14,11 +14,6 @@
 
 namespace DOM {
 
-std::ostream& operator<<(std::ostream& out, const Node& node)
-{
-    return out << node.to_string();
-}
-
 void insert(Node* node, Node* parent, Node* child)
 {
     const std::list<Node*> nodes { node };
@@ -74,6 +69,11 @@ Node* Node::remove_child(Node* child)
     return nullptr;
 }
 
+std::ostream& operator<<(std::ostream& out, const Node& node)
+{
+    return out << node.to_string();
+}
+
 void print_tree(const Node* root, int level)
 {
     for (int i {0}; i < level; ++i) {
@@ -82,7 +82,7 @@ void print_tree(const Node* root, int level)
     
     std::cout << *root << '\n';
         
-    for (const Node* node { root->children().first() }; node; node = node->next()) {
+    for (const Node* node { root->first_child() }; node; node = node->next_sibling()) {
         print_tree(node, level + 1);
     }
 }
