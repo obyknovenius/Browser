@@ -24,27 +24,27 @@ void TreeConstruction::dispatch(Token* token)
 {
     process_using_rules_for_current_insertion_mode(token);
     
-    if (auto* doctype = token->as<HTML::Doctype*>())
+    if (auto* doctype = token->as<Doctype*>())
     {
         std::cout << *doctype;
     }
     
-    if (auto* start_tag = token->as<HTML::StartTag*>())
+    if (auto* start_tag = token->as<StartTag*>())
     {
         std::cout << *start_tag;
     }
     
-    if (auto* end_tag = token->as<HTML::EndTag*>())
+    if (auto* end_tag = token->as<EndTag*>())
     {
         std::cout << *end_tag;
     }
     
-    if (auto* comment = token->as<HTML::Comment*>())
+    if (auto* comment = token->as<Comment*>())
     {
         std::cout << *comment;
     }
     
-    if (auto* character = token->as<HTML::Character*>())
+    if (auto* character = token->as<Character*>())
     {
         std::cout << *character;
     }
@@ -65,13 +65,13 @@ void TreeConstruction::process_using_rules_for_current_insertion_mode(Token* tok
 
 void TreeConstruction::apply_rules_for_initial_insertion_mode(Token* token)
 {
-    if (auto* comment = token->as<HTML::Comment*>())
+    if (auto* comment = token->as<Comment*>())
     {
         insert_comment(comment, &m_document);
         return;
     }
     
-    if (auto* doctype = token->as<HTML::Doctype*>())
+    if (auto* doctype = token->as<Doctype*>())
     {
         auto* document_type = new DOM::DocumentType { *doctype->name() };
         append(document_type, &m_document);
@@ -85,7 +85,10 @@ void TreeConstruction::apply_rules_for_initial_insertion_mode(Token* token)
 
 void TreeConstruction::apply_rules_for_before_html_insertion_mode(Token* token)
 {
-    
+    if (auto* character = token->as<Character*>(); character && character->is_one_of({'\t', '\n', '\f', ' '}))
+    {
+        return;
+    }
 }
 
 }

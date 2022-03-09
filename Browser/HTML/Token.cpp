@@ -9,6 +9,18 @@
 
 namespace HTML {
 
+bool Character::is_one_of(std::vector<char> characters)
+{
+    for (char character : characters)
+    {
+        if (character == m_data)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 std::ostream& operator<<(std::ostream& out, const Doctype& doctype)
 {
     return out << "<!DOCTYPE " << *doctype.name() << ">";

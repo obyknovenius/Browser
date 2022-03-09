@@ -10,6 +10,7 @@
 #include <string>
 #include <optional>
 #include <list>
+#include <vector>
 #include <iostream>
 
 namespace HTML
@@ -104,6 +105,8 @@ public:
     ~Character() {}
     
     char data() { return m_data; };
+    
+    bool is_one_of(std::vector<char> characters);
     
     friend std::ostream& operator<<(std::ostream& out, const Character& character);
 };
