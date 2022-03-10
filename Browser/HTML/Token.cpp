@@ -9,7 +9,7 @@
 
 namespace HTML {
 
-bool Character::is_one_of(std::vector<char> characters)
+bool Character::is_one_of(std::initializer_list<char> characters)
 {
     for (char character : characters)
     {

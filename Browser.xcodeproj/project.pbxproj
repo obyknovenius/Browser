@@ -25,6 +25,8 @@
 		B754B2C327747F07003E8566 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = B754B2C227747F07003E8566 /* test.html */; };
 		B795C20D27C8D4E90032297C /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20B27C8D4E90032297C /* Node.cpp */; };
 		B795C21027C8EDBA0032297C /* Comment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20E27C8EDBA0032297C /* Comment.cpp */; };
+		B7B3D14427D917440043B0CE /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7B3D14227D917440043B0CE /* Element.cpp */; };
+		B7B3D14727D918340043B0CE /* HTMLElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7B3D14527D918340043B0CE /* HTMLElement.cpp */; };
 		B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */; };
 		B7C70AE427C5388000BCBE9A /* Document.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70AE227C5387F00BCBE9A /* Document.cpp */; };
 		B7CA6F5E27D220EC0071D699 /* Tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7CA6F5C27D220EC0071D699 /* Tree.cpp */; };
@@ -54,6 +56,7 @@
 		B71C118D2784A2E40098A611 /* Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		B721C6D827D20B3300D9539F /* List.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = List.cpp; sourceTree = "<group>"; };
 		B721C6D927D20B3300D9539F /* List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		B7273ED427D94AD900CA9D7D /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
 		B754B2812772461D003E8566 /* Browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B754B2842772461D003E8566 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B754B2852772461D003E8566 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -81,6 +84,10 @@
 		B795C20C27C8D4E90032297C /* Node.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		B795C20E27C8EDBA0032297C /* Comment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Comment.cpp; sourceTree = "<group>"; };
 		B795C20F27C8EDBA0032297C /* Comment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		B7B3D14227D917440043B0CE /* Element.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Element.cpp; sourceTree = "<group>"; };
+		B7B3D14327D917440043B0CE /* Element.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Element.h; sourceTree = "<group>"; };
+		B7B3D14527D918340043B0CE /* HTMLElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HTMLElement.cpp; sourceTree = "<group>"; };
+		B7B3D14627D918340043B0CE /* HTMLElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLElement.h; sourceTree = "<group>"; };
 		B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TreeConstruction.cpp; sourceTree = "<group>"; };
 		B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TreeConstruction.h; sourceTree = "<group>"; };
 		B7C70AE227C5387F00BCBE9A /* Document.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Document.cpp; sourceTree = "<group>"; };
@@ -193,6 +200,8 @@
 				B71C118D2784A2E40098A611 /* Parser.h */,
 				B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */,
 				B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */,
+				B7B3D14527D918340043B0CE /* HTMLElement.cpp */,
+				B7B3D14627D918340043B0CE /* HTMLElement.h */,
 			);
 			path = HTML;
 			sourceTree = "<group>";
@@ -210,6 +219,8 @@
 				B709D92E27D0E5C000FD3B22 /* DocumentType.h */,
 				B7CA6F5C27D220EC0071D699 /* Tree.cpp */,
 				B7CA6F5D27D220EC0071D699 /* Tree.h */,
+				B7B3D14227D917440043B0CE /* Element.cpp */,
+				B7B3D14327D917440043B0CE /* Element.h */,
 			);
 			path = DOM;
 			sourceTree = "<group>";
@@ -217,6 +228,7 @@
 		B7CA6F5B27D21FE30071D699 /* Infra */ = {
 			isa = PBXGroup;
 			children = (
+				B7273ED427D94AD900CA9D7D /* Namespace.h */,
 				B721C6D827D20B3300D9539F /* List.cpp */,
 				B721C6D927D20B3300D9539F /* List.h */,
 			);
@@ -359,9 +371,11 @@
 				B795C21027C8EDBA0032297C /* Comment.cpp in Sources */,
 				B721C6DA27D20B3300D9539F /* List.cpp in Sources */,
 				B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */,
+				B7B3D14427D917440043B0CE /* Element.cpp in Sources */,
 				B795C20D27C8D4E90032297C /* Node.cpp in Sources */,
 				B709D92F27D0E5C000FD3B22 /* DocumentType.cpp in Sources */,
 				B754B2902772461F003E8566 /* main.m in Sources */,
+				B7B3D14727D918340043B0CE /* HTMLElement.cpp in Sources */,
 				B7CA6F5E27D220EC0071D699 /* Tree.cpp in Sources */,
 				B754B2C1277338C8003E8566 /* Token.cpp in Sources */,
 				B7C70AE427C5388000BCBE9A /* Document.cpp in Sources */,

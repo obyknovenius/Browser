@@ -18,6 +18,7 @@ class TreeConstruction
     {
         Initial,
         BeforeHtml,
+        BeforeHead,
     };
     
     DOM::Document& m_document;

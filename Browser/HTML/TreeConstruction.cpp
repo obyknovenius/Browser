@@ -5,11 +5,15 @@
 //  Created by Vitaly Dyachkov on 22.02.22.
 //
 
+#include "../Infra/Namespace.h"
 #include "../DOM/Node.h"
 #include "../DOM/DocumentType.h"
 #include "../DOM/Comment.h"
+#include "../DOM/Element.h"
 #include "Token.h"
 #include "TreeConstruction.h"
+
+using namespace Infra;
 
 namespace HTML {
 
@@ -18,6 +22,14 @@ void insert_comment(const Comment* comment, DOM::Node* target)
     const auto& data = comment->data();
     auto* node = new DOM::Comment { data };
     target->children().append(node);
+}
+
+DOM::Element* create_element_for_token(Tag* token, std::string_view namespace_, DOM::Node* intended_parent)
+{
+    auto* document { intended_parent->node_document() };
+    const std::string_view local_name { token->tag_name() };
+    auto* element { DOM::create_element(document, local_name, namespace_) };
+    return element;
 }
 
 void TreeConstruction::dispatch(Token* token)
@@ -88,6 +100,13 @@ void TreeConstruction::apply_rules_for_before_html_insertion_mode(Token* token)
     if (auto* character = token->as<Character*>(); character && character->is_one_of({'\t', '\n', '\f', ' '}))
     {
         return;
+    }
+    
+    if (auto* start_tag = token->as<StartTag*>(); start_tag && start_tag->tag_name() == "html")
+    {
+        auto* element { create_element_for_token(start_tag, Namespace::HTML, &m_document) };
+        append(element, &m_document);
+        switch_to(InsertionMode::BeforeHead);
     }
 }
 

@@ -13,6 +13,8 @@
 
 namespace DOM {
 
+class Document;
+
 class Node : Tree<Node>::Participant
 {
     class Children : public List<Node*>
@@ -53,6 +55,8 @@ class Node : Tree<Node>::Participant
     
     Node* m_previous_sibling { nullptr };
     Node* m_next_sibling { nullptr };
+    
+    Document* m_node_document { nullptr };
 
 public:
     Node* parent() { return m_parent; }
@@ -80,6 +84,8 @@ public:
     
     Node* next_sibling() { return m_next_sibling; }
     const Node* next_sibling() const { return m_next_sibling; }
+    
+    Document* node_document() { return m_node_document; }
     
     friend void insert(Node* node, Node* parent, Node* child);
     friend Node* pre_insert(Node* node, Node* parent, Node* child);
