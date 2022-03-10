@@ -14,21 +14,30 @@
 #include "TreeConstruction.h"
 
 using namespace Infra;
+using namespace DOM;
 
 namespace HTML {
 
-void insert_comment(const Comment* comment, DOM::Node* target)
+TreeConstruction::InsertionLocation TreeConstruction::appropriate_place_for_inserting_node()
 {
-    const auto& data = comment->data();
-    auto* node = new DOM::Comment { data };
-    target->children().append(node);
+    Node* target { current_node() };
+    InsertionLocation adjusted_insertion_location { target };
+    return adjusted_insertion_location;
 }
 
-DOM::Element* create_element_for_token(Tag* token, std::string_view namespace_, DOM::Node* intended_parent)
+void TreeConstruction::insert_comment(const Comment* comment, std::optional<InsertionLocation> position)
+{
+    const auto& data { comment->data() };
+    InsertionLocation adjusted_insertion_location { position ? *position : appropriate_place_for_inserting_node() };
+    auto* node = new DOM::Comment { data };
+    insert(node, adjusted_insertion_location.target, adjusted_insertion_location.child);
+}
+
+Element* create_element_for_token(Tag* token, std::string_view namespace_, Node* intended_parent)
 {
     auto* document { intended_parent->node_document() };
     const std::string_view local_name { token->tag_name() };
-    auto* element { DOM::create_element(document, local_name, namespace_) };
+    auto* element { create_element(document, local_name, namespace_) };
     return element;
 }
 
@@ -72,6 +81,9 @@ void TreeConstruction::process_using_rules_for_current_insertion_mode(Token* tok
         case InsertionMode::BeforeHtml:
             apply_rules_for_before_html_insertion_mode(token);
             break;
+        case InsertionMode::BeforeHead:
+            apply_rules_for_before_head_insertion_mode(token);
+            break;
     }
 }
 
@@ -79,13 +91,13 @@ void TreeConstruction::apply_rules_for_initial_insertion_mode(Token* token)
 {
     if (auto* comment = token->as<Comment*>())
     {
-        insert_comment(comment, &m_document);
+        insert_comment(comment, InsertionLocation { &m_document });
         return;
     }
     
     if (auto* doctype = token->as<Doctype*>())
     {
-        auto* document_type = new DOM::DocumentType { *doctype->name() };
+        auto* document_type = new DocumentType { *doctype->name() };
         append(document_type, &m_document);
         switch_to(InsertionMode::BeforeHtml);
         return;
@@ -106,7 +118,22 @@ void TreeConstruction::apply_rules_for_before_html_insertion_mode(Token* token)
     {
         auto* element { create_element_for_token(start_tag, Namespace::HTML, &m_document) };
         append(element, &m_document);
+        m_stack_of_open_elements.push(element);
         switch_to(InsertionMode::BeforeHead);
+    }
+}
+
+void TreeConstruction::apply_rules_for_before_head_insertion_mode(Token* token)
+{
+    if (auto* character = token->as<Character*>(); character && character->is_one_of({'\t', '\n', '\f', ' '}))
+    {
+        return;
+    }
+    
+    if (auto* comment = token->as<Comment*>())
+    {
+        insert_comment(comment);
+        return;
     }
 }
 
