@@ -65,14 +65,25 @@ void TreeConstruction::process_using_rules_for_current_insertion_mode(const Toke
     switch (m_insertion_mode)
     {
         case InsertionMode::Initial:
+        {
             apply_rules_for_initial_insertion_mode(token);
             break;
+        }
         case InsertionMode::BeforeHtml:
+        {
             apply_rules_for_before_html_insertion_mode(token);
             break;
+        }
         case InsertionMode::BeforeHead:
+        {
             apply_rules_for_before_head_insertion_mode(token);
             break;
+        }
+        case InsertionMode::InHead:
+        {
+            apply_rules_for_in_head_insertion_mode(token);
+            break;
+        }
     }
 }
 
@@ -131,6 +142,16 @@ void TreeConstruction::apply_rules_for_before_head_insertion_mode(const Token& t
         auto* element { insert_html_element(token) };
         m_head_element_pointer = element;
         switch_to(InsertionMode::InHead);
+        return;
+    }
+}
+
+void TreeConstruction::apply_rules_for_in_head_insertion_mode(const Token& token)
+{
+    if (token.is_end_tag() && token.tag_name() == "head")
+    {
+        m_stack_of_open_elements.pop();
+        switch_to(InsertionMode::AfterHead);
         return;
     }
 }

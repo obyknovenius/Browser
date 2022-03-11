@@ -31,6 +31,7 @@ private:
         BeforeHtml,
         BeforeHead,
         InHead,
+        AfterHead,
     };
     
     Document& m_document;
@@ -57,6 +58,7 @@ private:
     void apply_rules_for_initial_insertion_mode(const Token& token);
     void apply_rules_for_before_html_insertion_mode(const Token& token);
     void apply_rules_for_before_head_insertion_mode(const Token& token);
+    void apply_rules_for_in_head_insertion_mode(const Token& token);
     
     struct InsertionLocation
     {
