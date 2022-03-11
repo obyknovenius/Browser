@@ -15,12 +15,13 @@ namespace DOM {
 
 class Comment : public Node
 {
-    std::string m_data;
-
 public:
     Comment(std::string data = "") : m_data { data } {}
     
     std::string to_string() const override;
+    
+private:
+    std::string m_data;
 };
 
 }

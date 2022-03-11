@@ -23,10 +23,11 @@ struct ParseState
 
 class Parser
 {
-    ParseState m_parse_state;
-    
 public:
     void process(Token* token);
+    
+private:
+    ParseState m_parse_state;
 };
 
 }

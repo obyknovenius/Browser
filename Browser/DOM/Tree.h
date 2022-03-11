@@ -16,9 +16,9 @@ using namespace Infra;
 template <typename T>
 class Tree
 {
-    Tree() = delete;
-
 public:
+    Tree() = delete;
+    
     class Participant
     {
     public:

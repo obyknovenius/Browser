@@ -14,6 +14,12 @@ namespace HTML {
 
 class Tokenizer
 {
+public:
+    Tokenizer(std::ifstream& input_stream) : m_input_stream { input_stream } {}
+    
+    void operator>>(Token& token);
+    
+private:
     enum class State
     {
         Data,
@@ -60,7 +66,7 @@ class Tokenizer
     int m_current_input_character {};
     size_t m_number_of_characters_to_consume {};
         
-    Token* m_current_token {};
+    Token m_current_token;
     
     void switch_to(State state) { m_state = state; }
     void reconsume_in(State state)
@@ -99,22 +105,13 @@ class Tokenizer
     
     void consume_those_characters();
     
-    template<typename T, typename... Args>
-    void create_token(Args... args)
+    Token& create_token(Token::Type type)
     {
-        m_current_token = new T { args... };
+        m_current_token = Token { type };
+        return m_current_token;
     }
     
-    template<typename T>
-    T current_token()
-    {
-        return static_cast<T>(m_current_token);
-    }
-    
-public:
-    Tokenizer(std::ifstream& input_stream) : m_input_stream { input_stream } {}
-    
-    void operator>>(Token**);
+    Token& current_token() { return m_current_token; }
 };
 
 }

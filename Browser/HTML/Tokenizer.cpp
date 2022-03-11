@@ -51,7 +51,7 @@ void Tokenizer::consume_those_characters()
     m_number_of_characters_to_consume = 0;
 }
 
-void Tokenizer::operator>>(Token** token)
+void Tokenizer::operator>>(Token& token)
 {
     for(;;)
     {
@@ -69,11 +69,12 @@ void Tokenizer::operator>>(Token** token)
                 
                 if (current_input_character_is(EOF))
                 {
-                    *token = new EndOfFile {};
+                    token = { Token::Type::EndOfFile };
                     return;
                 }
                 
-                *token = new Character { static_cast<char>(current_input_character()) };
+                token = { Token::Type::Character };
+                token.data() = current_input_character();
                 return;
             }
                 
@@ -95,7 +96,7 @@ void Tokenizer::operator>>(Token** token)
                 
                 if (current_input_character_is_ascii_alpha())
                 {
-                    create_token<StartTag>();
+                    create_token(Token::Type::StartTag);
                     reconsume_in(State::TagName);
                     break;
                 }
@@ -107,7 +108,7 @@ void Tokenizer::operator>>(Token** token)
                 
                 if (current_input_character_is_ascii_alpha())
                 {
-                    create_token<EndTag>();
+                    create_token(Token::Type::EndTag);
                     reconsume_in(State::TagName);
                     break;
                 }
@@ -129,18 +130,18 @@ void Tokenizer::operator>>(Token** token)
                 if (current_input_character_is('>'))
                 {
                     switch_to(State::Data);
-                    *token = current_token<Tag*>();
+                    token = current_token();
                     return;
                 }
                 
-                current_token<Tag*>()->tag_name() += current_input_character();
+                current_token().tag_name() += current_input_character();
                 break;
             }
                 
             case State::BeforeAttributeName:
             {
                 consume_next_input_character();
-                current_token<Tag*>()->start_new_attribute();
+                current_token().start_new_attribute();
                 reconsume_in(State::AttributeName);
                 break;
             }
@@ -157,11 +158,11 @@ void Tokenizer::operator>>(Token** token)
                 
                 if (current_input_character_is_ascii_upper_alpha())
                 {
-                    current_token<Tag*>()->current_attribute()->name += lowercase(current_input_character());
+                    current_token().current_attribute()->name += lowercase(current_input_character());
                     break;
                 }
                 
-                current_token<Tag*>()->current_attribute()->name += current_input_character();
+                current_token().current_attribute()->name += current_input_character();
                 break;
             }
                 
@@ -201,11 +202,11 @@ void Tokenizer::operator>>(Token** token)
                 if (current_input_character_is('>'))
                 {
                     switch_to(State::Data);
-                    *token = current_token<Tag*>();
+                    token = current_token();
                     return;
                 }
                 
-                current_token<Tag*>()->current_attribute()->value += current_input_character();
+                current_token().current_attribute()->value += current_input_character();
                 break;
                 
             }
@@ -222,7 +223,8 @@ void Tokenizer::operator>>(Token** token)
                 if (next_few_characters_are("--"))
                 {
                     consume_those_characters();
-                    create_token<Comment>("");
+                    auto comment = create_token(Token::Type::Comment);
+                    comment.data() = "";
                     switch_to(State::CommentStart);
                     break;
                 }
@@ -270,7 +272,7 @@ void Tokenizer::operator>>(Token** token)
                     break;
                 }
                 
-                current_token<Comment*>()->data() += current_input_character();
+                current_token().data() += current_input_character();
                 break;
             }
                 
@@ -292,7 +294,7 @@ void Tokenizer::operator>>(Token** token)
                 if (current_input_character_is('>'))
                 {
                     switch_to(State::Data);
-                    *token = current_token<Comment*>();
+                    token = current_token();
                     return;
                 }
             }
@@ -339,7 +341,8 @@ void Tokenizer::operator>>(Token** token)
                 
                 if (current_input_character_is_ascii_alpha())
                 {
-                    create_token<Doctype>(static_cast<char>(lowercase(current_input_character())));
+                    auto doctype = create_token(Token::Type::DOCTYPE);
+                    *doctype.name() = lowercase(current_input_character());
                     switch_to(State::DoctypeName);
                     break;
                 }
@@ -360,11 +363,11 @@ void Tokenizer::operator>>(Token** token)
                 
                 if (current_input_character_is('>')) {
                     switch_to(State::Data);
-                    *token = current_token<Doctype*>();
+                    token = current_token();
                     return;
                 }
                 
-                *current_token<Doctype*>()->name() += current_input_character();
+                *current_token().name() += current_input_character();
                 break;
             }
         }

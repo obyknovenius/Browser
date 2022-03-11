@@ -29,15 +29,16 @@
     
     for (;;)
     {
-        HTML::Token* next_token {};
+        HTML::Token next_token {};
         
-        tokenizer >> &next_token;
-        if (next_token->as<HTML::EndOfFile*>()) {
+        tokenizer >> next_token;
+        
+        std::cout << next_token;
+        
+        if (next_token.is_end_of_file()) {
             break;
         }
         tree_construction.dispatch(next_token);
-        
-        delete next_token;
     }
     
     std::cout << "\n";

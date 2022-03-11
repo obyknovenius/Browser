@@ -17,47 +17,6 @@ class Document;
 
 class Node : Tree<Node>::Participant
 {
-    class Children : public List<Node*>
-    {
-        Node* m_parent { nullptr };
-        Node* m_first_child { nullptr };
-        Node* m_last_child { nullptr };
-        
-    public:
-        Children(Node* parent) : m_parent { parent } {};
-        
-        Node* first_child() { return m_first_child; }
-        const Node* first_child() const { return m_first_child; }
-        
-        Node* last_child() { return m_last_child; }
-        const Node* last_child() const { return m_last_child; }
-        
-        void append(Node* node) override
-        {
-            node->m_parent = m_parent;
-            
-            if (!m_last_child)
-            {
-                m_first_child = node;
-                m_last_child = node;
-            }
-            else
-            {
-                m_last_child->m_next_sibling = node;
-                node->m_previous_sibling = m_last_child;
-                m_last_child = node;
-            }
-        }
-    };
-        
-    Node* m_parent { nullptr };
-    Children m_children { this };
-    
-    Node* m_previous_sibling { nullptr };
-    Node* m_next_sibling { nullptr };
-    
-    Document* m_node_document { nullptr };
-
 public:
     Node* parent() { return m_parent; }
     
@@ -99,6 +58,48 @@ public:
     virtual std::string to_string() const = 0;
     
     friend std::ostream& operator<<(std::ostream& out, const Node& node);
+    
+private:
+    class Children : public List<Node*>
+    {
+        Node* m_parent { nullptr };
+        Node* m_first_child { nullptr };
+        Node* m_last_child { nullptr };
+        
+    public:
+        Children(Node* parent) : m_parent { parent } {};
+        
+        Node* first_child() { return m_first_child; }
+        const Node* first_child() const { return m_first_child; }
+        
+        Node* last_child() { return m_last_child; }
+        const Node* last_child() const { return m_last_child; }
+        
+        void append(Node* node) override
+        {
+            node->m_parent = m_parent;
+            
+            if (!m_last_child)
+            {
+                m_first_child = node;
+                m_last_child = node;
+            }
+            else
+            {
+                m_last_child->m_next_sibling = node;
+                node->m_previous_sibling = m_last_child;
+                m_last_child = node;
+            }
+        }
+    };
+        
+    Node* m_parent { nullptr };
+    Children m_children { this };
+    
+    Node* m_previous_sibling { nullptr };
+    Node* m_next_sibling { nullptr };
+    
+    Document* m_node_document { nullptr };
 };
 
 void print_tree(const Node* root, int level = 0);

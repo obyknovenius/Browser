@@ -6,14 +6,17 @@
 //
 
 #include "Token.h"
+#include <cassert>
 
 namespace HTML {
 
-bool Character::is_one_of(std::initializer_list<char> characters)
+bool Token::is_one_of(std::initializer_list<char> characters) const
 {
+    assert(m_type == Type::Character);
+    
     for (char character : characters)
     {
-        if (character == m_data)
+        if (m_data.length() == 1 && m_data[0] == character)
         {
             return true;
         }
@@ -21,39 +24,37 @@ bool Character::is_one_of(std::initializer_list<char> characters)
     return false;
 }
 
-std::ostream& operator<<(std::ostream& out, const Doctype& doctype)
+std::ostream& operator<<(std::ostream& out, const Token& token)
 {
-    return out << "<!DOCTYPE " << *doctype.name() << ">";
-}
-
-std::ostream& operator<<(std::ostream& out, const StartTag& start_tag)
-{
-    out << "<" << start_tag.m_tag_name;
-    for (const auto& attribute : start_tag.m_attributes)
+    switch (token.m_type)
     {
-        out << " " << attribute.name << "=" << attribute.value;
+        case Token::Type::DOCTYPE:
+            out << "<!DOCTYPE " << *token.m_name << ">";
+            break;
+        case Token::Type::StartTag:
+            out << "<" << token.m_tag_name;
+            for (const auto& attribute : token.m_attributes)
+            {
+                out << " " << attribute.name << "=" << attribute.value;
+            }
+            out << ">";
+            break;
+        case Token::Type::EndTag:
+            out << "</" << token.m_tag_name << ">";
+            break;
+        case Token::Type::Comment:
+            out << "<!--" << token.m_data << "-->";
+            break;
+        case Token::Type::Character:
+            out << token.m_data;
+            break;
+        case Token::Type::EndOfFile:
+            out << "end-of-file";
+            break;
+        default:
+            assert(false);
     }
-    return out << ">";
-}
-
-std::ostream& operator<<(std::ostream& out, const EndTag& end_tag)
-{
-    return out << "</" << end_tag.m_tag_name << ">";
-}
-
-std::ostream& operator<<(std::ostream& out, const Comment& comment)
-{
-    return out << "<!--" << comment.m_data << "-->";
-}
-
-std::ostream& operator<<(std::ostream& out, const Character& character)
-{
-    return out << character.m_data;
-}
-
-std::ostream& operator<<(std::ostream& out, const EndOfFile& end_of_file)
-{
-    return out << "end-of-file";
+    return out;
 }
 
 }

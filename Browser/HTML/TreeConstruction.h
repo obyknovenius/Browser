@@ -19,6 +19,12 @@ namespace HTML {
 
 class TreeConstruction
 {
+public:
+    TreeConstruction(Document& document) : m_document { document } {}
+    
+    void dispatch(const Token&);
+    
+private:
     enum class InsertionMode
     {
         Initial,
@@ -42,15 +48,15 @@ class TreeConstruction
         m_insertion_mode = insertion_mode;
     }
     
-    void process_using_rules_for_current_insertion_mode(Token*);
-    void reprocess(Token* token)
+    void process_using_rules_for_current_insertion_mode(const Token& token);
+    void reprocess(const Token& token)
     {
         process_using_rules_for_current_insertion_mode(token);
     }
     
-    void apply_rules_for_initial_insertion_mode(Token*);
-    void apply_rules_for_before_html_insertion_mode(Token*);
-    void apply_rules_for_before_head_insertion_mode(Token*);
+    void apply_rules_for_initial_insertion_mode(const Token& token);
+    void apply_rules_for_before_html_insertion_mode(const Token& token);
+    void apply_rules_for_before_head_insertion_mode(const Token& token);
     
     struct InsertionLocation
     {
@@ -60,18 +66,13 @@ class TreeConstruction
     
     InsertionLocation appropriate_place_for_inserting_node();
     
-    Element* create_element_for_token(Tag* token, std::string_view namespace_, Node* intended_parent);
+    Element* create_element_for_token(const Token& token, std::string_view namespace_, Node* intended_parent);
     
-    Element* insert_foreign_element(Tag* token, std::string_view namespace_);
+    Element* insert_foreign_element(const Token& token, std::string_view namespace_);
     
-    Element* insert_html_element(Tag* token);
+    Element* insert_html_element(const Token& token);
     
-    void insert_comment(const Comment* comment, std::optional<InsertionLocation> position = std::nullopt);
-    
-public:
-    TreeConstruction(Document& document) : m_document { document } {}
-    
-    void dispatch(Token*);
+    void insert_comment(const Token& comment, std::optional<InsertionLocation> position = std::nullopt);
 };
 
 }

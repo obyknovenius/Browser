@@ -14,16 +14,17 @@ namespace DOM {
 
 class DocumentType : public Node
 {
-    std::string m_name {};
-    std::string m_public_id {};
-    std::string m_system_id {};
-    
 public:
     DocumentType(std::string name) : m_name { name } {}
     
     const std::string& name() const { return m_name; }
     
     std::string to_string() const override;
+    
+private:
+    std::string m_name {};
+    std::string m_public_id {};
+    std::string m_system_id {};
 };
 
 }
