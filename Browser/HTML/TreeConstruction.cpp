@@ -25,20 +25,34 @@ TreeConstruction::InsertionLocation TreeConstruction::appropriate_place_for_inse
     return adjusted_insertion_location;
 }
 
-void TreeConstruction::insert_comment(const Comment* comment, std::optional<InsertionLocation> position)
-{
-    const auto& data { comment->data() };
-    InsertionLocation adjusted_insertion_location { position ? *position : appropriate_place_for_inserting_node() };
-    auto* node = new DOM::Comment { data };
-    insert(node, adjusted_insertion_location.target, adjusted_insertion_location.child);
-}
-
-Element* create_element_for_token(Tag* token, std::string_view namespace_, Node* intended_parent)
+Element* TreeConstruction::create_element_for_token(Tag* token, std::string_view namespace_, Node* intended_parent)
 {
     auto* document { intended_parent->node_document() };
     const std::string_view local_name { token->tag_name() };
     auto* element { create_element(document, local_name, namespace_) };
     return element;
+}
+
+Element* TreeConstruction::insert_foreign_element(Tag* token, std::string_view namespace_)
+{
+    auto adjusted_insertion_location { appropriate_place_for_inserting_node() };
+    auto* element { create_element_for_token(token, namespace_, adjusted_insertion_location.target) };
+    insert(element, adjusted_insertion_location.target, adjusted_insertion_location.child);
+    m_stack_of_open_elements.push(element);
+    return element;
+}
+
+Element* TreeConstruction::insert_html_element(Tag* token)
+{
+    return insert_foreign_element(token, Namespace::HTML);
+}
+
+void TreeConstruction::insert_comment(const Comment* comment, std::optional<InsertionLocation> position)
+{
+    const auto& data { comment->data() };
+    auto adjusted_insertion_location { position ? *position : appropriate_place_for_inserting_node() };
+    auto* node = new DOM::Comment { data };
+    insert(node, adjusted_insertion_location.target, adjusted_insertion_location.child);
 }
 
 void TreeConstruction::dispatch(Token* token)
@@ -120,6 +134,7 @@ void TreeConstruction::apply_rules_for_before_html_insertion_mode(Token* token)
         append(element, &m_document);
         m_stack_of_open_elements.push(element);
         switch_to(InsertionMode::BeforeHead);
+        return;
     }
 }
 
@@ -133,6 +148,14 @@ void TreeConstruction::apply_rules_for_before_head_insertion_mode(Token* token)
     if (auto* comment = token->as<Comment*>())
     {
         insert_comment(comment);
+        return;
+    }
+    
+    if (auto* start_tag = token->as<StartTag*>(); start_tag && start_tag->tag_name() == "head")
+    {
+        auto* element { insert_html_element(start_tag) };
+        m_head_element_pointer = element;
+        switch_to(InsertionMode::InHead);
         return;
     }
 }

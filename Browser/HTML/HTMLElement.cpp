@@ -9,9 +9,4 @@
 
 namespace HTML {
 
-std::string HTMLElement::to_string() const
-{
-    return "Element: html";
-}
-
 }

@@ -9,6 +9,7 @@
 
 #include "Document.h"
 #include "Token.h"
+#include "../DOM/Element.h"
 #include <stack>
 #include <optional>
 
@@ -23,20 +24,17 @@ class TreeConstruction
         Initial,
         BeforeHtml,
         BeforeHead,
-    };
-    
-    struct InsertionLocation
-    {
-        Node* target { nullptr };
-        Node* child { nullptr };
+        InHead,
     };
     
     Document& m_document;
     
     InsertionMode m_insertion_mode { InsertionMode::Initial };
     
-    std::stack<Node*> m_stack_of_open_elements;
+    std::stack<Node*> m_stack_of_open_elements {};
     
+    Element* m_head_element_pointer { nullptr };
+
     Node* current_node() { return m_stack_of_open_elements.top(); }
     
     void switch_to(InsertionMode insertion_mode)
@@ -54,9 +52,19 @@ class TreeConstruction
     void apply_rules_for_before_html_insertion_mode(Token*);
     void apply_rules_for_before_head_insertion_mode(Token*);
     
-    
+    struct InsertionLocation
+    {
+        Node* target { nullptr };
+        Node* child { nullptr };
+    };
     
     InsertionLocation appropriate_place_for_inserting_node();
+    
+    Element* create_element_for_token(Tag* token, std::string_view namespace_, Node* intended_parent);
+    
+    Element* insert_foreign_element(Tag* token, std::string_view namespace_);
+    
+    Element* insert_html_element(Tag* token);
     
     void insert_comment(const Comment* comment, std::optional<InsertionLocation> position = std::nullopt);
     

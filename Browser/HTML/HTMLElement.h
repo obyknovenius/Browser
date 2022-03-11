@@ -13,8 +13,6 @@ namespace HTML {
 
 class HTMLElement : public DOM::Element
 {
-public:
-    std::string to_string() const override;
 };
 
 }
