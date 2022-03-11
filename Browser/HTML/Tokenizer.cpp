@@ -55,6 +55,13 @@ void Tokenizer::operator>>(Token& token)
 {
     for(;;)
     {
+        if (!m_tokens.empty())
+        {
+            token = m_tokens.front();
+            m_tokens.pop();
+            return;
+        }
+        
         switch (m_state)
         {
             case State::Data:
@@ -64,18 +71,16 @@ void Tokenizer::operator>>(Token& token)
                 if (current_input_character_is('<'))
                 {
                     switch_to(State::TagOpen);
-                    break;
                 }
-                
-                if (current_input_character_is(EOF))
+                else if (current_input_character_is(EOF))
                 {
-                    token = { Token::Type::EndOfFile };
-                    return;
+                    emit_end_of_file_token();
                 }
-                
-                token = { Token::Type::Character };
-                token.data() = current_input_character();
-                return;
+                else
+                {
+                    emit_current_input_character_as_character_token();
+                }
+                break;
             }
                 
             case State::TagOpen:
@@ -85,21 +90,18 @@ void Tokenizer::operator>>(Token& token)
                 if (current_input_character_is('!'))
                 {
                     switch_to(State::MarkupDeclarationOpen);
-                    break;
                 }
-                
-                if (current_input_character_is('/'))
+                else if (current_input_character_is('/'))
                 {
                     switch_to(State::EndTagOpen);
-                    break;
                 }
-                
-                if (current_input_character_is_ascii_alpha())
+                else if (current_input_character_is_ascii_alpha())
                 {
-                    create_token(Token::Type::StartTag);
+                    auto start_tag { create_start_tag_token() };
+                    start_tag.tag_name() = "";
                     reconsume_in(State::TagName);
-                    break;
                 }
+                break;
             }
                 
             case State::EndTagOpen:
@@ -108,10 +110,11 @@ void Tokenizer::operator>>(Token& token)
                 
                 if (current_input_character_is_ascii_alpha())
                 {
-                    create_token(Token::Type::EndTag);
+                    auto end_tag { create_end_tag_token() };
+                    end_tag.tag_name() = "";
                     reconsume_in(State::TagName);
-                    break;
                 }
+                break;
             }
                 
             case State::TagName:
@@ -124,24 +127,23 @@ void Tokenizer::operator>>(Token& token)
                     || current_input_character_is(' '))
                 {
                     switch_to(State::BeforeAttributeName);
-                    break;
                 }
-                
-                if (current_input_character_is('>'))
+                else if (current_input_character_is('>'))
                 {
                     switch_to(State::Data);
-                    token = current_token();
-                    return;
+                    emit_current_token();
                 }
-                
-                current_token().tag_name() += current_input_character();
+                else
+                {
+                    current_tag_token().tag_name() += current_input_character();
+                }
                 break;
             }
                 
             case State::BeforeAttributeName:
             {
                 consume_next_input_character();
-                current_token().start_new_attribute();
+                current_tag_token().start_new_attribute();
                 reconsume_in(State::AttributeName);
                 break;
             }
@@ -153,16 +155,15 @@ void Tokenizer::operator>>(Token& token)
                 if (current_input_character_is('='))
                 {
                     switch_to(State::BeforeAttributeValue);
-                    break;
                 }
-                
-                if (current_input_character_is_ascii_upper_alpha())
+                else if (current_input_character_is_ascii_upper_alpha())
                 {
-                    current_token().current_attribute()->name += lowercase(current_input_character());
-                    break;
+                    current_tag_token().current_attribute()->name += lowercase(current_input_character());
                 }
-                
-                current_token().current_attribute()->name += current_input_character();
+                else
+                {
+                    current_tag_token().current_attribute()->name += current_input_character();
+                }
                 break;
             }
                 
@@ -202,13 +203,13 @@ void Tokenizer::operator>>(Token& token)
                 if (current_input_character_is('>'))
                 {
                     switch_to(State::Data);
-                    token = current_token();
-                    return;
+                    emit_current_token();
                 }
-                
-                current_token().current_attribute()->value += current_input_character();
+                else
+                {
+                    current_tag_token().current_attribute()->value += current_input_character();
+                }
                 break;
-                
             }
                 
             case State::AfterAttributeValueQuoted:
@@ -223,18 +224,15 @@ void Tokenizer::operator>>(Token& token)
                 if (next_few_characters_are("--"))
                 {
                     consume_those_characters();
-                    auto comment = create_token(Token::Type::Comment);
-                    comment.data() = "";
+                    auto comment { create_comment_token("") };
                     switch_to(State::CommentStart);
-                    break;
                 }
-                
-                if (next_few_characters_are_ascii_case_insensitive("DOCTYPE"))
+                else if (next_few_characters_are_ascii_case_insensitive("DOCTYPE"))
                 {
                     consume_those_characters();
                     switch_to(State::Doctype);
-                    break;
                 }
+                break;
             }
                 
             case State::CommentStart:
@@ -244,10 +242,11 @@ void Tokenizer::operator>>(Token& token)
                 if (current_input_character_is('-'))
                 {
                     switch_to(State::CommentStartDash);
-                    break;
                 }
-                
-                reconsume_in(State::Comment);
+                else
+                {
+                    reconsume_in(State::Comment);
+                }
                 break;
             }
                 
@@ -258,8 +257,8 @@ void Tokenizer::operator>>(Token& token)
                 if (current_input_character_is('-'))
                 {
                     switch_to(State::CommentEnd);
-                    break;
                 }
+                break;
             }
                 
             case State::Comment:
@@ -269,10 +268,11 @@ void Tokenizer::operator>>(Token& token)
                 if (current_input_character_is('-'))
                 {
                     switch_to(State::CommentEndDash);
-                    break;
                 }
-                
-                current_token().data() += current_input_character();
+                else
+                {
+                    current_comment_token().data() += current_input_character();
+                }
                 break;
             }
                 
@@ -283,8 +283,8 @@ void Tokenizer::operator>>(Token& token)
                 if (current_input_character_is('-'))
                 {
                     switch_to(State::CommentEnd);
-                    break;
                 }
+                break;
             }
                 
             case State::CommentEnd:
@@ -294,9 +294,9 @@ void Tokenizer::operator>>(Token& token)
                 if (current_input_character_is('>'))
                 {
                     switch_to(State::Data);
-                    token = current_token();
-                    return;
+                    emit_current_token();
                 }
+                break;
             }
                 
             case State::CommentEndBang:
@@ -317,14 +317,12 @@ void Tokenizer::operator>>(Token& token)
                     || current_input_character_is(' '))
                 {
                     switch_to(State::BeforeDoctypeName);
-                    break;
                 }
-                
-                if (current_input_character_is('>'))
+                else if (current_input_character_is('>'))
                 {
                     reconsume_in(State::BeforeDoctypeName);
-                    break;
                 }
+                break;
             }
                 
             case State::BeforeDoctypeName:
@@ -336,16 +334,14 @@ void Tokenizer::operator>>(Token& token)
                     || current_input_character_is('\f')
                     || current_input_character_is(' '))
                 {
-                    break;
                 }
-                
-                if (current_input_character_is_ascii_alpha())
+                else if (current_input_character_is_ascii_alpha())
                 {
-                    auto doctype = create_token(Token::Type::DOCTYPE);
+                    auto doctype { create_doctype_token() };
                     *doctype.name() = lowercase(current_input_character());
                     switch_to(State::DoctypeName);
-                    break;
                 }
+                break;
             }
                 
             case State::DoctypeName:
@@ -358,16 +354,16 @@ void Tokenizer::operator>>(Token& token)
                     || current_input_character_is(' '))
                 {
                     switch_to(State::AfterDoctypeName);
-                    break;
                 }
-                
-                if (current_input_character_is('>')) {
+                else if (current_input_character_is('>'))
+                {
                     switch_to(State::Data);
-                    token = current_token();
-                    return;
+                    emit_current_token();
                 }
-                
-                *current_token().name() += current_input_character();
+                else
+                {
+                    *current_doctype_token().name() += current_input_character();
+                }
                 break;
             }
         }

@@ -39,11 +39,16 @@ Element* create_element(Document* document, std::string_view local_name, std::st
     switch (interface)
     {
         case Interface::HTMLHtmlElement:
+        {
             result = new HTMLHtmlElement();
             break;
+        }
+
         case Interface::HTMLHeadElement:
+        {
             result = new HTMLHeadElement();
             break;
+        }
     }
     assert(result);
     return result;

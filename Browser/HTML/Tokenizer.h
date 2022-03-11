@@ -9,6 +9,9 @@
 
 #include "Token.h"
 #include <fstream>
+#include <queue>
+#include <string_view>
+#include <cassert>
 
 namespace HTML {
 
@@ -65,7 +68,9 @@ private:
     
     int m_current_input_character {};
     size_t m_number_of_characters_to_consume {};
-        
+    
+    std::queue<Token> m_tokens {};
+    
     Token m_current_token;
     
     void switch_to(State state) { m_state = state; }
@@ -75,43 +80,78 @@ private:
         m_state = state;
     }
     
-    void consume_next_input_character()
-    {
-        m_current_input_character = m_input_stream.get();
-    }
+    void consume_next_input_character() { m_current_input_character = m_input_stream.get(); }
     
-    int current_input_character() {
-        return m_current_input_character;
-    }
+    int current_input_character() { return m_current_input_character; }
     
-    bool current_input_character_is(int character)
-    {
-        return current_input_character() == character;
-    }
-    
-    bool current_input_character_is_ascii_alpha()
-    {
-        return isalpha(current_input_character());
-    }
-    
-    bool current_input_character_is_ascii_upper_alpha()
-    {
-        return isupper(current_input_character());
-    }
+    bool current_input_character_is(int character) { return current_input_character() == character; }
+    bool current_input_character_is_ascii_alpha() { return isalpha(current_input_character()); }
+    bool current_input_character_is_ascii_upper_alpha() { return isupper(current_input_character()); }
     
     bool next_few_characters_are(const std::string_view characters);
-    
     bool next_few_characters_are_ascii_case_insensitive(const std::string_view characters);
-    
     void consume_those_characters();
     
-    Token& create_token(Token::Type type)
+    Token& create_doctype_token()
     {
-        m_current_token = Token { type };
+        m_current_token = { Token::Type::DOCTYPE };
         return m_current_token;
     }
     
-    Token& current_token() { return m_current_token; }
+    Token& create_start_tag_token()
+    {
+        m_current_token = { Token::Type::StartTag };
+        return m_current_token;
+    }
+    
+    Token& create_end_tag_token()
+    {
+        m_current_token = { Token::Type::EndTag };
+        return m_current_token;
+    }
+    
+    Token& create_comment_token(std::string_view data)
+    {
+        m_current_token = { Token::Type::Comment };
+        m_current_token.data() = data;
+        return m_current_token;
+    }
+    
+    Token& current_doctype_token()
+    {
+        assert(m_current_token.is_doctype());
+        return m_current_token;
+    }
+    
+    Token& current_tag_token()
+    {
+        assert(m_current_token.is_start_tag() || m_current_token.is_end_tag());
+        return m_current_token;
+        
+    }
+    
+    Token& current_comment_token()
+    {
+        assert(m_current_token.is_comment());
+        return m_current_token;
+    }
+    
+    void emit_current_input_character_as_character_token()
+    {
+        Token token = { Token::Type::Character };
+        token.data() = m_current_input_character;
+        m_tokens.push(token);
+    }
+    
+    void emit_end_of_file_token()
+    {
+        m_tokens.push({ Token::Type::EndOfFile });
+    }
+    
+    void emit_current_token()
+    {
+        m_tokens.push(m_current_token);
+    }
 };
 
 }
