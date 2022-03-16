@@ -35,6 +35,7 @@
 		B7E6EAA727DBCB7B00A9BF21 /* Text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7E6EAA527DBCB7B00A9BF21 /* Text.cpp */; };
 		B7E6EAAA27DBCBBA00A9BF21 /* CharacterData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7E6EAA827DBCBBA00A9BF21 /* CharacterData.cpp */; };
 		B7F60EEC27E2520100021C5B /* HTMLBodyElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F60EEA27E2520100021C5B /* HTMLBodyElement.cpp */; };
+		B7F60EEF27E25D8400021C5B /* HTMLHeadingElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F60EED27E25D8400021C5B /* HTMLHeadingElement.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,8 @@
 		B7E6EAA927DBCBBA00A9BF21 /* CharacterData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CharacterData.h; sourceTree = "<group>"; };
 		B7F60EEA27E2520100021C5B /* HTMLBodyElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HTMLBodyElement.cpp; sourceTree = "<group>"; };
 		B7F60EEB27E2520100021C5B /* HTMLBodyElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLBodyElement.h; sourceTree = "<group>"; };
+		B7F60EED27E25D8400021C5B /* HTMLHeadingElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HTMLHeadingElement.cpp; sourceTree = "<group>"; };
+		B7F60EEE27E25D8400021C5B /* HTMLHeadingElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLHeadingElement.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +228,8 @@
 				B722914C27DA9540008C6DBE /* Interface.h */,
 				B7F60EEA27E2520100021C5B /* HTMLBodyElement.cpp */,
 				B7F60EEB27E2520100021C5B /* HTMLBodyElement.h */,
+				B7F60EED27E25D8400021C5B /* HTMLHeadingElement.cpp */,
+				B7F60EEE27E25D8400021C5B /* HTMLHeadingElement.h */,
 			);
 			path = HTML;
 			sourceTree = "<group>";
@@ -411,6 +416,7 @@
 				B7E6EAA727DBCB7B00A9BF21 /* Text.cpp in Sources */,
 				B754B2C1277338C8003E8566 /* Token.cpp in Sources */,
 				B7C70AE427C5388000BCBE9A /* Document.cpp in Sources */,
+				B7F60EEF27E25D8400021C5B /* HTMLHeadingElement.cpp in Sources */,
 				B754B2BE2772635C003E8566 /* Tokenizer.cpp in Sources */,
 				B754B2862772461D003E8566 /* AppDelegate.mm in Sources */,
 				B754B2B92772468A003E8566 /* Box.cpp in Sources */,

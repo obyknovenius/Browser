@@ -14,6 +14,7 @@ enum class Interface
     HTMLHtmlElement,
     HTMLHeadElement,
     HTMLBodyElement,
+    HTMLHeadingElement,
 };
 
 }

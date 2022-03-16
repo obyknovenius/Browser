@@ -1,5 +1,5 @@
 //
-//  HTMLBodyElement.hpp
+//  HTMLHeadingElement.hpp
 //  Browser
 //
 //  Created by Vitaly Dyachkov on 16.03.22.
@@ -11,7 +11,7 @@
 
 namespace HTML {
 
-class HTMLBodyElement : public HTMLElement
+class HTMLHeadingElement : public HTMLElement
 {
 public:
     std::string to_string() const override;

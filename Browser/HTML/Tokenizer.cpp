@@ -17,8 +17,10 @@ int lowercase(int character)
 bool Tokenizer::next_few_characters_are(std::string_view characters)
 {
     std::streampos pos = m_input_stream.tellg();
-    for (char character : characters) {
-        if (character != m_input_stream.get()) {
+    for (char character : characters)
+    {
+        if (character != m_input_stream.get())
+        {
             m_input_stream.seekg(pos);
             return false;
         }
@@ -31,8 +33,10 @@ bool Tokenizer::next_few_characters_are(std::string_view characters)
 bool Tokenizer::next_few_characters_are_ascii_case_insensitive(const std::string_view characters)
 {
     std::streampos pos = m_input_stream.tellg();
-    for (char character : characters) {
-        if (tolower(character) != tolower(m_input_stream.get())) {
+    for (char character : characters)
+    {
+        if (tolower(character) != tolower(m_input_stream.get()))
+        {
             m_input_stream.seekg(pos);
             return false;
         }
@@ -45,7 +49,8 @@ bool Tokenizer::next_few_characters_are_ascii_case_insensitive(const std::string
 
 void Tokenizer::consume_those_characters()
 {
-    for (int i { 0 }; i < m_number_of_characters_to_consume; ++i) {
+    for (int i { 0 }; i < m_number_of_characters_to_consume; ++i)
+    {
         consume_next_input_character();
     }
     m_number_of_characters_to_consume = 0;
@@ -82,7 +87,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::TagOpen:
             {
                 consume_next_input_character();
@@ -103,7 +107,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::EndTagOpen:
             {
                 consume_next_input_character();
@@ -116,7 +119,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::TagName:
             {
                 consume_next_input_character();
@@ -139,7 +141,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::BeforeAttributeName:
             {
                 consume_next_input_character();
@@ -147,7 +148,6 @@ void Tokenizer::operator>>(Token& token)
                 reconsume_in(State::AttributeName);
                 break;
             }
-                
             case State::AttributeName:
             {
                 consume_next_input_character();
@@ -166,14 +166,12 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::AfterAttributeName:
             {
                 consume_next_input_character();
                 
                 break;
             }
-                
             case State::BeforeAttributeValue:
             {
                 consume_next_input_character();
@@ -181,21 +179,18 @@ void Tokenizer::operator>>(Token& token)
                 reconsume_in(State::AttributeValueUnquoted);
                 break;
             }
-                
             case State::AttributeValueDoubleQuoted:
             {
                 consume_next_input_character();
                 
                 break;
             }
-                
             case State::AttributeValueSingleQuoted:
             {
                 consume_next_input_character();
                 
                 break;
             }
-                
             case State::AttributeValueUnquoted:
             {
                 consume_next_input_character();
@@ -211,14 +206,12 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::AfterAttributeValueQuoted:
             {
                 consume_next_input_character();
                 
                 break;
             }
-                
             case State::MarkupDeclarationOpen:
             {
                 if (next_few_characters_are("--"))
@@ -234,7 +227,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::CommentStart:
             {
                 consume_next_input_character();
@@ -249,7 +241,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::CommentStartDash:
             {
                 consume_next_input_character();
@@ -260,7 +251,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::Comment:
             {
                 consume_next_input_character();
@@ -275,7 +265,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::CommentEndDash:
             {
                 consume_next_input_character();
@@ -286,7 +275,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::CommentEnd:
             {
                 consume_next_input_character();
@@ -298,7 +286,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::CommentEndBang:
             {
                 consume_next_input_character();
@@ -306,7 +293,6 @@ void Tokenizer::operator>>(Token& token)
                 reconsume_in(State::Comment);
                 break;
             }
-                
             case State::Doctype:
             {
                 consume_next_input_character();
@@ -324,7 +310,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::BeforeDoctypeName:
             {
                 consume_next_input_character();
@@ -343,7 +328,6 @@ void Tokenizer::operator>>(Token& token)
                 }
                 break;
             }
-                
             case State::DoctypeName:
             {
                 consume_next_input_character();

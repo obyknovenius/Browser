@@ -11,6 +11,7 @@
 #include "../HTML/HTMLHtmlElement.h"
 #include "../HTML/HTMLHeadElement.h"
 #include "../HTML/HTMLBodyElement.h"
+#include "../HTML/HTMLHeadingElement.h"
 #include <string_view>
 #include <cassert>
 
@@ -21,17 +22,25 @@ namespace DOM {
 
 Interface element_interface_for(std::string_view local_name, std::string_view namespace_)
 {
-    if (local_name == "html" && namespace_ == Namespace::HTML)
+    if (namespace_ == Namespace::HTML)
     {
-        return Interface::HTMLHtmlElement;
-    }
-    else if (local_name == "head" && namespace_ == Namespace::HTML)
-    {
-        return Interface::HTMLHeadElement;
-    }
-    else if (local_name == "body" && namespace_ == Namespace::HTML)
-    {
-        return Interface::HTMLBodyElement;
+        if (local_name == "html")
+        {
+            return Interface::HTMLHtmlElement;
+        }
+        else if (local_name == "head")
+        {
+            return Interface::HTMLHeadElement;
+        }
+        else if (local_name == "body")
+        {
+            return Interface::HTMLBodyElement;
+        }
+        else if (local_name == "h1" || local_name == "h2" || local_name == "h3"
+                || local_name == "h4" || local_name == "h5" || local_name == "h6")
+        {
+            return Interface::HTMLHeadingElement;
+        }
     }
     assert(false);
     return {};
@@ -48,16 +57,19 @@ Element* create_element(Document* document, std::string_view local_name, std::st
             result = new HTMLHtmlElement();
             break;
         }
-
         case Interface::HTMLHeadElement:
         {
             result = new HTMLHeadElement();
             break;
         }
-
         case Interface::HTMLBodyElement:
         {
             result = new HTMLBodyElement();
+            break;
+        }
+        case Interface::HTMLHeadingElement:
+        {
+            result = new HTMLHeadingElement();
             break;
         }
     }

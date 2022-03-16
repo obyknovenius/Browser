@@ -24,6 +24,20 @@ bool Token::is_one_of(std::initializer_list<char> characters) const
     return false;
 }
 
+bool Token::tag_name_is_one_of(std::initializer_list<std::string_view> tag_names) const
+{
+    assert(m_type == Type::StartTag || m_type == Type::EndTag);
+    
+    for (std::string_view tag_name : tag_names)
+    {
+        if (m_tag_name == tag_name)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 std::ostream& operator<<(std::ostream& out, const Token& token)
 {
     switch (token.m_type)

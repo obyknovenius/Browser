@@ -124,6 +124,11 @@ void TreeConstruction::process_using_rules_for_current_insertion_mode(const Toke
             apply_rules_for_after_head_insertion_mode(token);
             break;
         }
+        case InsertionMode::InBody:
+        {
+            apply_rules_for_in_body_insertion_mode(token);
+            break;
+        }
     }
 }
 
@@ -215,6 +220,15 @@ void TreeConstruction::apply_rules_for_after_head_insertion_mode(const Token& to
         insert_html_element_for(token);
         m_frameset_ok_flag = FramesetOkFlag::NotOk;
         switch_to(InsertionMode::InBody);
+        return;
+    }
+}
+
+void TreeConstruction::apply_rules_for_in_body_insertion_mode(const Token& token)
+{
+    if (token.is_start_tag() && token.tag_name_is_one_of({"h1", "h2", "h3", "h4", "h5", "h6"}))
+    {
+        insert_html_element_for(token);
         return;
     }
 }
