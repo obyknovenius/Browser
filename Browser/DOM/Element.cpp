@@ -10,6 +10,7 @@
 #include "../HTML/Interface.h"
 #include "../HTML/HTMLHtmlElement.h"
 #include "../HTML/HTMLHeadElement.h"
+#include "../HTML/HTMLBodyElement.h"
 #include <string_view>
 #include <cassert>
 
@@ -27,6 +28,10 @@ Interface element_interface_for(std::string_view local_name, std::string_view na
     else if (local_name == "head" && namespace_ == Namespace::HTML)
     {
         return Interface::HTMLHeadElement;
+    }
+    else if (local_name == "body" && namespace_ == Namespace::HTML)
+    {
+        return Interface::HTMLBodyElement;
     }
     assert(false);
     return {};
@@ -47,6 +52,12 @@ Element* create_element(Document* document, std::string_view local_name, std::st
         case Interface::HTMLHeadElement:
         {
             result = new HTMLHeadElement();
+            break;
+        }
+
+        case Interface::HTMLBodyElement:
+        {
+            result = new HTMLBodyElement();
             break;
         }
     }

@@ -12,7 +12,8 @@ namespace HTML {
 enum class Interface
 {
     HTMLHtmlElement,
-    HTMLHeadElement
+    HTMLHeadElement,
+    HTMLBodyElement,
 };
 
 }

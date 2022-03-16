@@ -38,6 +38,7 @@ private:
         BeforeHead,
         InHead,
         AfterHead,
+        InBody,
     };
     
     Document& m_document;
@@ -47,6 +48,13 @@ private:
     std::stack<Node*> m_stack_of_open_elements {};
     
     Element* m_head_element_pointer { nullptr };
+    
+    enum class FramesetOkFlag {
+        Ok,
+        NotOk,
+    };
+    
+    FramesetOkFlag m_frameset_ok_flag { FramesetOkFlag::Ok };
 
     Node* current_node() { return m_stack_of_open_elements.top(); }
     
@@ -69,10 +77,10 @@ private:
     
     InsertionLocation appropriate_place_for_inserting_node();
     
-    Element* create_element_for_token(const Token& token, std::string_view namespace_, Node* intended_parent);
+    Element* create_element_for(const Token& token, std::string_view namespace_, Node* intended_parent);
     
-    Element* insert_foreign_element(const Token& token, std::string_view namespace_);
-    Element* insert_html_element(const Token& token);
+    Element* insert_foreign_element_for(const Token& token, std::string_view namespace_);
+    Element* insert_html_element_for(const Token& token);
     
     void insert_character(const Token& token);
     void insert_comment(const Token& token, std::optional<InsertionLocation> position = std::nullopt);

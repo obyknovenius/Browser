@@ -40,7 +40,7 @@ InsertionLocation TreeConstruction::appropriate_place_for_inserting_node()
     return adjusted_insertion_location;
 }
 
-Element* TreeConstruction::create_element_for_token(const Token& token, std::string_view namespace_, Node* intended_parent)
+Element* TreeConstruction::create_element_for(const Token& token, std::string_view namespace_, Node* intended_parent)
 {
     auto* document { intended_parent->node_document() };
     const std::string_view local_name { token.tag_name() };
@@ -48,18 +48,18 @@ Element* TreeConstruction::create_element_for_token(const Token& token, std::str
     return element;
 }
 
-Element* TreeConstruction::insert_foreign_element(const Token& token, std::string_view namespace_)
+Element* TreeConstruction::insert_foreign_element_for(const Token& token, std::string_view namespace_)
 {
     auto adjusted_insertion_location { appropriate_place_for_inserting_node() };
-    auto* element { create_element_for_token(token, namespace_, adjusted_insertion_location.inside) };
+    auto* element { create_element_for(token, namespace_, adjusted_insertion_location.inside) };
     insert_at(element, adjusted_insertion_location);
     m_stack_of_open_elements.push(element);
     return element;
 }
 
-Element* TreeConstruction::insert_html_element(const Token& token)
+Element* TreeConstruction::insert_html_element_for(const Token& token)
 {
-    return insert_foreign_element(token, Namespace::HTML);
+    return insert_foreign_element_for(token, Namespace::HTML);
 }
 
 void TreeConstruction::insert_character(const Token& token)
@@ -156,7 +156,7 @@ void TreeConstruction::apply_rules_for_before_html_insertion_mode(const Token& t
     
     if (token.is_start_tag() && token.tag_name() == "html")
     {
-        auto* element { create_element_for_token(token, Namespace::HTML, &m_document) };
+        auto* element { create_element_for(token, Namespace::HTML, &m_document) };
         append(element, &m_document);
         m_stack_of_open_elements.push(element);
         switch_to(InsertionMode::BeforeHead);
@@ -179,7 +179,7 @@ void TreeConstruction::apply_rules_for_before_head_insertion_mode(const Token& t
     
     if (token.is_start_tag() && token.tag_name() == "head")
     {
-        auto* element { insert_html_element(token) };
+        auto* element { insert_html_element_for(token) };
         m_head_element_pointer = element;
         switch_to(InsertionMode::InHead);
         return;
@@ -207,6 +207,14 @@ void TreeConstruction::apply_rules_for_after_head_insertion_mode(const Token& to
     if (token.is_comment())
     {
         insert_comment(token);
+        return;
+    }
+    
+    if (token.is_start_tag() && token.tag_name() == "body")
+    {
+        insert_html_element_for(token);
+        m_frameset_ok_flag = FramesetOkFlag::NotOk;
+        switch_to(InsertionMode::InBody);
         return;
     }
 }

@@ -34,6 +34,7 @@
 		B7CA6F5E27D220EC0071D699 /* Tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7CA6F5C27D220EC0071D699 /* Tree.cpp */; };
 		B7E6EAA727DBCB7B00A9BF21 /* Text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7E6EAA527DBCB7B00A9BF21 /* Text.cpp */; };
 		B7E6EAAA27DBCBBA00A9BF21 /* CharacterData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7E6EAA827DBCBBA00A9BF21 /* CharacterData.cpp */; };
+		B7F60EEC27E2520100021C5B /* HTMLBodyElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F60EEA27E2520100021C5B /* HTMLBodyElement.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,8 @@
 		B7E6EAA627DBCB7B00A9BF21 /* Text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Text.h; sourceTree = "<group>"; };
 		B7E6EAA827DBCBBA00A9BF21 /* CharacterData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterData.cpp; sourceTree = "<group>"; };
 		B7E6EAA927DBCBBA00A9BF21 /* CharacterData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CharacterData.h; sourceTree = "<group>"; };
+		B7F60EEA27E2520100021C5B /* HTMLBodyElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HTMLBodyElement.cpp; sourceTree = "<group>"; };
+		B7F60EEB27E2520100021C5B /* HTMLBodyElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLBodyElement.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +223,8 @@
 				B722914927DA85A4008C6DBE /* HTMLHeadElement.cpp */,
 				B722914A27DA85A4008C6DBE /* HTMLHeadElement.h */,
 				B722914C27DA9540008C6DBE /* Interface.h */,
+				B7F60EEA27E2520100021C5B /* HTMLBodyElement.cpp */,
+				B7F60EEB27E2520100021C5B /* HTMLBodyElement.h */,
 			);
 			path = HTML;
 			sourceTree = "<group>";
@@ -396,6 +401,7 @@
 				B721C6DA27D20B3300D9539F /* List.cpp in Sources */,
 				B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */,
 				B7E6EAAA27DBCBBA00A9BF21 /* CharacterData.cpp in Sources */,
+				B7F60EEC27E2520100021C5B /* HTMLBodyElement.cpp in Sources */,
 				B7B3D14427D917440043B0CE /* Element.cpp in Sources */,
 				B795C20D27C8D4E90032297C /* Node.cpp in Sources */,
 				B709D92F27D0E5C000FD3B22 /* DocumentType.cpp in Sources */,
