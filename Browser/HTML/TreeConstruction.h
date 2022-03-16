@@ -17,6 +17,12 @@ using namespace DOM;
 
 namespace HTML {
 
+struct InsertionLocation
+{
+    Node* inside { nullptr };
+    Node* before { nullptr };
+};
+
 class TreeConstruction
 {
 public:
@@ -59,22 +65,17 @@ private:
     void apply_rules_for_before_html_insertion_mode(const Token& token);
     void apply_rules_for_before_head_insertion_mode(const Token& token);
     void apply_rules_for_in_head_insertion_mode(const Token& token);
-    
-    struct InsertionLocation
-    {
-        Node* target { nullptr };
-        Node* child { nullptr };
-    };
+    void apply_rules_for_after_head_insertion_mode(const Token& token);
     
     InsertionLocation appropriate_place_for_inserting_node();
     
     Element* create_element_for_token(const Token& token, std::string_view namespace_, Node* intended_parent);
     
     Element* insert_foreign_element(const Token& token, std::string_view namespace_);
-    
     Element* insert_html_element(const Token& token);
     
-    void insert_comment(const Token& comment, std::optional<InsertionLocation> position = std::nullopt);
+    void insert_character(const Token& token);
+    void insert_comment(const Token& token, std::optional<InsertionLocation> position = std::nullopt);
 };
 
 }

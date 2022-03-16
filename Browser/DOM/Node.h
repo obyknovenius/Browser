@@ -55,6 +55,9 @@ public:
     Node* replace_child(Node* node, Node* child);
     Node* remove_child(Node* child);
     
+    template<class T>
+    T* is() { return dynamic_cast<T*>(this); }
+    
     virtual std::string to_string() const = 0;
     
     friend std::ostream& operator<<(std::ostream& out, const Node& node);
