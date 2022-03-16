@@ -203,6 +203,12 @@ void TreeConstruction::apply_rules_for_after_head_insertion_mode(const Token& to
         insert_character(token);
         return;
     }
+    
+    if (token.is_comment())
+    {
+        insert_comment(token);
+        return;
+    }
 }
 
 }
