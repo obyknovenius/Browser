@@ -218,7 +218,7 @@ void TreeConstruction::apply_rules_for_after_head_insertion_mode(const Token& to
     if (token.is_start_tag() && token.tag_name() == "body")
     {
         insert_html_element_for(token);
-        m_frameset_ok_flag = FramesetOkFlag::NotOk;
+        set_frameset_ok_flag(FramesetOkFlag::NotOk);
         switch_to(InsertionMode::InBody);
         return;
     }
@@ -226,6 +226,19 @@ void TreeConstruction::apply_rules_for_after_head_insertion_mode(const Token& to
 
 void TreeConstruction::apply_rules_for_in_body_insertion_mode(const Token& token)
 {
+    if (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
+    {
+        insert_character(token);
+        return;
+    }
+    
+    if (token.is_character())
+    {
+        insert_character(token);
+        set_frameset_ok_flag(FramesetOkFlag::NotOk);
+        return;
+    }
+    
     if (token.is_start_tag() && token.tag_name_is_one_of({"h1", "h2", "h3", "h4", "h5", "h6"}))
     {
         insert_html_element_for(token);

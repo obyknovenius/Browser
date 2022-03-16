@@ -55,6 +55,7 @@ private:
     };
     
     FramesetOkFlag m_frameset_ok_flag { FramesetOkFlag::Ok };
+    void set_frameset_ok_flag(FramesetOkFlag frameset_ok_flag) { m_frameset_ok_flag = frameset_ok_flag; }
 
     Node* current_node() { return m_stack_of_open_elements.top(); }
     
