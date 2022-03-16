@@ -9,8 +9,8 @@
 
 #include "Document.h"
 #include "Token.h"
-#include "../DOM/Element.h"
-#include <stack>
+#include "StackOfOpenElements.h"
+#include "../../DOM/Element.h"
 #include <optional>
 
 using namespace DOM;
@@ -31,6 +31,8 @@ public:
     void dispatch(const Token&);
     
 private:
+    Document& m_document;
+    
     enum class InsertionMode
     {
         Initial,
@@ -41,28 +43,27 @@ private:
         InBody,
     };
     
-    Document& m_document;
-    
     InsertionMode m_insertion_mode { InsertionMode::Initial };
     
-    std::stack<Node*> m_stack_of_open_elements {};
+    StackOfOpenElements m_stack_of_open_elements {};
     
     Element* m_head_element_pointer { nullptr };
     
-    enum class FramesetOkFlag {
+    enum class FramesetOkFlag
+    {
         Ok,
         NotOk,
     };
     
     FramesetOkFlag m_frameset_ok_flag { FramesetOkFlag::Ok };
-    void set_frameset_ok_flag(FramesetOkFlag frameset_ok_flag) { m_frameset_ok_flag = frameset_ok_flag; }
-
-    Node* current_node() { return m_stack_of_open_elements.top(); }
     
-    void switch_to(InsertionMode insertion_mode)
-    {
-        m_insertion_mode = insertion_mode;
-    }
+    void switch_to(InsertionMode insertion_mode) { m_insertion_mode = insertion_mode; }
+    
+    StackOfOpenElements& stack_of_open_elements() { return m_stack_of_open_elements; }
+    
+    Node* current_node() { return m_stack_of_open_elements.bottommost(); }
+    
+    void set_frameset_ok_flag(FramesetOkFlag frameset_ok_flag) { m_frameset_ok_flag = frameset_ok_flag; }
     
     void process_using_rules_for_current_insertion_mode(const Token& token);
     void reprocess(const Token& token)

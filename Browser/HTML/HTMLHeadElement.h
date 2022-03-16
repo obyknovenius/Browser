@@ -1,5 +1,5 @@
 //
-//  HTMLHeadElement.hpp
+//  HTMLHeadElement.h
 //  Browser
 //
 //  Created by Vitaly Dyachkov on 10.03.22.

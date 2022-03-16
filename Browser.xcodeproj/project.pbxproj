@@ -36,6 +36,7 @@
 		B7E6EAAA27DBCBBA00A9BF21 /* CharacterData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7E6EAA827DBCBBA00A9BF21 /* CharacterData.cpp */; };
 		B7F60EEC27E2520100021C5B /* HTMLBodyElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F60EEA27E2520100021C5B /* HTMLBodyElement.cpp */; };
 		B7F60EEF27E25D8400021C5B /* HTMLHeadingElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F60EED27E25D8400021C5B /* HTMLHeadingElement.cpp */; };
+		B7F60EF327E2684D00021C5B /* StackOfOpenElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F60EF127E2684D00021C5B /* StackOfOpenElements.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,8 @@
 		B7F60EEB27E2520100021C5B /* HTMLBodyElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLBodyElement.h; sourceTree = "<group>"; };
 		B7F60EED27E25D8400021C5B /* HTMLHeadingElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HTMLHeadingElement.cpp; sourceTree = "<group>"; };
 		B7F60EEE27E25D8400021C5B /* HTMLHeadingElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLHeadingElement.h; sourceTree = "<group>"; };
+		B7F60EF127E2684D00021C5B /* StackOfOpenElements.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StackOfOpenElements.cpp; sourceTree = "<group>"; };
+		B7F60EF227E2684D00021C5B /* StackOfOpenElements.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StackOfOpenElements.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,14 +214,7 @@
 		B754B2BB277262C0003E8566 /* HTML */ = {
 			isa = PBXGroup;
 			children = (
-				B754B2BC2772635C003E8566 /* Tokenizer.cpp */,
-				B754B2BD2772635C003E8566 /* Tokenizer.h */,
-				B754B2BF277338C8003E8566 /* Token.cpp */,
-				B754B2C0277338C8003E8566 /* Token.h */,
-				B71C118C2784A2E40098A611 /* Parser.cpp */,
-				B71C118D2784A2E40098A611 /* Parser.h */,
-				B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */,
-				B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */,
+				B7F60EF027E267E100021C5B /* Parser */,
 				B7B3D14527D918340043B0CE /* HTMLElement.cpp */,
 				B7B3D14627D918340043B0CE /* HTMLElement.h */,
 				B722914627DA8581008C6DBE /* HTMLHtmlElement.cpp */,
@@ -265,6 +261,23 @@
 				B721C6D927D20B3300D9539F /* List.h */,
 			);
 			path = Infra;
+			sourceTree = "<group>";
+		};
+		B7F60EF027E267E100021C5B /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				B754B2BC2772635C003E8566 /* Tokenizer.cpp */,
+				B754B2BD2772635C003E8566 /* Tokenizer.h */,
+				B754B2BF277338C8003E8566 /* Token.cpp */,
+				B754B2C0277338C8003E8566 /* Token.h */,
+				B71C118C2784A2E40098A611 /* Parser.cpp */,
+				B71C118D2784A2E40098A611 /* Parser.h */,
+				B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */,
+				B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */,
+				B7F60EF127E2684D00021C5B /* StackOfOpenElements.cpp */,
+				B7F60EF227E2684D00021C5B /* StackOfOpenElements.h */,
+			);
+			path = Parser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -399,6 +412,7 @@
 			files = (
 				B722914827DA8581008C6DBE /* HTMLHtmlElement.cpp in Sources */,
 				B71C118E2784A2E40098A611 /* Parser.cpp in Sources */,
+				B7F60EF327E2684D00021C5B /* StackOfOpenElements.cpp in Sources */,
 				B722914B27DA85A4008C6DBE /* HTMLHeadElement.cpp in Sources */,
 				B754B2B52772463E003E8566 /* View.mm in Sources */,
 				B754B2892772461D003E8566 /* ViewController.m in Sources */,

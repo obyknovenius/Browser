@@ -5,12 +5,12 @@
 //  Created by Vitaly Dyachkov on 22.02.22.
 //
 
-#include "../Infra/Namespace.h"
-#include "../DOM/Node.h"
-#include "../DOM/Element.h"
-#include "../DOM/DocumentType.h"
-#include "../DOM/Comment.h"
-#include "../DOM/Text.h"
+#include "../../Infra/Namespace.h"
+#include "../../DOM/Node.h"
+#include "../../DOM/Element.h"
+#include "../../DOM/DocumentType.h"
+#include "../../DOM/Comment.h"
+#include "../../DOM/Text.h"
 #include "Token.h"
 #include "TreeConstruction.h"
 
@@ -53,7 +53,7 @@ Element* TreeConstruction::insert_foreign_element_for(const Token& token, std::s
     auto adjusted_insertion_location { appropriate_place_for_inserting_node() };
     auto* element { create_element_for(token, namespace_, adjusted_insertion_location.inside) };
     insert_at(element, adjusted_insertion_location);
-    m_stack_of_open_elements.push(element);
+    stack_of_open_elements().push(element);
     return element;
 }
 
@@ -163,7 +163,7 @@ void TreeConstruction::apply_rules_for_before_html_insertion_mode(const Token& t
     {
         auto* element { create_element_for(token, Namespace::HTML, &m_document) };
         append(element, &m_document);
-        m_stack_of_open_elements.push(element);
+        stack_of_open_elements().push(element);
         switch_to(InsertionMode::BeforeHead);
         return;
     }
@@ -195,7 +195,7 @@ void TreeConstruction::apply_rules_for_in_head_insertion_mode(const Token& token
 {
     if (token.is_end_tag() && token.tag_name() == "head")
     {
-        m_stack_of_open_elements.pop();
+        stack_of_open_elements().pop();
         switch_to(InsertionMode::AfterHead);
         return;
     }
