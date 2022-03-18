@@ -12,7 +12,7 @@
 #include "../HTML/HTMLHeadElement.h"
 #include "../HTML/HTMLBodyElement.h"
 #include "../HTML/HTMLHeadingElement.h"
-#include <string_view>
+#include <string>
 #include <cassert>
 
 using namespace Infra;
@@ -20,7 +20,7 @@ using namespace HTML;
 
 namespace DOM {
 
-Interface element_interface_for(std::string_view local_name, std::string_view namespace_)
+Interface element_interface_for(const std::string& local_name, const std::string& namespace_)
 {
     if (namespace_ == Namespace::HTML)
     {
@@ -46,7 +46,7 @@ Interface element_interface_for(std::string_view local_name, std::string_view na
     return {};
 }
 
-Element* create_element(Document* document, std::string_view local_name, std::string_view namespace_)
+Element* create_element(Document* document, const std::string& local_name, const std::string& namespace_)
 {
     Element* result { nullptr };
     Interface interface { element_interface_for(local_name, namespace_) };
@@ -74,7 +74,16 @@ Element* create_element(Document* document, std::string_view local_name, std::st
         }
     }
     assert(result);
+    
+    result->m_namespace = namespace_;
+    result->m_local_name = local_name;
+    
     return result;
+}
+
+std::string Element::to_string() const
+{
+    return "Element: " + m_local_name;
 }
 
 }

@@ -6,12 +6,3 @@
 //
 
 #include "HTMLBodyElement.h"
-
-namespace HTML {
-
-std::string HTMLBodyElement::to_string() const
-{
-    return "Element: body";
-}
-
-}

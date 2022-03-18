@@ -6,12 +6,3 @@
 //
 
 #include "HTMLHtmlElement.h"
-
-namespace HTML {
-
-std::string HTMLHtmlElement::to_string() const
-{
-    return "Element: html";
-}
-
-}

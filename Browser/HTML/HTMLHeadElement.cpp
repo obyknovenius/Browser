@@ -6,12 +6,3 @@
 //
 
 #include "HTMLHeadElement.h"
-
-namespace HTML {
-
-std::string HTMLHeadElement::to_string() const
-{
-    return "Element: head";
-}
-
-}

@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include <string_view>
+#include <string>
 
 namespace Infra::Namespace {
 
-static constexpr std::string_view HTML { "http://www.w3.org/1999/xhtml" };
+static const std::string HTML { "http://www.w3.org/1999/xhtml" };
 
 }

@@ -80,9 +80,9 @@ private:
     
     InsertionLocation appropriate_place_for_inserting_node();
     
-    Element* create_element_for(const Token& token, std::string_view namespace_, Node* intended_parent);
+    Element* create_element_for(const Token& token, const std::string& namespace_, Node* intended_parent);
     
-    Element* insert_foreign_element_for(const Token& token, std::string_view namespace_);
+    Element* insert_foreign_element_for(const Token& token, const std::string& namespace_);
     Element* insert_html_element_for(const Token& token);
     
     void insert_character(const Token& token);

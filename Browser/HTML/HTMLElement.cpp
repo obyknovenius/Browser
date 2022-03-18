@@ -6,7 +6,3 @@
 //
 
 #include "HTMLElement.h"
-
-namespace HTML {
-
-}

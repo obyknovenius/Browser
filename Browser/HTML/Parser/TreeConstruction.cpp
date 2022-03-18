@@ -40,15 +40,15 @@ InsertionLocation TreeConstruction::appropriate_place_for_inserting_node()
     return adjusted_insertion_location;
 }
 
-Element* TreeConstruction::create_element_for(const Token& token, std::string_view namespace_, Node* intended_parent)
+Element* TreeConstruction::create_element_for(const Token& token, const std::string& namespace_, Node* intended_parent)
 {
     auto* document { intended_parent->node_document() };
-    const std::string_view local_name { token.tag_name() };
+    auto& local_name { token.tag_name() };
     auto* element { create_element(document, local_name, namespace_) };
     return element;
 }
 
-Element* TreeConstruction::insert_foreign_element_for(const Token& token, std::string_view namespace_)
+Element* TreeConstruction::insert_foreign_element_for(const Token& token, const std::string& namespace_)
 {
     auto adjusted_insertion_location { appropriate_place_for_inserting_node() };
     auto* element { create_element_for(token, namespace_, adjusted_insertion_location.inside) };
