@@ -76,6 +76,7 @@ private:
     void apply_rules_for_after_head_insertion_mode(const Token& token);
     void apply_rules_for_in_body_insertion_mode(const Token& token);
     void apply_rules_for_after_body_insertion_mode(const Token& token);
+    void apply_rules_for_after_after_body_insertion_mode(const Token& token);
     
     InsertionLocation appropriate_place_for_inserting_node();
     

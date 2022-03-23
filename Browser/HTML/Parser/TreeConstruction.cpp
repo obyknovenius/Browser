@@ -135,6 +135,11 @@ void TreeConstruction::process_using_the_rules_for(InsertionMode insertion_mode,
             apply_rules_for_after_body_insertion_mode(token);
             break;
         }
+        case InsertionMode::AfterAfterBody:
+        {
+            apply_rules_for_after_after_body_insertion_mode(token);
+            break;
+        }
     }
 }
 
@@ -284,6 +289,15 @@ void TreeConstruction::apply_rules_for_after_body_insertion_mode(const Token& to
     if (token.is_end_tag() && token.tag_name() == "body")
     {
         switch_to(InsertionMode::AfterAfterBody);
+    }
+}
+
+void TreeConstruction::apply_rules_for_after_after_body_insertion_mode(const Token& token)
+{
+    if (token.is_comment())
+    {
+        insert_comment(token, InsertionLocation { &m_document, nullptr} );
+        return;
     }
 }
 
