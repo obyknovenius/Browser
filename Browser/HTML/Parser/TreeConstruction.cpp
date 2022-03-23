@@ -93,12 +93,12 @@ void TreeConstruction::insert_comment(const Token& token, std::optional<Insertio
 
 void TreeConstruction::dispatch(const Token& token)
 {
-    process_using_rules_for_current_insertion_mode(token);
+    process_using_the_rules_for(m_insertion_mode, token);
 }
 
-void TreeConstruction::process_using_rules_for_current_insertion_mode(const Token& token)
+void TreeConstruction::process_using_the_rules_for(InsertionMode insertion_mode, const Token& token)
 {
-    switch (m_insertion_mode)
+    switch (insertion_mode)
     {
         case InsertionMode::Initial:
         {
@@ -128,6 +128,11 @@ void TreeConstruction::process_using_rules_for_current_insertion_mode(const Toke
         case InsertionMode::InBody:
         {
             apply_rules_for_in_body_insertion_mode(token);
+            break;
+        }
+        case InsertionMode::AfterBody:
+        {
+            apply_rules_for_after_head_insertion_mode(token);
             break;
         }
     }
@@ -258,6 +263,15 @@ void TreeConstruction::apply_rules_for_in_body_insertion_mode(const Token& token
         {
             return is_html_element(*element) && element->tag_name_is_one_of({"h1", "h2", "h3", "h4", "h5", "h6"});
         });
+        return;
+    }
+}
+
+void TreeConstruction::apply_rules_for_after_body_insertion_mode(const Token& token)
+{
+    if (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
+    {
+        process_using_the_rules_for(InsertionMode::InBody, token);
         return;
     }
 }
