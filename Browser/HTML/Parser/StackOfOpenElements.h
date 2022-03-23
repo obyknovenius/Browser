@@ -8,7 +8,7 @@
 #pragma once
 
 #include "../../DOM/Element.h"
-#include <stack>
+#include <deque>
 #include <functional>
 
 using namespace DOM;
@@ -18,21 +18,22 @@ namespace HTML {
 class StackOfOpenElements
 {
 public:
-    Element* bottommost() { return m_stack.top(); }
+    Element* topmost() { return m_queue.front(); }
+    Element* bottommost() { return m_queue.back(); }
     
-    void push(Element* element) { m_stack.push(element); }
+    void push(Element* element) { m_queue.push_back(element); }
     
     Element* pop()
     {
-        auto* element { m_stack.top() };
-        m_stack.pop();
+        auto* element { m_queue.back() };
+        m_queue.pop_back();
         return element;
     }
     
     void pop_until(const std::function<bool(Element*)>& until);
 
 private:
-    std::stack<Element*> m_stack {};
+    std::deque<Element*> m_queue {};
 };
 
 }

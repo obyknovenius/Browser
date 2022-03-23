@@ -74,7 +74,7 @@ void TreeConstruction::insert_character(const Token& token)
     
     if (auto* node { immediately_before(adjusted_insertion_location)->is<Text>() }; node)
     {
-        node->data() += token.data();
+        node->data() += data;
     }
     else
     {
@@ -132,7 +132,7 @@ void TreeConstruction::process_using_the_rules_for(InsertionMode insertion_mode,
         }
         case InsertionMode::AfterBody:
         {
-            apply_rules_for_after_head_insertion_mode(token);
+            apply_rules_for_after_body_insertion_mode(token);
             break;
         }
     }
@@ -272,6 +272,12 @@ void TreeConstruction::apply_rules_for_after_body_insertion_mode(const Token& to
     if (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
     {
         process_using_the_rules_for(InsertionMode::InBody, token);
+        return;
+    }
+    
+    if (token.is_comment())
+    {
+        insert_comment(token, InsertionLocation { m_stack_of_open_elements.topmost(), nullptr} );
         return;
     }
 }
