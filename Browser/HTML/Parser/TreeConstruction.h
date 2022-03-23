@@ -58,13 +58,9 @@ private:
     FramesetOkFlag m_frameset_ok_flag { FramesetOkFlag::Ok };
     
     void switch_to(InsertionMode insertion_mode) { m_insertion_mode = insertion_mode; }
-    
-    StackOfOpenElements& stack_of_open_elements() { return m_stack_of_open_elements; }
-    
+        
     Node* current_node() { return m_stack_of_open_elements.bottommost(); }
-    
-    void set_frameset_ok_flag(FramesetOkFlag frameset_ok_flag) { m_frameset_ok_flag = frameset_ok_flag; }
-    
+        
     void process_using_rules_for_current_insertion_mode(const Token& token);
     void reprocess(const Token& token)
     {

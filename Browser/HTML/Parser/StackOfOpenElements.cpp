@@ -6,3 +6,19 @@
 //
 
 #include "StackOfOpenElements.h"
+
+namespace HTML {
+
+void StackOfOpenElements::pop_until(const std::function<bool(Element*)>& until)
+{
+    for (;;)
+    {
+        if (until(m_stack.top()))
+        {
+            return;
+        }
+        m_stack.pop();
+    }
+}
+
+}

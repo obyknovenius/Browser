@@ -1,5 +1,5 @@
 //
-//  Namespace.hpp
+//  Namespace.h
 //  Browser
 //
 //  Created by Vitaly Dyachkov on 09.03.22.

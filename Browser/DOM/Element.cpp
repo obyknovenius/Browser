@@ -75,10 +75,22 @@ Element* create_element(Document* document, const std::string& local_name, const
     }
     assert(result);
     
-    result->m_namespace = namespace_;
+    result->m_namespace_ = namespace_;
     result->m_local_name = local_name;
     
     return result;
+}
+
+bool Element::tag_name_is_one_of(std::initializer_list<std::string_view> tag_names) const
+{
+    for (std::string_view tag_name : tag_names)
+    {
+        if (m_local_name == tag_name)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::string Element::to_string() const

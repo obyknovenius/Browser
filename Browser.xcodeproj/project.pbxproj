@@ -69,6 +69,7 @@
 		B722914A27DA85A4008C6DBE /* HTMLHeadElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLHeadElement.h; sourceTree = "<group>"; };
 		B722914C27DA9540008C6DBE /* Interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Interface.h; sourceTree = "<group>"; };
 		B7273ED427D94AD900CA9D7D /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
+		B732A0CF27E50C58008D61BF /* XMLCompatability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMLCompatability.h; sourceTree = "<group>"; };
 		B754B2812772461D003E8566 /* Browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B754B2842772461D003E8566 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B754B2852772461D003E8566 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -214,6 +215,7 @@
 		B754B2BB277262C0003E8566 /* HTML */ = {
 			isa = PBXGroup;
 			children = (
+				B732A0CF27E50C58008D61BF /* XMLCompatability.h */,
 				B7F60EF027E267E100021C5B /* Parser */,
 				B7B3D14527D918340043B0CE /* HTMLElement.cpp */,
 				B7B3D14627D918340043B0CE /* HTMLElement.h */,
