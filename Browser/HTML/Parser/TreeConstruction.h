@@ -42,6 +42,7 @@ private:
         AfterHead,
         InBody,
         AfterBody,
+        AfterAfterBody
     };
     
     InsertionMode m_insertion_mode { InsertionMode::Initial };

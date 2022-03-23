@@ -280,6 +280,11 @@ void TreeConstruction::apply_rules_for_after_body_insertion_mode(const Token& to
         insert_comment(token, InsertionLocation { m_stack_of_open_elements.topmost(), nullptr} );
         return;
     }
+    
+    if (token.is_end_tag() && token.tag_name() == "body")
+    {
+        switch_to(InsertionMode::AfterAfterBody);
+    }
 }
 
 }
