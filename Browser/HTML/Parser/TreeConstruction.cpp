@@ -299,6 +299,14 @@ void TreeConstruction::apply_rules_for_after_after_body_insertion_mode(const Tok
         insert_comment(token, InsertionLocation { &m_document, nullptr} );
         return;
     }
+    
+    if (token.is_doctype()
+    || (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
+    || (token.is_start_tag() && token.tag_name() == "html"))
+    {
+        process_using_the_rules_for(InsertionMode::InBody, token);
+        return;
+    }
 }
 
 }

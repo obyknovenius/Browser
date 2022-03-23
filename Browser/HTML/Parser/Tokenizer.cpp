@@ -124,9 +124,9 @@ void Tokenizer::operator>>(Token& token)
                 consume_next_input_character();
                 
                 if (current_input_character_is('\t')
-                    || current_input_character_is('\n')
-                    || current_input_character_is('\f')
-                    || current_input_character_is(' '))
+                || current_input_character_is('\n')
+                || current_input_character_is('\f')
+                || current_input_character_is(' '))
                 {
                     switch_to(State::BeforeAttributeName);
                 }
@@ -298,9 +298,9 @@ void Tokenizer::operator>>(Token& token)
                 consume_next_input_character();
                 
                 if (current_input_character_is('\t')
-                    || current_input_character_is('\n')
-                    || current_input_character_is('\f')
-                    || current_input_character_is(' '))
+                || current_input_character_is('\n')
+                || current_input_character_is('\f')
+                || current_input_character_is(' '))
                 {
                     switch_to(State::BeforeDoctypeName);
                 }
@@ -315,9 +315,9 @@ void Tokenizer::operator>>(Token& token)
                 consume_next_input_character();
                 
                 if (current_input_character_is('\t')
-                    || current_input_character_is('\n')
-                    || current_input_character_is('\f')
-                    || current_input_character_is(' '))
+                || current_input_character_is('\n')
+                || current_input_character_is('\f')
+                || current_input_character_is(' '))
                 {
                 }
                 else if (current_input_character_is_ascii_alpha())
@@ -333,9 +333,9 @@ void Tokenizer::operator>>(Token& token)
                 consume_next_input_character();
                 
                 if (current_input_character_is('\t')
-                    || current_input_character_is('\n')
-                    || current_input_character_is('\f')
-                    || current_input_character_is(' '))
+                || current_input_character_is('\n')
+                || current_input_character_is('\f')
+                || current_input_character_is(' '))
                 {
                     switch_to(State::AfterDoctypeName);
                 }
