@@ -31,6 +31,8 @@ public:
     }
     
     void pop_until(const std::function<bool(Element*)>& until);
+    
+    void pop_all() { m_queue.clear(); }
 
 private:
     std::deque<Element*> m_queue {};

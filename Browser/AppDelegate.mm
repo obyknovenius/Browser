@@ -27,19 +27,14 @@
     HTML::Tokenizer tokenizer { input_stream };
     HTML::TreeConstruction tree_construction { document };
     
-    for (;;)
+    HTML::Token next_token {};
+    do
     {
-        HTML::Token next_token {};
-        
         tokenizer >> next_token;
-        
         std::cout << next_token;
-        
-        if (next_token.is_end_of_file()) {
-            break;
-        }
         tree_construction.dispatch(next_token);
     }
+    while(!next_token.is_end_of_file());
     
     std::cout << "\n";
     DOM::print_tree(&document);

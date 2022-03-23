@@ -307,6 +307,16 @@ void TreeConstruction::apply_rules_for_after_after_body_insertion_mode(const Tok
         process_using_the_rules_for(InsertionMode::InBody, token);
         return;
     }
+    
+    if (token.is_end_of_file())
+    {
+        stop_parsing();
+    }
+}
+
+void TreeConstruction::stop_parsing()
+{
+    m_stack_of_open_elements.pop_all();
 }
 
 }

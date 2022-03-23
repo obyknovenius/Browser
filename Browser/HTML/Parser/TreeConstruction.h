@@ -87,6 +87,8 @@ private:
     
     void insert_character(const Token& token);
     void insert_comment(const Token& token, std::optional<InsertionLocation> position = std::nullopt);
+    
+    void stop_parsing();
 };
 
 }
