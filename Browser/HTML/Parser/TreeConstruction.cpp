@@ -240,6 +240,12 @@ void TreeConstruction::apply_rules_for_in_body_insertion_mode(const Token& token
         return;
     }
     
+    if (token.is_end_tag() && token.tag_name() == "body")
+    {
+        switch_to(InsertionMode::AfterBody);
+        return;
+    }
+    
     if (token.is_start_tag() && token.tag_name_is_one_of({"h1", "h2", "h3", "h4", "h5", "h6"}))
     {
         insert_html_element_for(token);
