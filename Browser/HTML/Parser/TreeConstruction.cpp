@@ -300,7 +300,7 @@ void TreeConstruction::apply_rules_for_after_body_insertion_mode(const Token& to
     
     if (token.is_comment())
     {
-        insert_comment(token, InsertionLocation { m_stack_of_open_elements.topmost(), nullptr} );
+        insert_comment(token, InsertionLocation { m_stack_of_open_elements.topmost()} );
         return;
     }
     
@@ -314,7 +314,7 @@ void TreeConstruction::apply_rules_for_after_after_body_insertion_mode(const Tok
 {
     if (token.is_comment())
     {
-        insert_comment(token, InsertionLocation { &m_document, nullptr} );
+        insert_comment(token, InsertionLocation { &m_document} );
         return;
     }
     
