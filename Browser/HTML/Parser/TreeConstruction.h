@@ -68,10 +68,10 @@ private:
         
     Node* current_node() { return m_stack_of_open_elements.bottommost(); }
         
-    void process_using_the_rules_for(InsertionMode insertion_mode, const Token& token);
+    void process_using_rules_for(InsertionMode insertion_mode, const Token& token);
     void reprocess(const Token& token)
     {
-        process_using_the_rules_for(m_insertion_mode, token);
+        process_using_rules_for(m_insertion_mode, token);
     }
     
     void apply_rules_for_initial_insertion_mode(const Token& token);

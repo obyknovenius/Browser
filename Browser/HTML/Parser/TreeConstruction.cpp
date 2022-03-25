@@ -111,10 +111,10 @@ bool TreeConstruction::construct_tree()
 
 void TreeConstruction::dispatch(const Token& token)
 {
-    process_using_the_rules_for(m_insertion_mode, token);
+    process_using_rules_for(m_insertion_mode, token);
 }
 
-void TreeConstruction::process_using_the_rules_for(InsertionMode insertion_mode, const Token& token)
+void TreeConstruction::process_using_rules_for(InsertionMode insertion_mode, const Token& token)
 {
     switch (insertion_mode)
     {
@@ -294,7 +294,7 @@ void TreeConstruction::apply_rules_for_after_body_insertion_mode(const Token& to
 {
     if (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
     {
-        process_using_the_rules_for(InsertionMode::InBody, token);
+        process_using_rules_for(InsertionMode::InBody, token);
         return;
     }
     
@@ -322,7 +322,7 @@ void TreeConstruction::apply_rules_for_after_after_body_insertion_mode(const Tok
     || (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
     || (token.is_start_tag() && token.tag_name() == "html"))
     {
-        process_using_the_rules_for(InsertionMode::InBody, token);
+        process_using_rules_for(InsertionMode::InBody, token);
         return;
     }
     
