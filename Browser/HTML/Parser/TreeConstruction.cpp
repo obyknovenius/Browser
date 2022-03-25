@@ -29,7 +29,7 @@ Node* immediately_before(InsertionLocation location)
     return location.inside->last_child();
 }
 
-void insert_at(Node* node, InsertionLocation location)
+void insert_at(InsertionLocation location, Node* node)
 {
     insert(node, location.inside, location.before);
 }
@@ -53,7 +53,7 @@ Element* TreeConstruction::insert_foreign_element_for(const Token& token, const 
 {
     auto adjusted_insertion_location { appropriate_place_for_inserting_node() };
     auto* element { create_element_for(token, namespace_, adjusted_insertion_location.inside) };
-    insert_at(element, adjusted_insertion_location);
+    insert_at(adjusted_insertion_location, element);
     m_stack_of_open_elements.push(element);
     return element;
 }
@@ -79,7 +79,7 @@ void TreeConstruction::insert_character(const Token& token)
     else
     {
         node = new Text { data };
-        insert_at(node, adjusted_insertion_location);
+        insert_at(adjusted_insertion_location, node);
     }
 }
 
@@ -88,7 +88,7 @@ void TreeConstruction::insert_comment(const Token& token, std::optional<Insertio
     const auto& data { token.data() };
     auto adjusted_insertion_location { position ? *position : appropriate_place_for_inserting_node() };
     auto* node { new Comment { data } };
-    insert_at(node, adjusted_insertion_location);
+    insert_at(adjusted_insertion_location, node);
 }
 
 bool TreeConstruction::construct_tree()
