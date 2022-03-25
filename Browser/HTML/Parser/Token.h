@@ -8,6 +8,7 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <optional>
 #include <list>
 #include <initializer_list>
@@ -37,6 +38,8 @@ public:
     const std::optional<std::string>& name() const { return m_name; };
     
     const std::string& tag_name() const { return m_tag_name; }
+    
+    bool tag_name_is(std::string_view tag_name) const { return m_tag_name == tag_name; }
     bool tag_name_is_one_of(std::initializer_list<std::string_view> tag_names) const;
     
     const bool self_closing_flag() { return m_self_closing_flag; }

@@ -188,7 +188,7 @@ void TreeConstruction::apply_rules_for_before_html_insertion_mode(const Token& t
         return;
     }
     
-    if (token.is_start_tag() && token.tag_name() == "html")
+    if (token.is_start_tag() && token.tag_name_is("html"))
     {
         auto* element { create_element_for(token, Namespace::HTML, &m_document) };
         append(element, &m_document);
@@ -211,7 +211,7 @@ void TreeConstruction::apply_rules_for_before_head_insertion_mode(const Token& t
         return;
     }
     
-    if (token.is_start_tag() && token.tag_name() == "head")
+    if (token.is_start_tag() && token.tag_name_is("head"))
     {
         auto* element { insert_html_element_for(token) };
         m_head_element_pointer = element;
@@ -222,7 +222,7 @@ void TreeConstruction::apply_rules_for_before_head_insertion_mode(const Token& t
 
 void TreeConstruction::apply_rules_for_in_head_insertion_mode(const Token& token)
 {
-    if (token.is_end_tag() && token.tag_name() == "head")
+    if (token.is_end_tag() && token.tag_name_is("head"))
     {
         m_stack_of_open_elements.pop();
         switch_to(InsertionMode::AfterHead);
@@ -244,7 +244,7 @@ void TreeConstruction::apply_rules_for_after_head_insertion_mode(const Token& to
         return;
     }
     
-    if (token.is_start_tag() && token.tag_name() == "body")
+    if (token.is_start_tag() && token.tag_name_is("body"))
     {
         insert_html_element_for(token);
         m_frameset_ok_flag = FramesetOkFlag::NotOk;
@@ -268,7 +268,7 @@ void TreeConstruction::apply_rules_for_in_body_insertion_mode(const Token& token
         return;
     }
     
-    if (token.is_end_tag() && token.tag_name() == "body")
+    if (token.is_end_tag() && token.tag_name_is("body"))
     {
         switch_to(InsertionMode::AfterBody);
         return;
@@ -304,7 +304,7 @@ void TreeConstruction::apply_rules_for_after_body_insertion_mode(const Token& to
         return;
     }
     
-    if (token.is_end_tag() && token.tag_name() == "body")
+    if (token.is_end_tag() && token.tag_name_is("body"))
     {
         switch_to(InsertionMode::AfterAfterBody);
     }
@@ -320,7 +320,7 @@ void TreeConstruction::apply_rules_for_after_after_body_insertion_mode(const Tok
     
     if (token.is_doctype()
     || (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
-    || (token.is_start_tag() && token.tag_name() == "html"))
+    || (token.is_start_tag() && token.tag_name_is("html")))
     {
         process_using_rules_for(InsertionMode::InBody, token);
         return;
