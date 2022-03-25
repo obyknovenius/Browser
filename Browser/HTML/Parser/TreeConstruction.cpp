@@ -91,6 +91,24 @@ void TreeConstruction::insert_comment(const Token& token, std::optional<Insertio
     insert_at(node, adjusted_insertion_location);
 }
 
+bool TreeConstruction::construct_tree()
+{
+    while (!m_tokens.empty())
+    {
+        const Token& next_token = m_tokens.front();
+        dispatch(next_token);
+        m_tokens.pop();
+        
+        std::cout << next_token;
+        
+        if (next_token.is_end_of_file())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void TreeConstruction::dispatch(const Token& token)
 {
     process_using_the_rules_for(m_insertion_mode, token);

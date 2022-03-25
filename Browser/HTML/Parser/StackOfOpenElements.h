@@ -18,24 +18,24 @@ namespace HTML {
 class StackOfOpenElements
 {
 public:
-    Element* topmost() { return m_queue.front(); }
-    Element* bottommost() { return m_queue.back(); }
+    Element* topmost() { return m_deque.front(); }
+    Element* bottommost() { return m_deque.back(); }
     
-    void push(Element* element) { m_queue.push_back(element); }
+    void push(Element* element) { m_deque.push_back(element); }
     
     Element* pop()
     {
-        auto* element { m_queue.back() };
-        m_queue.pop_back();
+        auto* element { m_deque.back() };
+        m_deque.pop_back();
         return element;
     }
     
     void pop_until(const std::function<bool(Element*)>& until);
     
-    void pop_all() { m_queue.clear(); }
+    void pop_all() { m_deque.clear(); }
 
 private:
-    std::deque<Element*> m_queue {};
+    std::deque<Element*> m_deque {};
 };
 
 }

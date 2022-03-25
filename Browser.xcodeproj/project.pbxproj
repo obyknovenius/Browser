@@ -216,6 +216,8 @@
 			isa = PBXGroup;
 			children = (
 				B732A0CF27E50C58008D61BF /* XMLCompatability.h */,
+				B71C118C2784A2E40098A611 /* Parser.cpp */,
+				B71C118D2784A2E40098A611 /* Parser.h */,
 				B7F60EF027E267E100021C5B /* Parser */,
 				B7B3D14527D918340043B0CE /* HTMLElement.cpp */,
 				B7B3D14627D918340043B0CE /* HTMLElement.h */,
@@ -272,8 +274,6 @@
 				B754B2BD2772635C003E8566 /* Tokenizer.h */,
 				B754B2BF277338C8003E8566 /* Token.cpp */,
 				B754B2C0277338C8003E8566 /* Token.h */,
-				B71C118C2784A2E40098A611 /* Parser.cpp */,
-				B71C118D2784A2E40098A611 /* Parser.h */,
 				B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */,
 				B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */,
 				B7F60EF127E2684D00021C5B /* StackOfOpenElements.cpp */,

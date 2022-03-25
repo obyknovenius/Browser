@@ -13,11 +13,11 @@ void StackOfOpenElements::pop_until(const std::function<bool(Element*)>& until)
 {
     for (;;)
     {
-        if (until(m_queue.back()))
+        if (until(m_deque.back()))
         {
             return;
         }
-        m_queue.pop_back();
+        m_deque.pop_back();
     }
 }
 

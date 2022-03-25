@@ -11,6 +11,7 @@
 #include "Token.h"
 #include "StackOfOpenElements.h"
 #include "../../DOM/Element.h"
+#include <queue>
 #include <optional>
 
 using namespace DOM;
@@ -26,12 +27,14 @@ struct InsertionLocation
 class TreeConstruction
 {
 public:
-    TreeConstruction(Document& document) : m_document { document } {}
+    TreeConstruction(Document& document, std::queue<Token>& tokens) : m_document { document }, m_tokens { tokens } {}
     
-    void dispatch(const Token&);
+    bool construct_tree();
     
 private:
     Document& m_document;
+    
+    std::queue<Token>& m_tokens;
     
     enum class InsertionMode
     {
@@ -58,6 +61,8 @@ private:
     };
     
     FramesetOkFlag m_frameset_ok_flag { FramesetOkFlag::Ok };
+    
+    void dispatch(const Token& token);
     
     void switch_to(InsertionMode insertion_mode) { m_insertion_mode = insertion_mode; }
         

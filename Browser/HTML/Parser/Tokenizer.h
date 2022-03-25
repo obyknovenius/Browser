@@ -20,7 +20,9 @@ class Tokenizer
 public:
     Tokenizer(std::ifstream& input_stream) : m_input_stream { input_stream } {}
     
-    void operator>>(Token& token);
+    std::queue<Token>& tokens() { return m_tokens; }
+    
+    void resume();
     
 private:
     enum class State
@@ -69,9 +71,9 @@ private:
     int m_current_input_character {};
     size_t m_number_of_characters_to_consume {};
     
+    Token m_current_token {};
+        
     std::queue<Token> m_tokens {};
-    
-    Token m_current_token;
     
     void switch_to(State state) { m_state = state; }
     void reconsume_in(State state)
@@ -94,26 +96,26 @@ private:
     
     Token& create_doctype_token()
     {
-        m_current_token = { Token::Type::DOCTYPE };
+        m_current_token = Token { Token::Type::DOCTYPE };
         return m_current_token;
     }
     
     Token& create_start_tag_token()
     {
-        m_current_token = { Token::Type::StartTag };
+        m_current_token = Token { Token::Type::StartTag };
         return m_current_token;
     }
     
     Token& create_end_tag_token()
     {
-        m_current_token = { Token::Type::EndTag };
+        m_current_token = Token { Token::Type::EndTag };
         return m_current_token;
     }
     
     Token& create_comment_token(std::string_view data)
     {
-        m_current_token = { Token::Type::Comment };
-        m_current_token.data() = data;
+        m_current_token = Token { Token::Type::Comment };
+        m_current_token.m_data = data;
         return m_current_token;
     }
     
@@ -127,7 +129,6 @@ private:
     {
         assert(m_current_token.is_start_tag() || m_current_token.is_end_tag());
         return m_current_token;
-        
     }
     
     Token& current_comment_token()
@@ -138,14 +139,14 @@ private:
     
     void emit_current_input_character_as_character_token()
     {
-        Token token = { Token::Type::Character };
-        token.data() = m_current_input_character;
+        Token token = Token { Token::Type::Character };
+        token.m_data = m_current_input_character;
         m_tokens.push(token);
     }
     
     void emit_end_of_file_token()
     {
-        m_tokens.push({ Token::Type::EndOfFile });
+        m_tokens.push(Token { Token::Type::EndOfFile });
     }
     
     void emit_current_token()
