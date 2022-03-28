@@ -9,6 +9,8 @@
 
 #include "HTML/Parser.h"
 #include "DOM/Document.h"
+#include "CSS/Tokenizer.h"
+#include <iostream>
 
 @interface AppDelegate ()
 
@@ -25,6 +27,17 @@
     DOM::Document* document { parser.parse() };
 
     DOM::print_tree(document);
+    
+    std::ifstream input { "/Users/obyknovenius/Developer/Personal/Browser/test.css" };
+    CSS::Tokenizer tokenizer { input };
+    
+    CSS::Token token {};
+    do
+    {
+        token = tokenizer.consume_token();
+        std::cout << token;
+    }
+    while (!token.is_eof());
 }
 
 

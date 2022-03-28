@@ -1,5 +1,5 @@
 //
-//  Tokenizer.hpp
+//  Tokenizer.h
 //  Browser
 //
 //  Created by Vitaly Dyachkov on 21.12.21.
@@ -15,7 +15,7 @@
 
 namespace HTML {
 
-class Tokenizer
+class Tokenizer final
 {
 public:
     Tokenizer(std::ifstream& input_stream) : m_input_stream { input_stream } {}
@@ -25,6 +25,8 @@ public:
     void resume();
     
 private:
+    std::ifstream& m_input_stream;
+    
     enum class State
     {
         Data,
@@ -66,9 +68,7 @@ private:
     
     State m_state { State::Data };
     
-    std::ifstream& m_input_stream;
-    
-    int m_current_input_character {};
+    char m_current_input_character {};
     size_t m_number_of_characters_to_consume {};
     
     Token m_current_token {};
@@ -76,19 +76,18 @@ private:
     std::queue<Token> m_tokens {};
     
     void switch_to(State state) { m_state = state; }
+    
+    void consume_next_input_character() { m_current_input_character = m_input_stream.get(); }
     void reconsume_in(State state)
     {
         m_input_stream.unget();
         m_state = state;
     }
     
-    void consume_next_input_character() { m_current_input_character = m_input_stream.get(); }
-    
-    int current_input_character() { return m_current_input_character; }
-    
-    bool current_input_character_is(int character) { return current_input_character() == character; }
-    bool current_input_character_is_ascii_alpha() { return isalpha(current_input_character()); }
-    bool current_input_character_is_ascii_upper_alpha() { return isupper(current_input_character()); }
+    bool current_input_character_is_eof() { return m_input_stream.eof(); };
+    bool current_input_character_is(char character) { return m_current_input_character == character; }
+    bool current_input_character_is_ascii_alpha() { return isalpha(m_current_input_character); }
+    bool current_input_character_is_ascii_upper_alpha() { return isupper(m_current_input_character); }
     
     bool next_few_characters_are(const std::string_view characters);
     bool next_few_characters_are_ascii_case_insensitive(const std::string_view characters);

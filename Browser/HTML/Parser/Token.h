@@ -1,5 +1,5 @@
 //
-//  Token.hpp
+//  Token.h
 //  Browser
 //
 //  Created by Vitaly Dyachkov on 22.12.21.

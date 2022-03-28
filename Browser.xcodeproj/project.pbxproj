@@ -27,6 +27,9 @@
 		B754B2C327747F07003E8566 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = B754B2C227747F07003E8566 /* test.html */; };
 		B795C20D27C8D4E90032297C /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20B27C8D4E90032297C /* Node.cpp */; };
 		B795C21027C8EDBA0032297C /* Comment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20E27C8EDBA0032297C /* Comment.cpp */; };
+		B7ACB13C27EE40DB00227C13 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7ACB13A27EE40DB00227C13 /* Tokenizer.cpp */; };
+		B7ACB13F27EE429600227C13 /* Token.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7ACB13D27EE429600227C13 /* Token.cpp */; };
+		B7ACB14127EE440B00227C13 /* test.css in Resources */ = {isa = PBXBuildFile; fileRef = B7ACB14027EE440B00227C13 /* test.css */; };
 		B7B3D14427D917440043B0CE /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7B3D14227D917440043B0CE /* Element.cpp */; };
 		B7B3D14727D918340043B0CE /* HTMLElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7B3D14527D918340043B0CE /* HTMLElement.cpp */; };
 		B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */; };
@@ -97,6 +100,11 @@
 		B795C20C27C8D4E90032297C /* Node.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		B795C20E27C8EDBA0032297C /* Comment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Comment.cpp; sourceTree = "<group>"; };
 		B795C20F27C8EDBA0032297C /* Comment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		B7ACB13A27EE40DB00227C13 /* Tokenizer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tokenizer.cpp; sourceTree = "<group>"; };
+		B7ACB13B27EE40DB00227C13 /* Tokenizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tokenizer.h; sourceTree = "<group>"; };
+		B7ACB13D27EE429600227C13 /* Token.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Token.cpp; sourceTree = "<group>"; };
+		B7ACB13E27EE429600227C13 /* Token.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
+		B7ACB14027EE440B00227C13 /* test.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = test.css; sourceTree = "<group>"; };
 		B7B3D14227D917440043B0CE /* Element.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Element.cpp; sourceTree = "<group>"; };
 		B7B3D14327D917440043B0CE /* Element.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Element.h; sourceTree = "<group>"; };
 		B7B3D14527D918340043B0CE /* HTMLElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HTMLElement.cpp; sourceTree = "<group>"; };
@@ -147,6 +155,7 @@
 		B754B2782772461D003E8566 = {
 			isa = PBXGroup;
 			children = (
+				B7ACB14027EE440B00227C13 /* test.css */,
 				B754B2C227747F07003E8566 /* test.html */,
 				B754B2832772461D003E8566 /* Browser */,
 				B754B2992772461F003E8566 /* BrowserTests */,
@@ -208,6 +217,10 @@
 			children = (
 				B754B2B72772468A003E8566 /* Box.cpp */,
 				B754B2B82772468A003E8566 /* Box.h */,
+				B7ACB13A27EE40DB00227C13 /* Tokenizer.cpp */,
+				B7ACB13B27EE40DB00227C13 /* Tokenizer.h */,
+				B7ACB13D27EE429600227C13 /* Token.cpp */,
+				B7ACB13E27EE429600227C13 /* Token.h */,
 			);
 			path = CSS;
 			sourceTree = "<group>";
@@ -388,6 +401,7 @@
 				B754B28B2772461F003E8566 /* Assets.xcassets in Resources */,
 				B754B28E2772461F003E8566 /* Main.storyboard in Resources */,
 				B754B2C327747F07003E8566 /* test.html in Resources */,
+				B7ACB14127EE440B00227C13 /* test.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B722914827DA8581008C6DBE /* HTMLHtmlElement.cpp in Sources */,
+				B7ACB13F27EE429600227C13 /* Token.cpp in Sources */,
 				B71C118E2784A2E40098A611 /* Parser.cpp in Sources */,
 				B7F60EF327E2684D00021C5B /* StackOfOpenElements.cpp in Sources */,
 				B722914B27DA85A4008C6DBE /* HTMLHeadElement.cpp in Sources */,
@@ -426,6 +441,7 @@
 				B7B3D14427D917440043B0CE /* Element.cpp in Sources */,
 				B795C20D27C8D4E90032297C /* Node.cpp in Sources */,
 				B709D92F27D0E5C000FD3B22 /* DocumentType.cpp in Sources */,
+				B7ACB13C27EE40DB00227C13 /* Tokenizer.cpp in Sources */,
 				B754B2902772461F003E8566 /* main.m in Sources */,
 				B7B3D14727D918340043B0CE /* HTMLElement.cpp in Sources */,
 				B7CA6F5E27D220EC0071D699 /* Tree.cpp in Sources */,

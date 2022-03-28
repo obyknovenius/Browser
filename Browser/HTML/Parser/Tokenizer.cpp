@@ -70,7 +70,7 @@ void Tokenizer::resume()
                 {
                     switch_to(State::TagOpen);
                 }
-                else if (current_input_character_is(EOF))
+                else if (current_input_character_is_eof())
                 {
                     emit_end_of_file_token();
                     return;
@@ -133,7 +133,7 @@ void Tokenizer::resume()
                 }
                 else
                 {
-                    current_tag_token().m_tag_name += current_input_character();
+                    current_tag_token().m_tag_name += m_current_input_character;
                 }
                 break;
             }
@@ -154,11 +154,11 @@ void Tokenizer::resume()
                 }
                 else if (current_input_character_is_ascii_upper_alpha())
                 {
-                    current_tag_token().current_attribute().name += lowercase(current_input_character());
+                    current_tag_token().current_attribute().name += lowercase(m_current_input_character);
                 }
                 else
                 {
-                    current_tag_token().current_attribute().name += current_input_character();
+                    current_tag_token().current_attribute().name += m_current_input_character;
                 }
                 break;
             }
@@ -199,7 +199,7 @@ void Tokenizer::resume()
                 }
                 else
                 {
-                    current_tag_token().current_attribute().value += current_input_character();
+                    current_tag_token().current_attribute().value += m_current_input_character;
                 }
                 break;
             }
@@ -258,7 +258,7 @@ void Tokenizer::resume()
                 }
                 else
                 {
-                    current_comment_token().m_data += current_input_character();
+                    current_comment_token().m_data += m_current_input_character;
                 }
                 break;
             }
@@ -321,7 +321,7 @@ void Tokenizer::resume()
                 else if (current_input_character_is_ascii_alpha())
                 {
                     auto& doctype { create_doctype_token() };
-                    *doctype.m_name = lowercase(current_input_character());
+                    *doctype.m_name = lowercase(m_current_input_character);
                     switch_to(State::DoctypeName);
                 }
                 break;
@@ -345,7 +345,7 @@ void Tokenizer::resume()
                 }
                 else
                 {
-                    *current_doctype_token().m_name += current_input_character();
+                    *current_doctype_token().m_name += m_current_input_character;
                 }
                 break;
             }
