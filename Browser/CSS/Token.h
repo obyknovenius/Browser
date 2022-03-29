@@ -8,6 +8,7 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <iostream>
 
 namespace CSS {
@@ -19,14 +20,17 @@ class Token final
 public:
     Token() = default;
     
+    bool is_whitespace() const { return m_type == Type::Whitespace; }
+    bool is_left_curly_bracket() const { return m_type == Type::LeftCurlyBracket; }
     bool is_eof() const { return m_type == Type::EOF_; }
-    
+        
     friend std::ostream& operator<<(std::ostream& out, const Token& token);
     
 private:
     enum class Type
     {
         Invalid,
+        Indent,
         Delim,
         Whitespace,
         Colon,
@@ -38,6 +42,7 @@ private:
     
     Token(Type type) : m_type { type } {}
     Token(Type type, char value) : m_type { type },  m_value { value } {}
+    Token(Type type, std::string_view value) : m_type { type },  m_value { value } {}
     
     Type m_type { Type::Invalid };
     

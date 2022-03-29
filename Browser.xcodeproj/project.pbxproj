@@ -73,6 +73,8 @@
 		B722914C27DA9540008C6DBE /* Interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Interface.h; sourceTree = "<group>"; };
 		B7273ED427D94AD900CA9D7D /* Namespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Namespace.h; sourceTree = "<group>"; };
 		B732A0CF27E50C58008D61BF /* XMLCompatability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMLCompatability.h; sourceTree = "<group>"; };
+		B73F18B527F4E20900430C0C /* CodePoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodePoint.h; sourceTree = "<group>"; };
+		B73F18B627F4E85400430C0C /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
 		B754B2812772461D003E8566 /* Browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B754B2842772461D003E8566 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B754B2852772461D003E8566 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -276,6 +278,8 @@
 				B7273ED427D94AD900CA9D7D /* Namespace.h */,
 				B721C6D827D20B3300D9539F /* List.cpp */,
 				B721C6D927D20B3300D9539F /* List.h */,
+				B73F18B527F4E20900430C0C /* CodePoint.h */,
+				B73F18B627F4E85400430C0C /* String.h */,
 			);
 			path = Infra;
 			sourceTree = "<group>";

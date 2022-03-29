@@ -37,7 +37,7 @@ Interface element_interface_for(const std::string& local_name, const std::string
             return Interface::HTMLBodyElement;
         }
         else if (local_name == "h1" || local_name == "h2" || local_name == "h3"
-                || local_name == "h4" || local_name == "h5" || local_name == "h6")
+        || local_name == "h4" || local_name == "h5" || local_name == "h6")
         {
             return Interface::HTMLHeadingElement;
         }

@@ -30,14 +30,7 @@
     
     std::ifstream input { "/Users/obyknovenius/Developer/Personal/Browser/test.css" };
     CSS::Tokenizer tokenizer { input };
-    
-    CSS::Token token {};
-    do
-    {
-        token = tokenizer.consume_token();
-        std::cout << token;
-    }
-    while (!token.is_eof());
+    tokenizer.tokenize();
 }
 
 

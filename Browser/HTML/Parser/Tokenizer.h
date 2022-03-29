@@ -27,6 +27,8 @@ public:
 private:
     std::ifstream& m_input_stream;
     
+    std::queue<Token> m_tokens {};
+    
     enum class State
     {
         Data,
@@ -68,47 +70,35 @@ private:
     
     State m_state { State::Data };
     
-    char m_current_input_character {};
-    size_t m_number_of_characters_to_consume {};
+    int m_current_input_character {};
     
     Token m_current_token {};
-        
-    std::queue<Token> m_tokens {};
     
     void switch_to(State state) { m_state = state; }
     
-    void consume_next_input_character() { m_current_input_character = m_input_stream.get(); }
+    int consume_next_input_character() { return m_current_input_character = m_input_stream.get(); }
     void reconsume_in(State state)
     {
-        m_input_stream.unget();
+        m_input_stream.putback(m_current_input_character);
         m_state = state;
     }
     
-    bool current_input_character_is_eof() { return m_input_stream.eof(); };
-    bool current_input_character_is(char character) { return m_current_input_character == character; }
-    bool current_input_character_is_ascii_alpha() { return isalpha(m_current_input_character); }
-    bool current_input_character_is_ascii_upper_alpha() { return isupper(m_current_input_character); }
-    
-    bool next_few_characters_are(const std::string_view characters);
-    bool next_few_characters_are_ascii_case_insensitive(const std::string_view characters);
-    void consume_those_characters();
+    std::string next_characters(int count);
+    void consume_next_characters(int count);
     
     Token& create_doctype_token()
     {
-        m_current_token = Token { Token::Type::DOCTYPE };
-        return m_current_token;
+        return m_current_token = Token { Token::Type::DOCTYPE };
     }
     
     Token& create_start_tag_token()
     {
-        m_current_token = Token { Token::Type::StartTag };
-        return m_current_token;
+        return m_current_token = Token { Token::Type::StartTag };
     }
     
     Token& create_end_tag_token()
     {
-        m_current_token = Token { Token::Type::EndTag };
-        return m_current_token;
+        return m_current_token = Token { Token::Type::EndTag };
     }
     
     Token& create_comment_token(std::string_view data)
@@ -136,10 +126,10 @@ private:
         return m_current_token;
     }
     
-    void emit_current_input_character_as_character_token()
+    void emit_character_token(int character)
     {
         Token token = Token { Token::Type::Character };
-        token.m_data = m_current_input_character;
+        token.m_data = character;
         m_tokens.push(token);
     }
     

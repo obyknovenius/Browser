@@ -6,45 +6,91 @@
 //
 
 #include "Tokenizer.h"
+#include <iostream>
+#include <cstdio>
 
 namespace CSS {
 
+std::string Tokenizer::consume_ident_sequence()
+{
+    std::string result {};
+    
+    for(;;)
+    {
+        auto code_point { consume_next_input_code_point() };
+        
+        if (is_ident_code_point(code_point))
+        {
+            result += code_point;
+        }
+        else
+        {
+            reconsume_current_input_code_point();
+            return result;
+        }
+    }
+}
+
+Token Tokenizer::consume_ident_like_token()
+{
+    auto string { consume_ident_sequence() };
+    return { Token::Type::Indent, string };
+}
+
 Token Tokenizer::consume_token()
 {
-    consume_next_input_code_point();
+    auto code_point { consume_next_input_code_point() };
     
-    if (current_input_code_point_is_whitespace())
+    if (is_whitespace(code_point))
     {
         consume_as_much_whitespace_as_possible();
         return Token { Token::Type::Whitespace };
     }
     
-    if (current_input_code_point_is(':'))
+    if (code_point == ':')
     {
         return Token { Token::Type::Colon };
     }
     
-    if (current_input_code_point_is(';'))
+    if (code_point == ';')
     {
         return Token { Token::Type::Semicolon };
     }
     
-    if (current_input_code_point_is('{'))
+    if (code_point == '{')
     {
         return Token { Token::Type::LeftCurlyBracket };
     }
     
-    if (current_input_code_point_is('}'))
+    if (code_point == '}')
     {
         return Token { Token::Type::RightCurlyBracket };
     }
     
-    if (current_input_code_point_is_eof())
+    if (is_ident_start_code_point(code_point))
+    {
+        reconsume_current_input_code_point();
+        return consume_ident_like_token();
+    }
+    
+    if (code_point == EOF)
     {
         return Token { Token::Type::EOF_ };
     }
     
-    return Token { Token::Type::Delim, m_current_input_code_point };
+    return Token { Token::Type::Delim, static_cast<char>(m_current_input_code_point)};
+}
+
+void Tokenizer::tokenize()
+{
+    Token token {};
+    do
+    {
+        token = consume_token();
+        std::cout << token;
+        m_tokens.push(token);
+    }
+    while (!token.is_eof());
 }
 
 }
