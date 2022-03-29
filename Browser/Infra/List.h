@@ -13,6 +13,8 @@ template <typename T>
 class List
 {
 public:
+    virtual ~List() {}
+    
     virtual void append(T item) = 0;
 };
 

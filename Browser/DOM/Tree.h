@@ -22,6 +22,8 @@ public:
     class Participant
     {
     public:
+        virtual ~Participant() {}
+        
         virtual T* parent() = 0;
         
         virtual List<T*>& children() = 0;

@@ -18,12 +18,12 @@ class Document;
 class Node : Tree<Node>::Participant
 {
 public:
-    Node* parent() { return m_parent; }
+    Node* parent() override { return m_parent; }
     
-    List<Node*>& children() { return m_children; }
-    const List<Node*>& children() const { return m_children; }
+    List<Node*>& children() override { return m_children; }
+    const List<Node*>& children() const override { return m_children; }
     
-    Node* root()
+    Node* root() override
     {
         if (!parent())
         {
@@ -32,17 +32,17 @@ public:
         return parent()->root();
     }
     
-    Node* first_child() { return m_children.first_child(); }
-    const Node* first_child() const { return m_children.first_child(); }
+    Node* first_child() override { return m_children.first_child(); }
+    const Node* first_child() const override { return m_children.first_child(); }
     
-    Node* last_child() { return m_children.last_child(); }
-    const Node* last_child() const { return m_children.last_child(); }
+    Node* last_child() override { return m_children.last_child(); }
+    const Node* last_child() const override { return m_children.last_child(); }
     
-    Node* previous_sibling() { return m_previous_sibling; }
-    const Node* previous_sibling() const { return m_previous_sibling; }
+    Node* previous_sibling() override { return m_previous_sibling; }
+    const Node* previous_sibling() const override { return m_previous_sibling; }
     
-    Node* next_sibling() { return m_next_sibling; }
-    const Node* next_sibling() const { return m_next_sibling; }
+    Node* next_sibling() override { return m_next_sibling; }
+    const Node* next_sibling() const override { return m_next_sibling; }
     
     Document* node_document() { return m_node_document; }
     
