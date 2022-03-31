@@ -6,6 +6,7 @@
 //
 
 #include "Token.h"
+#include <iostream>
 #include <cassert>
 
 namespace CSS {
@@ -16,7 +17,7 @@ std::ostream& operator<<(std::ostream& out, const Token& token)
     {
         case Token::Type::Indent:
         case Token::Type::Delim:
-            out << '<' << token.m_value << '>';
+            out << token.m_value;
             break;
         case Token::Type::Whitespace:
             out << ' ';

@@ -40,6 +40,9 @@
 		B7F60EEC27E2520100021C5B /* HTMLBodyElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F60EEA27E2520100021C5B /* HTMLBodyElement.cpp */; };
 		B7F60EEF27E25D8400021C5B /* HTMLHeadingElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F60EED27E25D8400021C5B /* HTMLHeadingElement.cpp */; };
 		B7F60EF327E2684D00021C5B /* StackOfOpenElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F60EF127E2684D00021C5B /* StackOfOpenElements.cpp */; };
+		B7F8A73827F35D68003B265C /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F8A73627F35D68003B265C /* Parser.cpp */; };
+		B7F8A73E27F36714003B265C /* QualifiedRule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F8A73C27F36714003B265C /* QualifiedRule.cpp */; };
+		B7F8A74127F367E3003B265C /* ComponentValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F8A73F27F367E3003B265C /* ComponentValue.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +130,12 @@
 		B7F60EEE27E25D8400021C5B /* HTMLHeadingElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLHeadingElement.h; sourceTree = "<group>"; };
 		B7F60EF127E2684D00021C5B /* StackOfOpenElements.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StackOfOpenElements.cpp; sourceTree = "<group>"; };
 		B7F60EF227E2684D00021C5B /* StackOfOpenElements.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StackOfOpenElements.h; sourceTree = "<group>"; };
+		B7F8A73627F35D68003B265C /* Parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
+		B7F8A73727F35D68003B265C /* Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
+		B7F8A73C27F36714003B265C /* QualifiedRule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QualifiedRule.cpp; sourceTree = "<group>"; };
+		B7F8A73D27F36714003B265C /* QualifiedRule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QualifiedRule.h; sourceTree = "<group>"; };
+		B7F8A73F27F367E3003B265C /* ComponentValue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ComponentValue.cpp; sourceTree = "<group>"; };
+		B7F8A74027F367E3003B265C /* ComponentValue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComponentValue.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +232,12 @@
 				B7ACB13B27EE40DB00227C13 /* Tokenizer.h */,
 				B7ACB13D27EE429600227C13 /* Token.cpp */,
 				B7ACB13E27EE429600227C13 /* Token.h */,
+				B7F8A73627F35D68003B265C /* Parser.cpp */,
+				B7F8A73727F35D68003B265C /* Parser.h */,
+				B7F8A73C27F36714003B265C /* QualifiedRule.cpp */,
+				B7F8A73D27F36714003B265C /* QualifiedRule.h */,
+				B7F8A73F27F367E3003B265C /* ComponentValue.cpp */,
+				B7F8A74027F367E3003B265C /* ComponentValue.h */,
 			);
 			path = CSS;
 			sourceTree = "<group>";
@@ -438,6 +453,7 @@
 				B754B2B52772463E003E8566 /* View.mm in Sources */,
 				B754B2892772461D003E8566 /* ViewController.m in Sources */,
 				B795C21027C8EDBA0032297C /* Comment.cpp in Sources */,
+				B7F8A73E27F36714003B265C /* QualifiedRule.cpp in Sources */,
 				B721C6DA27D20B3300D9539F /* List.cpp in Sources */,
 				B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */,
 				B7E6EAAA27DBCBBA00A9BF21 /* CharacterData.cpp in Sources */,
@@ -446,12 +462,14 @@
 				B795C20D27C8D4E90032297C /* Node.cpp in Sources */,
 				B709D92F27D0E5C000FD3B22 /* DocumentType.cpp in Sources */,
 				B7ACB13C27EE40DB00227C13 /* Tokenizer.cpp in Sources */,
+				B7F8A74127F367E3003B265C /* ComponentValue.cpp in Sources */,
 				B754B2902772461F003E8566 /* main.m in Sources */,
 				B7B3D14727D918340043B0CE /* HTMLElement.cpp in Sources */,
 				B7CA6F5E27D220EC0071D699 /* Tree.cpp in Sources */,
 				B7E6EAA727DBCB7B00A9BF21 /* Text.cpp in Sources */,
 				B754B2C1277338C8003E8566 /* Token.cpp in Sources */,
 				B7C70AE427C5388000BCBE9A /* Document.cpp in Sources */,
+				B7F8A73827F35D68003B265C /* Parser.cpp in Sources */,
 				B7F60EEF27E25D8400021C5B /* HTMLHeadingElement.cpp in Sources */,
 				B754B2BE2772635C003E8566 /* Tokenizer.cpp in Sources */,
 				B754B2862772461D003E8566 /* AppDelegate.mm in Sources */,

@@ -23,7 +23,6 @@ public:
     bool tag_name_is_one_of(std::initializer_list<std::string_view> tag_names) const;
     
 protected:
-    
     std::string to_string() const override;
 
 private:

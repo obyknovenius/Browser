@@ -9,22 +9,28 @@
 
 #include <string>
 #include <string_view>
-#include <iostream>
 
 namespace CSS {
 
 class Token final
 {
     friend class Tokenizer;
+    friend class Parser;
+    
+    friend std::ostream& operator<<(std::ostream& out, const Token& token);
     
 public:
     Token() = default;
     
     bool is_whitespace() const { return m_type == Type::Whitespace; }
     bool is_left_curly_bracket() const { return m_type == Type::LeftCurlyBracket; }
+    bool is_right_curly_bracket() const { return m_type == Type::RightCurlyBracket; }
     bool is_eof() const { return m_type == Type::EOF_; }
-        
-    friend std::ostream& operator<<(std::ostream& out, const Token& token);
+    
+    bool is_ending(Token& token) const
+    {
+        return (m_type == Type::RightCurlyBracket && token.m_type == Type::LeftCurlyBracket);
+    }
     
 private:
     enum class Type
@@ -46,10 +52,7 @@ private:
     
     Type m_type { Type::Invalid };
     
-    struct
-    {
-        std::string m_value {};
-    };
+    std::string m_value {};
 };
 
 }

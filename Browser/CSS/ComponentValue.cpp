@@ -1,0 +1,43 @@
+//
+//  ComponentValue.cpp
+//  Browser
+//
+//  Created by Vitaly Dyachkov on 29.03.22.
+//
+
+#include "ComponentValue.h"
+#include <iostream>
+
+namespace CSS {
+
+std::ostream& operator<<(std::ostream& out, const ComponentValue& component_value)
+{
+    switch (component_value.m_type) {
+        case ComponentValue::Type::Invalid:
+        {
+            break;
+        }
+        case ComponentValue::Type::PreservedToken:
+        {
+            out << component_value.m_token;
+            break;
+        }
+        case ComponentValue::Type::Function:
+        {
+            break;
+        }
+        case ComponentValue::Type::SimpleBlock:
+        {
+            out << "{\n";
+            for (auto token : component_value.m_value)
+            {
+                out << token;
+            }
+            out << "\n}";
+            break;
+        }
+    }
+    return out;
+}
+
+}
