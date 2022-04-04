@@ -11,7 +11,6 @@
 #include <fstream>
 #include <queue>
 #include <string_view>
-#include <cassert>
 
 namespace HTML {
 
@@ -86,62 +85,10 @@ private:
     std::string next_characters(int count);
     void consume_next_characters(int count);
     
-    Token& create_doctype_token()
-    {
-        return m_current_token = Token { Token::Type::DOCTYPE };
-    }
+    Token& create(Token::Type type) { return m_current_token = { type }; }
     
-    Token& create_start_tag_token()
-    {
-        return m_current_token = Token { Token::Type::StartTag };
-    }
-    
-    Token& create_end_tag_token()
-    {
-        return m_current_token = Token { Token::Type::EndTag };
-    }
-    
-    Token& create_comment_token(std::string_view data)
-    {
-        m_current_token = Token { Token::Type::Comment };
-        m_current_token.m_data = data;
-        return m_current_token;
-    }
-    
-    Token& current_doctype_token()
-    {
-        assert(m_current_token.is_doctype());
-        return m_current_token;
-    }
-    
-    Token& current_tag_token()
-    {
-        assert(m_current_token.is_start_tag() || m_current_token.is_end_tag());
-        return m_current_token;
-    }
-    
-    Token& current_comment_token()
-    {
-        assert(m_current_token.is_comment());
-        return m_current_token;
-    }
-    
-    void emit_character_token(int character)
-    {
-        Token token = Token { Token::Type::Character };
-        token.m_data = character;
-        m_tokens.push(token);
-    }
-    
-    void emit_end_of_file_token()
-    {
-        m_tokens.push(Token { Token::Type::EndOfFile });
-    }
-    
-    void emit_current_token()
-    {
-        m_tokens.push(m_current_token);
-    }
+    void emit(const Token& token) { m_tokens.push(token); }
+    void emit(char character) { m_tokens.push(character); }
 };
 
 }

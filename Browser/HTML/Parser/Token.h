@@ -66,6 +66,7 @@ private:
     
     Token() = default;
     Token(Type type) : m_type { type } {}
+    Token(char character) : m_type { Type::Character }, m_data { character } {}
     
     Type m_type { Type::Invalid };
     

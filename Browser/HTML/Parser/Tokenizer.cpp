@@ -50,12 +50,12 @@ void Tokenizer::resume()
                 }
                 else if (character == EOF)
                 {
-                    emit_end_of_file_token();
+                    emit(Token::Type::EndOfFile);
                     return;
                 }
                 else
                 {
-                    emit_character_token(m_current_input_character);
+                    emit(m_current_input_character);
                     return;
                 }
                 break;
@@ -74,7 +74,7 @@ void Tokenizer::resume()
                 }
                 else if (is_ascii_alpha(character))
                 {
-                    auto& start_tag { create_start_tag_token() };
+                    auto& start_tag { create(Token::Type::StartTag) };
                     start_tag.m_tag_name = "";
                     reconsume_in(State::TagName);
                 }
@@ -86,7 +86,7 @@ void Tokenizer::resume()
                 
                 if (is_ascii_alpha(character))
                 {
-                    auto& end_tag { create_end_tag_token() };
+                    auto& end_tag { create(Token::Type::EndTag) };
                     end_tag.m_tag_name = "";
                     reconsume_in(State::TagName);
                 }
@@ -106,19 +106,19 @@ void Tokenizer::resume()
                 else if (character == '>')
                 {
                     switch_to(State::Data);
-                    emit_current_token();
+                    emit(m_current_token);
                     return;
                 }
                 else
                 {
-                    current_tag_token().m_tag_name += m_current_input_character;
+                    m_current_token.m_tag_name += m_current_input_character;
                 }
                 break;
             }
             case State::BeforeAttributeName:
             {
                 consume_next_input_character();
-                current_tag_token().start_new_attribute();
+                m_current_token.start_new_attribute();
                 reconsume_in(State::AttributeName);
                 break;
             }
@@ -132,11 +132,11 @@ void Tokenizer::resume()
                 }
                 else if (is_ascii_upper_alpha(character))
                 {
-                    current_tag_token().current_attribute().name += (m_current_input_character + 0x0020);
+                    m_current_token.current_attribute().name += (m_current_input_character + 0x0020);
                 }
                 else
                 {
-                    current_tag_token().current_attribute().name += m_current_input_character;
+                    m_current_token.current_attribute().name += m_current_input_character;
                 }
                 break;
             }
@@ -172,12 +172,12 @@ void Tokenizer::resume()
                 if (character == '>')
                 {
                     switch_to(State::Data);
-                    emit_current_token();
+                    emit(m_current_token);
                     return;
                 }
                 else
                 {
-                    current_tag_token().current_attribute().value += m_current_input_character;
+                    m_current_token.current_attribute().value += m_current_input_character;
                 }
                 break;
             }
@@ -192,7 +192,7 @@ void Tokenizer::resume()
                 if (next_characters(2) == "--")
                 {
                     consume_next_characters(2);
-                    create_comment_token("");
+                    create(Token::Type::Comment);
                     switch_to(State::CommentStart);
                 }
                 else if (is_ascii_case_insensitive_match(next_characters(7), "DOCTYPE"))
@@ -236,7 +236,7 @@ void Tokenizer::resume()
                 }
                 else
                 {
-                    current_comment_token().m_data += m_current_input_character;
+                    m_current_token.m_data += m_current_input_character;
                 }
                 break;
             }
@@ -257,7 +257,7 @@ void Tokenizer::resume()
                 if (character == '>')
                 {
                     switch_to(State::Data);
-                    emit_current_token();
+                    emit(m_current_token);
                     return;
                 }
                 break;
@@ -298,13 +298,13 @@ void Tokenizer::resume()
                 }
                 else if (is_ascii_upper_alpha(character))
                 {
-                    auto& doctype { create_doctype_token() };
+                    auto& doctype { create(Token::Type::DOCTYPE) };
                     doctype.m_name = { static_cast<char>(m_current_input_character + 0x0020) };
                     switch_to(State::DoctypeName);
                 }
                 else
                 {
-                    auto& doctype { create_doctype_token() };
+                    auto& doctype { create(Token::Type::DOCTYPE) };
                     doctype.m_name = { static_cast<char>(m_current_input_character) };
                     switch_to(State::DoctypeName);
                 }
@@ -324,16 +324,16 @@ void Tokenizer::resume()
                 else if (character == '>')
                 {
                     switch_to(State::Data);
-                    emit_current_token();
+                    emit(m_current_token);
                     return;
                 }
                 else if (is_ascii_upper_alpha(character))
                 {
-                    *current_doctype_token().m_name += (m_current_input_character + 0x0020);
+                    *m_current_token.m_name += (m_current_input_character + 0x0020);
                 }
                 else
                 {
-                    *current_doctype_token().m_name += m_current_input_character;
+                    *m_current_token.m_name += m_current_input_character;
                 }
                 break;
             }
