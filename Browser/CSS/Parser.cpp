@@ -11,7 +11,7 @@ namespace CSS {
 
 ComponentValue Parser::consume_component_value()
 {
-    Token& token { consume_next_input_token() };
+    const Token& token { consume_next_input_token() };
     
     if (token.is_left_curly_bracket())
     {
@@ -26,7 +26,7 @@ ComponentValue Parser::consume_simple_block()
     
     for(;;)
     {
-        Token& token { consume_next_input_token() };
+        const Token& token { consume_next_input_token() };
         
         if (token.is_ending(simple_block.m_token))
         {
@@ -46,17 +46,17 @@ QualifiedRule Parser::consume_qualified_rule()
     
     for(;;)
     {
-        Token& token { consume_next_input_token() };
+        const Token& token { consume_next_input_token() };
         
         if (token.is_left_curly_bracket())
         {
-            qualified_rule.block() = consume_simple_block();
+            qualified_rule.m_block = consume_simple_block();
             return qualified_rule;
         }
         else
         {
             reconsume_current_input_token();
-            qualified_rule.prelude().push_back(consume_component_value());
+            qualified_rule.m_prelude.push_back(consume_component_value());
         }
     }
 }

@@ -20,6 +20,8 @@ namespace HTML
 class Token final
 {
     friend class Tokenizer;
+    
+    friend std::ostream& operator<<(std::ostream& out, const Token& token);
 
 public:
     struct Attribute
@@ -42,15 +44,13 @@ public:
     bool tag_name_is(std::string_view tag_name) const { return m_tag_name == tag_name; }
     bool tag_name_is_one_of(std::initializer_list<std::string_view> tag_names) const;
     
-    const bool self_closing_flag() { return m_self_closing_flag; }
+    bool self_closing_flag() { return m_self_closing_flag; }
     
-    const std::list<Attribute>& attributes() { return m_attributes; }
+    const std::list<Attribute>& attributes() const { return m_attributes; }
     
     const std::string& data() const { return m_data; };
     
     bool is_one_of(std::initializer_list<char> characters) const;
-    
-    friend std::ostream& operator<<(std::ostream& out, const Token& token);
 
 private:
     enum class Type

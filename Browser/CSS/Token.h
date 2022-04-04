@@ -49,7 +49,7 @@ private:
     Token(Type type) : m_type { type } {}
     Token(Type type, char value) : m_type { type },  m_value { value } {}
     Token(Type type, std::string_view value) : m_type { type },  m_value { value } {}
-    
+            
     Type m_type { Type::Invalid };
     
     std::string m_value {};

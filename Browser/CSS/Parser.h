@@ -29,13 +29,13 @@ public:
 private:
     std::queue<Token>& m_tokens;
     
-    Token m_eof_token { Token::Type::EOF_ };
+    const Token m_eof_token { Token::Type::EOF_ };
     
     Token m_current_input_token {};
     
     bool m_reconsume { false };
     
-    Token& next_input_token()
+    const Token& next_input_token()
     {
         if (m_tokens.empty())
         {
@@ -44,7 +44,7 @@ private:
         return m_tokens.front();
     }
     
-    Token& consume_next_input_token()
+    const Token& consume_next_input_token()
     {
         if (m_reconsume)
         {
