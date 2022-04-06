@@ -28,7 +28,7 @@ std::string Tokenizer::next_characters(int count)
 
 void Tokenizer::consume_next_characters(int count)
 {
-    for ( int i { 0 }; i < count; ++i)
+    for (int i { 0 }; i < count; ++i)
     {
         consume_next_input_character();
     }
@@ -55,7 +55,7 @@ void Tokenizer::resume()
                 }
                 else
                 {
-                    emit(m_current_input_character);
+                    emit(character);
                     return;
                 }
                 break;
@@ -111,13 +111,13 @@ void Tokenizer::resume()
                 }
                 else
                 {
-                    m_current_token.m_tag_name += m_current_input_character;
+                    m_current_token.m_tag_name += character;
                 }
                 break;
             }
             case State::BeforeAttributeName:
             {
-                consume_next_input_character();
+                auto character { consume_next_input_character() };
                 m_current_token.start_new_attribute();
                 reconsume_in(State::AttributeName);
                 break;
@@ -132,11 +132,11 @@ void Tokenizer::resume()
                 }
                 else if (is_ascii_upper_alpha(character))
                 {
-                    m_current_token.current_attribute().name += (m_current_input_character + 0x0020);
+                    m_current_token.current_attribute().name += (character + 0x0020);
                 }
                 else
                 {
-                    m_current_token.current_attribute().name += m_current_input_character;
+                    m_current_token.current_attribute().name += character;
                 }
                 break;
             }
@@ -148,7 +148,7 @@ void Tokenizer::resume()
             }
             case State::BeforeAttributeValue:
             {
-                consume_next_input_character();
+                int character = consume_next_input_character();
                 
                 reconsume_in(State::AttributeValueUnquoted);
                 break;
@@ -177,7 +177,7 @@ void Tokenizer::resume()
                 }
                 else
                 {
-                    m_current_token.current_attribute().value += m_current_input_character;
+                    m_current_token.current_attribute().value += character;
                 }
                 break;
             }
@@ -236,7 +236,7 @@ void Tokenizer::resume()
                 }
                 else
                 {
-                    m_current_token.m_data += m_current_input_character;
+                    m_current_token.m_data += character;
                 }
                 break;
             }
@@ -264,7 +264,7 @@ void Tokenizer::resume()
             }
             case State::CommentEndBang:
             {
-                consume_next_input_character();
+                auto character { consume_next_input_character() };
                 
                 reconsume_in(State::Comment);
                 break;
@@ -299,13 +299,13 @@ void Tokenizer::resume()
                 else if (is_ascii_upper_alpha(character))
                 {
                     auto& doctype { create(Token::Type::DOCTYPE) };
-                    doctype.m_name = { static_cast<char>(m_current_input_character + 0x0020) };
+                    doctype.m_name = { static_cast<char>(character + 0x0020) };
                     switch_to(State::DoctypeName);
                 }
                 else
                 {
                     auto& doctype { create(Token::Type::DOCTYPE) };
-                    doctype.m_name = { static_cast<char>(m_current_input_character) };
+                    doctype.m_name = { static_cast<char>(character) };
                     switch_to(State::DoctypeName);
                 }
                 break;
@@ -329,11 +329,11 @@ void Tokenizer::resume()
                 }
                 else if (is_ascii_upper_alpha(character))
                 {
-                    *m_current_token.m_name += (m_current_input_character + 0x0020);
+                    *m_current_token.m_name += (character + 0x0020);
                 }
                 else
                 {
-                    *m_current_token.m_name += m_current_input_character;
+                    *m_current_token.m_name += character;
                 }
                 break;
             }

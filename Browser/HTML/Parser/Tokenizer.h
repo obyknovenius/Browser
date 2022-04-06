@@ -68,17 +68,15 @@ private:
     };
     
     State m_state { State::Data };
-    
-    int m_current_input_character {};
-    
+        
     Token m_current_token {};
     
     void switch_to(State state) { m_state = state; }
     
-    int consume_next_input_character() { return m_current_input_character = m_input_stream.get(); }
+    int consume_next_input_character() { return m_input_stream.get(); }
     void reconsume_in(State state)
     {
-        m_input_stream.putback(m_current_input_character);
+        m_input_stream.unget();
         m_state = state;
     }
     
