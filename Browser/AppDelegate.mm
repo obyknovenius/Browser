@@ -11,7 +11,7 @@
 #include "DOM/Document.h"
 #include "CSS/Parser.h"
 #include "CSS/Tokenizer.h"
-#include "CSS/QualifiedRule.h"
+#include "CSS/StyleSheet.h"
 #include <iostream>
 
 @interface AppDelegate ()
@@ -35,9 +35,9 @@
     css_tokenizer.tokenize();
     
     CSS::Parser css_parser { css_tokenizer.tokens() };
-    CSS::QualifiedRule qualified_rule = css_parser.parse_rule();
+    CSS::StyleSheet stylesheet = css_parser.parse_stylesheet();
     
-    std::cout << std::endl << qualified_rule;
+    std::cout << std::endl << stylesheet;
 }
 
 

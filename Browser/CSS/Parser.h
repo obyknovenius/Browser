@@ -10,6 +10,7 @@
 #include "Token.h"
 #include "ComponentValue.h"
 #include "QualifiedRule.h"
+#include "StyleSheet.h"
 #include <queue>
 #include <list>
 
@@ -21,10 +22,7 @@ public:
     Parser(std::queue<Token>& tokens) : m_tokens { tokens } {}
     
     QualifiedRule parse_rule();
-    
-    ComponentValue consume_component_value();
-    ComponentValue consume_simple_block();
-    QualifiedRule consume_qualified_rule();
+    StyleSheet parse_stylesheet();
     
 private:
     std::queue<Token>& m_tokens;
@@ -65,6 +63,11 @@ private:
     {
         m_reconsume = true;
     }
+    
+    ComponentValue consume_component_value();
+    ComponentValue consume_simple_block();
+    QualifiedRule consume_qualified_rule();
+    std::list<QualifiedRule> consume_list_of_rules();
 };
 
 }

@@ -61,6 +61,31 @@ QualifiedRule Parser::consume_qualified_rule()
     }
 }
 
+std::list<QualifiedRule> Parser::consume_list_of_rules()
+{
+    std::list<QualifiedRule> list_of_rules {};
+    
+    for(;;)
+    {
+        const Token& token { consume_next_input_token() };
+        
+        if (token.is_whitespace())
+        {
+            // Do nothing.
+        }
+        else if (token.is_eof())
+        {
+            return list_of_rules;
+        }
+        else
+        {
+            reconsume_current_input_token();
+            
+            list_of_rules.push_back(consume_qualified_rule());
+        }
+    }
+}
+
 QualifiedRule Parser::parse_rule()
 {
     while (next_input_token().is_whitespace())
@@ -76,6 +101,13 @@ QualifiedRule Parser::parse_rule()
     }
     
     return rule;
+}
+
+StyleSheet Parser::parse_stylesheet()
+{
+    StyleSheet style_sheet {};
+    style_sheet.m_value = consume_list_of_rules();
+    return style_sheet;
 }
 
 }
