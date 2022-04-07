@@ -23,14 +23,18 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
-        
-    std::ifstream input_stream { "/Users/obyknovenius/Developer/Personal/Browser/test.html" };
+    
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    
+    const char *testHtml = [[bundle pathForResource:@"test" ofType:@"html"] cStringUsingEncoding:NSUTF8StringEncoding];
+    std::ifstream input_stream { testHtml };
     HTML::Parser html_parser { input_stream };
     DOM::Document* document { html_parser.parse() };
 
     DOM::print_tree(document);
     
-    std::ifstream input { "/Users/obyknovenius/Developer/Personal/Browser/test.css" };
+    const char *testCss = [[bundle pathForResource:@"test" ofType:@"css"] cStringUsingEncoding:NSUTF8StringEncoding];
+    std::ifstream input { testCss };
     CSS::Tokenizer css_tokenizer { input };
     css_tokenizer.tokenize();
     
