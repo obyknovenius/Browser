@@ -9,6 +9,31 @@
 
 namespace CSS {
 
+const Token& Parser::next_input_token()
+{
+    if (m_tokens.empty())
+    {
+        return m_eof_token;
+    }
+    return m_tokens.front();
+}
+
+const Token& Parser::consume_next_input_token()
+{
+    if (m_reconsume)
+    {
+        m_reconsume = false;
+        return m_current_input_token;
+    }
+    
+    m_current_input_token = next_input_token();
+    if (!m_tokens.empty())
+    {
+        m_tokens.pop();
+    }
+    return m_current_input_token;
+}
+
 ComponentValue Parser::consume_component_value()
 {
     const Token& token { consume_next_input_token() };

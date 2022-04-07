@@ -30,39 +30,11 @@ private:
     const Token m_eof_token { Token::Type::EOF_ };
     
     Token m_current_input_token {};
-    
     bool m_reconsume { false };
     
-    const Token& next_input_token()
-    {
-        if (m_tokens.empty())
-        {
-            return m_eof_token;
-        }
-        return m_tokens.front();
-    }
-    
-    const Token& consume_next_input_token()
-    {
-        if (m_reconsume)
-        {
-            m_reconsume = false;
-        }
-        else
-        {
-            m_current_input_token = next_input_token();
-            if (!m_tokens.empty())
-            {
-                m_tokens.pop();
-            }
-        }
-        return m_current_input_token;
-    }
-    
-    void reconsume_current_input_token()
-    {
-        m_reconsume = true;
-    }
+    const Token& next_input_token();
+    const Token& consume_next_input_token();
+    void reconsume_current_input_token() { m_reconsume = true; }
     
     ComponentValue consume_component_value();
     ComponentValue consume_simple_block();
