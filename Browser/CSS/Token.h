@@ -15,7 +15,7 @@ namespace CSS {
 class Token final
 {
     friend class Tokenizer;
-    friend class Parser;
+    friend class TokenStream;
     
     friend std::ostream& operator<<(std::ostream& out, const Token& token);
     

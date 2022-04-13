@@ -9,49 +9,24 @@
 
 namespace CSS {
 
-const Token& Parser::next_input_token()
-{
-    if (m_tokens.empty())
-    {
-        return m_eof_token;
-    }
-    return m_tokens.front();
-}
-
-const Token& Parser::consume_next_input_token()
-{
-    if (m_reconsume)
-    {
-        m_reconsume = false;
-        return m_current_input_token;
-    }
-    
-    m_current_input_token = next_input_token();
-    if (!m_tokens.empty())
-    {
-        m_tokens.pop();
-    }
-    return m_current_input_token;
-}
-
 ComponentValue Parser::consume_component_value()
 {
-    const Token& token { consume_next_input_token() };
+    const auto& token { m_input.consume_next_token() };
     
     if (token.is_left_curly_bracket())
     {
         return consume_simple_block();
     }
-    return m_current_input_token;
+    return token;
 }
 
 ComponentValue Parser::consume_simple_block()
 {
-    ComponentValue simple_block { ComponentValue::Type::SimpleBlock, m_current_input_token };
+    ComponentValue simple_block { ComponentValue::Type::SimpleBlock, m_input.current_token() };
     
     for(;;)
     {
-        const Token& token { consume_next_input_token() };
+        const auto& token { m_input.consume_next_token() };
         
         if (token.is_ending(simple_block.m_token))
         {
@@ -59,7 +34,7 @@ ComponentValue Parser::consume_simple_block()
         }
         else
         {
-            reconsume_current_input_token();
+            m_input.reconsume();
             simple_block.m_value.push_back(consume_component_value());
         }
     }
@@ -71,7 +46,7 @@ QualifiedRule Parser::consume_qualified_rule()
     
     for(;;)
     {
-        const Token& token { consume_next_input_token() };
+        const auto& token { m_input.consume_next_token() };
         
         if (token.is_left_curly_bracket())
         {
@@ -80,7 +55,7 @@ QualifiedRule Parser::consume_qualified_rule()
         }
         else
         {
-            reconsume_current_input_token();
+            m_input.reconsume();
             qualified_rule.m_prelude.push_back(consume_component_value());
         }
     }
@@ -92,7 +67,7 @@ std::list<QualifiedRule> Parser::consume_list_of_rules()
     
     for(;;)
     {
-        const Token& token { consume_next_input_token() };
+        const auto& token { m_input.consume_next_token() };
         
         if (token.is_whitespace())
         {
@@ -104,8 +79,7 @@ std::list<QualifiedRule> Parser::consume_list_of_rules()
         }
         else
         {
-            reconsume_current_input_token();
-            
+            m_input.reconsume();
             list_of_rules.push_back(consume_qualified_rule());
         }
     }
@@ -113,16 +87,16 @@ std::list<QualifiedRule> Parser::consume_list_of_rules()
 
 QualifiedRule Parser::parse_rule()
 {
-    while (next_input_token().is_whitespace())
+    while (m_input.next_token().is_whitespace())
     {
-        consume_next_input_token();
+        m_input.consume_next_token();
     }
     
     auto rule { consume_qualified_rule() };
     
-    while (next_input_token().is_whitespace())
+    while (m_input.next_token().is_whitespace())
     {
-        consume_next_input_token();
+        m_input.consume_next_token();
     }
     
     return rule;

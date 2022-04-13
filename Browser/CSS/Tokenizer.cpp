@@ -88,7 +88,7 @@ void Tokenizer::tokenize()
     {
         token = consume_token();
         std::cout << token;
-        m_tokens.push(token);
+        m_token_stream.push(token);
     }
     while (!token.is_eof());
 }

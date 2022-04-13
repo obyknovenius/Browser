@@ -34,11 +34,12 @@
     DOM::print_tree(document);
     
     const char *testCss = [[bundle pathForResource:@"test" ofType:@"css"] cStringUsingEncoding:NSUTF8StringEncoding];
+        
     std::ifstream input { testCss };
     CSS::Tokenizer css_tokenizer { input };
     css_tokenizer.tokenize();
     
-    CSS::Parser css_parser { css_tokenizer.tokens() };
+    CSS::Parser css_parser { css_tokenizer.token_stream() };
     CSS::StyleSheet stylesheet = css_parser.parse_stylesheet();
     
     std::cout << std::endl << stylesheet;

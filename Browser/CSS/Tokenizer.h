@@ -8,8 +8,8 @@
 #pragma once
 
 #include "Token.h"
+#include "TokenStream.h"
 #include <fstream>
-#include <queue>
 
 namespace CSS {
 
@@ -18,14 +18,14 @@ class Tokenizer final
 public:
     Tokenizer(std::ifstream& input) : m_input { input } {}
     
-    std::queue<Token>& tokens() { return m_tokens; }
+    TokenStream& token_stream() { return m_token_stream; }
     
     void tokenize();
 
 private:
     std::ifstream& m_input;
     
-    std::queue<Token> m_tokens {};
+    TokenStream m_token_stream {};
     
     int m_current_input_code_point {};
     

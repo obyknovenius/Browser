@@ -26,6 +26,7 @@
 		B754B2C1277338C8003E8566 /* Token.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B754B2BF277338C8003E8566 /* Token.cpp */; };
 		B754B2C327747F07003E8566 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = B754B2C227747F07003E8566 /* test.html */; };
 		B75C28C627FEE37A0034103B /* StyleSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B75C28C427FEE37A0034103B /* StyleSheet.cpp */; };
+		B76EE9322806D6F4003A7B14 /* TokenStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B76EE9302806D6F4003A7B14 /* TokenStream.cpp */; };
 		B795C20D27C8D4E90032297C /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20B27C8D4E90032297C /* Node.cpp */; };
 		B795C21027C8EDBA0032297C /* Comment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20E27C8EDBA0032297C /* Comment.cpp */; };
 		B7ACB13C27EE40DB00227C13 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7ACB13A27EE40DB00227C13 /* Tokenizer.cpp */; };
@@ -104,6 +105,8 @@
 		B754B2C227747F07003E8566 /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 		B75C28C427FEE37A0034103B /* StyleSheet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StyleSheet.cpp; sourceTree = "<group>"; };
 		B75C28C527FEE37A0034103B /* StyleSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StyleSheet.h; sourceTree = "<group>"; };
+		B76EE9302806D6F4003A7B14 /* TokenStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TokenStream.cpp; sourceTree = "<group>"; };
+		B76EE9312806D6F4003A7B14 /* TokenStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TokenStream.h; sourceTree = "<group>"; };
 		B795C20B27C8D4E90032297C /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
 		B795C20C27C8D4E90032297C /* Node.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		B795C20E27C8EDBA0032297C /* Comment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Comment.cpp; sourceTree = "<group>"; };
@@ -243,6 +246,8 @@
 				B7F8A74027F367E3003B265C /* ComponentValue.h */,
 				B75C28C427FEE37A0034103B /* StyleSheet.cpp */,
 				B75C28C527FEE37A0034103B /* StyleSheet.h */,
+				B76EE9302806D6F4003A7B14 /* TokenStream.cpp */,
+				B76EE9312806D6F4003A7B14 /* TokenStream.h */,
 			);
 			path = CSS;
 			sourceTree = "<group>";
@@ -462,6 +467,7 @@
 				B7F8A73E27F36714003B265C /* QualifiedRule.cpp in Sources */,
 				B721C6DA27D20B3300D9539F /* List.cpp in Sources */,
 				B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */,
+				B76EE9322806D6F4003A7B14 /* TokenStream.cpp in Sources */,
 				B7E6EAAA27DBCBBA00A9BF21 /* CharacterData.cpp in Sources */,
 				B7F60EEC27E2520100021C5B /* HTMLBodyElement.cpp in Sources */,
 				B7B3D14427D917440043B0CE /* Element.cpp in Sources */,
