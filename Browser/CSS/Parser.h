@@ -20,13 +20,13 @@ namespace CSS {
 class Parser final
 {
 public:
-    Parser(TokenStream& input) : m_input { input } {}
+    Parser(const std::list<Token>& input) : m_input { input } {}
     
     QualifiedRule parse_rule();
     StyleSheet parse_stylesheet();
     
 private:
-    TokenStream& m_input;
+    TokenStream m_input;
     
     ComponentValue consume_component_value();
     ComponentValue consume_simple_block();

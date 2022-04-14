@@ -37,9 +37,9 @@
         
     std::ifstream input { testCss };
     CSS::Tokenizer css_tokenizer { input };
-    css_tokenizer.tokenize();
     
-    CSS::Parser css_parser { css_tokenizer.token_stream() };
+    const std::list<CSS::Token>& tokens = css_tokenizer.tokenize();
+    CSS::Parser css_parser { tokens };
     CSS::StyleSheet stylesheet = css_parser.parse_stylesheet();
     
     std::cout << std::endl << stylesheet;

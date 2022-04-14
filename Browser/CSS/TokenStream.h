@@ -16,14 +16,7 @@ namespace CSS {
 class TokenStream final
 {
 public:
-    void push(const Token& token)
-    {
-        m_tokens.push_back(token);
-        if (m_next == m_tokens.end())
-        {
-            m_next = m_tokens.begin();
-        }
-    }
+    TokenStream(const std::list<Token>& tokens) : m_tokens { tokens } {}
     
     const Token& current_token() { return m_current; }
     const Token& next_token() { return *m_next; }
@@ -38,7 +31,7 @@ public:
     void reconsume() { --m_next; }
     
 private:
-    std::list<Token> m_tokens {};
+    const std::list<Token> m_tokens {};
     
     Token m_eof { Token::Type::EOF_ };
     
