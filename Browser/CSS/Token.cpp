@@ -15,7 +15,7 @@ std::ostream& operator<<(std::ostream& out, const Token& token)
 {
     switch (token.m_type)
     {
-        case Token::Type::Indent:
+        case Token::Type::Ident:
         case Token::Type::Delim:
             out << token.m_value;
             break;

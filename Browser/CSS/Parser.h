@@ -11,7 +11,9 @@
 #include "ComponentValue.h"
 #include "QualifiedRule.h"
 #include "StyleSheet.h"
+#include "Selectors/SimpleSelector.h"
 #include <list>
+#include <optional>
 
 namespace CSS {
 
@@ -31,5 +33,8 @@ private:
     QualifiedRule consume_qualified_rule();
     std::list<QualifiedRule> consume_list_of_rules();
 };
+
+
+SimpleSelector parse_simple_selector(TokenStream& input);
 
 }

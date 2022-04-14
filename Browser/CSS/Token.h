@@ -22,6 +22,7 @@ class Token final
 public:
     Token() = default;
     
+    bool is_ident() const { return m_type == Type::Ident; }
     bool is_whitespace() const { return m_type == Type::Whitespace; }
     bool is_left_curly_bracket() const { return m_type == Type::LeftCurlyBracket; }
     bool is_right_curly_bracket() const { return m_type == Type::RightCurlyBracket; }
@@ -32,11 +33,13 @@ public:
         return (m_type == Type::RightCurlyBracket && token.m_type == Type::LeftCurlyBracket);
     }
     
+    std::string_view value() const { return m_value; }
+    
 private:
     enum class Type
     {
         Invalid,
-        Indent,
+        Ident,
         Delim,
         Whitespace,
         Colon,

@@ -34,6 +34,7 @@
 		B7ACB14127EE440B00227C13 /* test.css in Resources */ = {isa = PBXBuildFile; fileRef = B7ACB14027EE440B00227C13 /* test.css */; };
 		B7B3D14427D917440043B0CE /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7B3D14227D917440043B0CE /* Element.cpp */; };
 		B7B3D14727D918340043B0CE /* HTMLElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7B3D14527D918340043B0CE /* HTMLElement.cpp */; };
+		B7BC75DE2808023500679853 /* SimpleSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7BC75DC2808023500679853 /* SimpleSelector.cpp */; };
 		B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */; };
 		B7C70AE427C5388000BCBE9A /* Document.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70AE227C5387F00BCBE9A /* Document.cpp */; };
 		B7CA6F5E27D220EC0071D699 /* Tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7CA6F5C27D220EC0071D699 /* Tree.cpp */; };
@@ -120,6 +121,8 @@
 		B7B3D14327D917440043B0CE /* Element.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Element.h; sourceTree = "<group>"; };
 		B7B3D14527D918340043B0CE /* HTMLElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HTMLElement.cpp; sourceTree = "<group>"; };
 		B7B3D14627D918340043B0CE /* HTMLElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLElement.h; sourceTree = "<group>"; };
+		B7BC75DC2808023500679853 /* SimpleSelector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleSelector.cpp; sourceTree = "<group>"; };
+		B7BC75DD2808023500679853 /* SimpleSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleSelector.h; sourceTree = "<group>"; };
 		B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TreeConstruction.cpp; sourceTree = "<group>"; };
 		B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TreeConstruction.h; sourceTree = "<group>"; };
 		B7C70AE227C5387F00BCBE9A /* Document.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Document.cpp; sourceTree = "<group>"; };
@@ -232,6 +235,7 @@
 		B754B2B627724678003E8566 /* CSS */ = {
 			isa = PBXGroup;
 			children = (
+				B75DC80128074B1400E0B141 /* Selectors */,
 				B754B2B72772468A003E8566 /* Box.cpp */,
 				B754B2B82772468A003E8566 /* Box.h */,
 				B7ACB13A27EE40DB00227C13 /* Tokenizer.cpp */,
@@ -272,6 +276,15 @@
 				B7F60EEE27E25D8400021C5B /* HTMLHeadingElement.h */,
 			);
 			path = HTML;
+			sourceTree = "<group>";
+		};
+		B75DC80128074B1400E0B141 /* Selectors */ = {
+			isa = PBXGroup;
+			children = (
+				B7BC75DC2808023500679853 /* SimpleSelector.cpp */,
+				B7BC75DD2808023500679853 /* SimpleSelector.h */,
+			);
+			path = Selectors;
 			sourceTree = "<group>";
 		};
 		B7C70AE127C5383400BCBE9A /* DOM */ = {
@@ -469,6 +482,7 @@
 				B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */,
 				B76EE9322806D6F4003A7B14 /* TokenStream.cpp in Sources */,
 				B7E6EAAA27DBCBBA00A9BF21 /* CharacterData.cpp in Sources */,
+				B7BC75DE2808023500679853 /* SimpleSelector.cpp in Sources */,
 				B7F60EEC27E2520100021C5B /* HTMLBodyElement.cpp in Sources */,
 				B7B3D14427D917440043B0CE /* Element.cpp in Sources */,
 				B795C20D27C8D4E90032297C /* Node.cpp in Sources */,

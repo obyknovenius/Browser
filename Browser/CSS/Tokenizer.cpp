@@ -34,7 +34,7 @@ std::string Tokenizer::consume_ident_sequence()
 Token Tokenizer::consume_ident_like_token()
 {
     auto string { consume_ident_sequence() };
-    return { Token::Type::Indent, string };
+    return { Token::Type::Ident, string };
 }
 
 Token Tokenizer::consume_token()

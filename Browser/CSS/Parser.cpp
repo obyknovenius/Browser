@@ -109,4 +109,14 @@ StyleSheet Parser::parse_stylesheet()
     return style_sheet;
 }
 
+SimpleSelector parse_simple_selector(TokenStream& input)
+{
+    const auto& token { input.next_token() };
+    if (token.is_ident())
+    {
+        return { SimpleSelector::Type::TagName, token.value() };
+    }
+    return { SimpleSelector::Type::Invalid };
+}
+
 }
