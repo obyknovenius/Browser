@@ -13,15 +13,16 @@
 
 namespace CSS {
 
+template<typename T>
 class TokenStream final
 {
 public:
-    TokenStream(const std::list<Token>& tokens) : m_tokens { tokens } {}
+    TokenStream(const std::list<T>& tokens) : m_tokens { tokens } {}
     
-    const Token& current_token() { return m_current; }
-    const Token& next_token() { return *m_next; }
+    const T& current_token() { return m_current; }
+    const T& next_token() { return *m_next; }
         
-    const Token& consume_next_token()
+    const T& consume_next_token()
     {
         m_current = *m_next;
         ++m_next;
@@ -31,13 +32,13 @@ public:
     void reconsume() { --m_next; }
     
 private:
-    const std::list<Token> m_tokens {};
+    const std::list<T> m_tokens {};
     
-    Token m_eof { Token::Type::EOF_ };
+    T m_eof { Token::Type::EOF_ };
     
-    Token& m_current { m_eof };
+    T& m_current { m_eof };
     
-    std::list<Token>::const_iterator m_next { m_tokens.begin() };
+    typename std::list<T>::const_iterator m_next { m_tokens.begin() };
 };
 
 }

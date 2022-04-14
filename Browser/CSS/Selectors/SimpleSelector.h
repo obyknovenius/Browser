@@ -15,7 +15,7 @@ namespace CSS {
 
 class SimpleSelector
 {
-    friend SimpleSelector parse_simple_selector(TokenStream& input);
+    friend SimpleSelector parse_simple_selector(TokenStream<Token>& input);
 
 public:
     

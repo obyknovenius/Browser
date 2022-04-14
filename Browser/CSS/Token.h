@@ -15,12 +15,27 @@ namespace CSS {
 class Token final
 {
     friend class Tokenizer;
-    friend class TokenStream;
     
     friend std::ostream& operator<<(std::ostream& out, const Token& token);
     
 public:
+    enum class Type
+    {
+        Invalid,
+        Ident,
+        Delim,
+        Whitespace,
+        Colon,
+        Semicolon,
+        LeftCurlyBracket,
+        RightCurlyBracket,
+        EOF_,
+    };
+    
     Token() = default;
+    Token(Type type) : m_type { type } {}
+    Token(Type type, char value) : m_type { type },  m_value { value } {}
+    Token(Type type, std::string_view value) : m_type { type },  m_value { value } {}
     
     bool is_ident() const { return m_type == Type::Ident; }
     bool is_whitespace() const { return m_type == Type::Whitespace; }
@@ -36,23 +51,6 @@ public:
     std::string_view value() const { return m_value; }
     
 private:
-    enum class Type
-    {
-        Invalid,
-        Ident,
-        Delim,
-        Whitespace,
-        Colon,
-        Semicolon,
-        LeftCurlyBracket,
-        RightCurlyBracket,
-        EOF_,
-    };
-    
-    Token(Type type) : m_type { type } {}
-    Token(Type type, char value) : m_type { type },  m_value { value } {}
-    Token(Type type, std::string_view value) : m_type { type },  m_value { value } {}
-            
     Type m_type { Type::Invalid };
     
     std::string m_value {};

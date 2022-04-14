@@ -26,7 +26,7 @@ public:
     StyleSheet parse_stylesheet();
     
 private:
-    TokenStream m_input;
+    TokenStream<Token> m_input;
     
     ComponentValue consume_component_value();
     ComponentValue consume_simple_block();
@@ -34,7 +34,6 @@ private:
     std::list<QualifiedRule> consume_list_of_rules();
 };
 
-
-SimpleSelector parse_simple_selector(TokenStream& input);
+SimpleSelector parse_simple_selector(TokenStream<Token>& input);
 
 }
