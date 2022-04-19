@@ -14,12 +14,13 @@ namespace CSS {
 
 class QualifiedRule final
 {
-    friend class Parser;
-    
     friend std::ostream& operator<<(std::ostream& out, const QualifiedRule& qualified_rule);
     
-public:    
+public:
+    std::list<ComponentValue>& prelude() { return m_prelude; }
     const std::list<ComponentValue>& prelude() const { return m_prelude; }
+    
+    ComponentValue& block() { return m_block; }
     const ComponentValue& block() const { return m_block; }
 
 private:

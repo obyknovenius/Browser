@@ -18,9 +18,6 @@ class SimpleSelector
     friend SimpleSelector parse_simple_selector(TokenStream<Token>& input);
 
 public:
-    
-
-private:
     enum class Type
     {
         Invalid,
@@ -28,8 +25,9 @@ private:
     };
     
     SimpleSelector(Type type) : m_type { type } {}
-    SimpleSelector(Type type, std::string_view identifier) : m_type { type }, m_identifier { identifier } {}
-    
+    SimpleSelector(Type type, const Token& token) : m_type { type }, m_identifier { token.value() } {}
+
+private:
     Type m_type;
     std::string m_identifier {};
 };

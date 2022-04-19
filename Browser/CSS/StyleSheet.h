@@ -14,10 +14,12 @@ namespace CSS {
 
 class StyleSheet
 {
-    friend class Parser;
-    
     friend std::ostream& operator<<(std::ostream& out, const StyleSheet& stylesheet);
 
+public:
+    std::list<QualifiedRule>& value() { return m_value; }
+    const std::list<QualifiedRule>& value() const { return m_value; }
+    
 private:
     std::list<QualifiedRule> m_value;
 };

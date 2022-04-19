@@ -32,7 +32,7 @@ public:
     void reconsume() { --m_next; }
     
 private:
-    const std::list<T> m_tokens {};
+    const std::list<T>& m_tokens {};
     
     T m_eof { Token::Type::EOF_ };
     

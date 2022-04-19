@@ -136,7 +136,7 @@ const Token Tokenizer::consume_token()
     return Token { Token::Type::Delim, static_cast<char>(code_point)};
 }
 
-const std::list<Token>& Tokenizer::tokenize()
+TokenStream<Token> Tokenizer::tokenize()
 {
     for(;;)
     {

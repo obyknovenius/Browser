@@ -12,6 +12,8 @@
 #include "CSS/Parser.h"
 #include "CSS/Tokenizer.h"
 #include "CSS/StyleSheet.h"
+#include "CSS/TokenStream.h"
+#include "CSS/ComponentValue.h"
 #include <iostream>
 
 @interface AppDelegate ()
@@ -30,19 +32,18 @@
     std::ifstream input_stream { testHtml };
     HTML::Parser html_parser { input_stream };
     DOM::Document* document { html_parser.parse() };
-
     DOM::print_tree(document);
     
     const char *testCss = [[bundle pathForResource:@"test" ofType:@"css"] cStringUsingEncoding:NSUTF8StringEncoding];
-        
     std::ifstream input { testCss };
     CSS::Tokenizer css_tokenizer { input };
-    
-    const std::list<CSS::Token>& tokens = css_tokenizer.tokenize();
-    CSS::Parser css_parser { tokens };
-    CSS::StyleSheet stylesheet = css_parser.parse_stylesheet();
-    
+    CSS::TokenStream<CSS::Token> tokens = css_tokenizer.tokenize();
+    const CSS::StyleSheet stylesheet { CSS::Parser::parse_stylesheet(tokens) };
     std::cout << std::endl << stylesheet;
+    
+    const CSS::QualifiedRule rule = stylesheet.value().front();
+    CSS::TokenStream<CSS::ComponentValue> selector_tokens { rule.prelude() };
+    CSS::SimpleSelector selector = CSS::Parser::parse_simple_selector(selector_tokens);
 }
 
 

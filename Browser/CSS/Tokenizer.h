@@ -8,8 +8,8 @@
 #pragma once
 
 #include "Token.h"
+#include "TokenStream.h"
 #include <fstream>
-#include <list>
 
 namespace CSS {
 
@@ -18,7 +18,7 @@ class Tokenizer final
 public:
     Tokenizer(std::ifstream& input) : m_input { input } {}
     
-    const std::list<Token>& tokenize();
+    TokenStream<Token> tokenize();
 
 private:
     std::ifstream& m_input;
