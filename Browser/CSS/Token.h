@@ -10,7 +10,7 @@
 #include <string>
 #include <string_view>
 
-namespace CSS {
+namespace CSS::Parser {
 
 class Token final
 {
@@ -43,7 +43,7 @@ public:
     bool is_right_curly_bracket() const { return m_type == Type::RightCurlyBracket; }
     bool is_eof() const { return m_type == Type::EOF_; }
     
-    bool is_ending(Token& token) const
+    bool is_ending(const Token& token) const
     {
         return (m_type == Type::RightCurlyBracket && token.m_type == Type::LeftCurlyBracket);
     }

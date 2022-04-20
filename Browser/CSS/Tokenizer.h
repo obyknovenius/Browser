@@ -11,7 +11,7 @@
 #include "TokenStream.h"
 #include <fstream>
 
-namespace CSS {
+namespace CSS::Parser {
 
 class Tokenizer final
 {

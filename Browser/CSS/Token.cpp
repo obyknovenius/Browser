@@ -9,7 +9,7 @@
 #include <iostream>
 #include <cassert>
 
-namespace CSS {
+namespace CSS::Parser {
 
 std::ostream& operator<<(std::ostream& out, const Token& token)
 {

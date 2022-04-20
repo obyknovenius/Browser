@@ -7,16 +7,12 @@
 
 #pragma once
 
-#include "TokenStream.h"
-#include <optional>
 #include <string>
 
 namespace CSS {
 
 class SimpleSelector
 {
-    friend SimpleSelector parse_simple_selector(TokenStream<Token>& input);
-
 public:
     enum class Type
     {
@@ -25,7 +21,7 @@ public:
     };
     
     SimpleSelector(Type type) : m_type { type } {}
-    SimpleSelector(Type type, const Token& token) : m_type { type }, m_identifier { token.value() } {}
+    SimpleSelector(Type type, const std::string_view identifier) : m_type { type }, m_identifier { identifier } {}
 
 private:
     Type m_type;

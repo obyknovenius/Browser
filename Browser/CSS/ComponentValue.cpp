@@ -6,9 +6,10 @@
 //
 
 #include "ComponentValue.h"
+#include "SimpleBlock.h"
 #include <iostream>
 
-namespace CSS {
+namespace CSS::Parser {
 
 std::ostream& operator<<(std::ostream& out, const ComponentValue& component_value)
 {
@@ -22,18 +23,9 @@ std::ostream& operator<<(std::ostream& out, const ComponentValue& component_valu
             out << component_value.m_token;
             break;
         }
-        case ComponentValue::Type::Function:
-        {
-            break;
-        }
         case ComponentValue::Type::SimpleBlock:
         {
-            out << "{\n";
-            for (auto token : component_value.m_value)
-            {
-                out << token;
-            }
-            out << "\n}";
+            out << *component_value.m_simple_block;
             break;
         }
     }

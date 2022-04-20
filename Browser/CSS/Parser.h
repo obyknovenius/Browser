@@ -8,6 +8,8 @@
 #pragma once
 
 #include "TokenStream.h"
+#include "Token.h"
+#include "SimpleBlock.h"
 #include "ComponentValue.h"
 #include "QualifiedRule.h"
 #include "StyleSheet.h"
@@ -17,12 +19,33 @@
 namespace CSS::Parser {
 
 template<typename T>
-const ComponentValue consume_simple_block(TokenStream<T>& input);
+ComponentValue consume_component_value(TokenStream<T>& input);
 
 template<typename T>
-const ComponentValue consume_component_value(TokenStream<T>& input)
+SimpleBlock* consume_simple_block(TokenStream<T>& input)
 {
-    const auto token { input.consume_next_token() };
+    auto* simple_block { new SimpleBlock { input.current_token() } };
+    
+    for (;;)
+    {
+        const auto& token { input.consume_next_token() };
+        
+        if (token.is_ending(simple_block->token()))
+        {
+            return simple_block;
+        }
+        else
+        {
+            input.reconsume();
+            simple_block->m_value.push_back(consume_component_value(input));
+        }
+    }
+}
+
+template<typename T>
+ComponentValue consume_component_value(TokenStream<T>& input)
+{
+    const auto& token { input.consume_next_token() };
     
     if (token.is_left_curly_bracket())
     {
@@ -32,54 +55,33 @@ const ComponentValue consume_component_value(TokenStream<T>& input)
 }
 
 template<typename T>
-const ComponentValue consume_simple_block(TokenStream<T>& input)
+QualifiedRule* consume_qualified_rule(TokenStream<T>& input)
 {
-    ComponentValue simple_block { ComponentValue::Type::SimpleBlock, input.current_token() };
+    auto* qualified_rule { new QualifiedRule };
     
-    for(;;)
-    {
-        const auto& token { input.consume_next_token() };
-        
-        if (token.is_ending(simple_block.token()))
-        {
-            return simple_block;
-        }
-        else
-        {
-            input.reconsume();
-            simple_block.value().push_back(consume_component_value(input));
-        }
-    }
-}
-
-template<typename T>
-const QualifiedRule consume_qualified_rule(TokenStream<T>& input)
-{
-    QualifiedRule qualified_rule {};
-    
-    for(;;)
+    for (;;)
     {
         const auto& token { input.consume_next_token() };
         
         if (token.is_left_curly_bracket())
         {
-            qualified_rule.block() = consume_simple_block(input);
+            qualified_rule->m_block = consume_simple_block(input);
             return qualified_rule;
         }
         else
         {
             input.reconsume();
-            qualified_rule.prelude().push_back(consume_component_value(input));
+            qualified_rule->m_prelude.push_back(consume_component_value(input));
         }
     }
 }
 
 template<typename T>
-const std::list<QualifiedRule> consume_list_of_rules(TokenStream<T>& input)
+std::list<QualifiedRule*> consume_list_of_rules(TokenStream<T>& input)
 {
-    std::list<QualifiedRule> list_of_rules {};
+    std::list<QualifiedRule*> list_of_rules {};
     
-    for(;;)
+    for (;;)
     {
         const auto& token { input.consume_next_token() };
         
@@ -100,14 +102,14 @@ const std::list<QualifiedRule> consume_list_of_rules(TokenStream<T>& input)
 }
 
 template<typename T>
-const QualifiedRule parse_rule(TokenStream<T>& input)
+QualifiedRule* parse_rule(TokenStream<T>& input)
 {
     while (input.next_token().is_whitespace())
     {
         input.consume_next_token();
     }
     
-    auto rule { consume_qualified_rule(input) };
+    auto* rule { consume_qualified_rule(input) };
     
     while (input.next_token().is_whitespace())
     {
@@ -118,21 +120,23 @@ const QualifiedRule parse_rule(TokenStream<T>& input)
 }
 
 template<typename T>
-const StyleSheet parse_stylesheet(TokenStream<T>& input)
+StyleSheet* parse_stylesheet(TokenStream<T>& input)
 {
-    StyleSheet style_sheet {};
-    style_sheet.value() = consume_list_of_rules(input);
+    auto* style_sheet { new StyleSheet };
+    style_sheet->m_value = consume_list_of_rules(input);
     return style_sheet;
 }
 
 template<typename T>
 SimpleSelector parse_simple_selector(TokenStream<T>& input)
 {
-    const auto& token { input.next_token() };
-    if (token.is_ident())
+    const auto& token_or_component_value { input.next_token() };
+    
+    if (const auto* token { token_or_component_value.token() }; token && token->is_ident())
     {
-        return { SimpleSelector::Type::TagName, token };
+        return { SimpleSelector::Type::TagName, token->value() };
     }
+    
     return { SimpleSelector::Type::Invalid };
 }
 

@@ -10,7 +10,7 @@
 #include <list>
 #include <cstdio>
 
-namespace CSS {
+namespace CSS::Parser {
 
 bool is_digit(int code_point)
 {

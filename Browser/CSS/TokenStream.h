@@ -11,7 +11,7 @@
 #include <list>
 #include <iterator>
 
-namespace CSS {
+namespace CSS::Parser {
 
 template<typename T>
 class TokenStream final

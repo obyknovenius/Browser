@@ -6,9 +6,10 @@
 //
 
 #include "QualifiedRule.h"
+#include "SimpleBlock.h"
 #include <iostream>
 
-namespace CSS {
+namespace CSS::Parser {
 
 std::ostream& operator<<(std::ostream& out, const QualifiedRule& qualified_rule)
 {
@@ -16,7 +17,7 @@ std::ostream& operator<<(std::ostream& out, const QualifiedRule& qualified_rule)
     {
         out << token;
     }
-    return out << qualified_rule.m_block;
+    return out << *qualified_rule.m_block;
 }
 
 }

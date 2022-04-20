@@ -6,15 +6,16 @@
 //
 
 #include "StyleSheet.h"
+#include "QualifiedRule.h"
 #include <iostream>
 
-namespace CSS {
+namespace CSS::Parser {
 
 std::ostream& operator<<(std::ostream& out, const StyleSheet& stylesheet)
 {
-    for (auto& rule : stylesheet.m_value)
+    for (const auto* rule : stylesheet.m_value)
     {
-        out << rule << '\n';
+        out << *rule << '\n';
     }
     return out;
 }
