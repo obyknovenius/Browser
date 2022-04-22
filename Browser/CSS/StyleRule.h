@@ -8,16 +8,18 @@
 #pragma once
 
 #include "Selectors/SelectorList.h"
+#include "Declaration.h"
 
 namespace CSS {
 
 class StyleRule
 {
 public:
-    StyleRule(SelectorList selector_list) : m_selector_list { selector_list } {}
+    StyleRule(SelectorList selector_list, List<Declaration*> declarations);
 
 private:
     SelectorList m_selector_list;
+    List<Declaration*> m_declarations;
 };
 
 }

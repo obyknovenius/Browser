@@ -20,15 +20,18 @@ public:
     TokenStream(const List<T>& tokens) : m_tokens { tokens } {}
     
     const T& current_token() { return m_current; }
-    const T& next_token() { return *m_next; }
-        
-    const T& consume_next_token()
+    const T& next_token()
     {
         if (m_next == m_tokens.end())
         {
             return m_eof;
         }
-        m_current = *m_next;
+        return *m_next;
+    }
+        
+    const T& consume_next_token()
+    {
+        m_current = next_token();
         ++m_next;
         return m_current;
     }

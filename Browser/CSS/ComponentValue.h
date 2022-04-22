@@ -25,6 +25,8 @@ public:
     ComponentValue(SimpleBlock* simple_block) : m_type { Type::SimpleBlock }, m_simple_block { simple_block } {}
     
     bool is_ident_token() const { return m_type == Type::PreservedToken && m_token.is_ident_token(); }
+    bool is_whitespace_token() const { return m_type == Type::PreservedToken && m_token.is_whitespace_token(); }
+    bool is_semicolon_token() const { return m_type == Type::PreservedToken && m_token.is_semicolon_token(); }
     bool is_comma_token() const { return m_type == Type::PreservedToken && m_token.is_comma_token(); }
     bool is_left_curly_bracket_token() const { return m_type == Type::PreservedToken && m_token.is_left_curly_bracket_token(); }
     bool is_right_curly_bracket_token() const { return m_type == Type::PreservedToken && m_token.is_right_curly_bracket_token(); }

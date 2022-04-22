@@ -28,6 +28,7 @@
 		B75C28C627FEE37A0034103B /* StyleSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B75C28C427FEE37A0034103B /* StyleSheet.cpp */; };
 		B764DF1E28102B5600E92D6D /* CSSStyleSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B764DF1C28102B5600E92D6D /* CSSStyleSheet.cpp */; };
 		B764DF2128102B8400E92D6D /* StyleRule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B764DF1F28102B8400E92D6D /* StyleRule.cpp */; };
+		B764DF2C2812D40400E92D6D /* Declaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B764DF2A2812D40400E92D6D /* Declaration.cpp */; };
 		B76AE44C280F3BF900138866 /* SimpleBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B76AE44A280F3BF900138866 /* SimpleBlock.cpp */; };
 		B76EE9322806D6F4003A7B14 /* TokenStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B76EE9302806D6F4003A7B14 /* TokenStream.cpp */; };
 		B795C20D27C8D4E90032297C /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20B27C8D4E90032297C /* Node.cpp */; };
@@ -115,6 +116,8 @@
 		B764DF2028102B8400E92D6D /* StyleRule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StyleRule.h; sourceTree = "<group>"; };
 		B764DF262810532500E92D6D /* List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
 		B764DF292812902C00E92D6D /* SelectorList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectorList.h; sourceTree = "<group>"; };
+		B764DF2A2812D40400E92D6D /* Declaration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Declaration.cpp; sourceTree = "<group>"; };
+		B764DF2B2812D40400E92D6D /* Declaration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Declaration.h; sourceTree = "<group>"; };
 		B76AE44A280F3BF900138866 /* SimpleBlock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleBlock.cpp; sourceTree = "<group>"; };
 		B76AE44B280F3BF900138866 /* SimpleBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleBlock.h; sourceTree = "<group>"; };
 		B76EE9302806D6F4003A7B14 /* TokenStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TokenStream.cpp; sourceTree = "<group>"; };
@@ -270,6 +273,8 @@
 				B764DF1F28102B8400E92D6D /* StyleRule.cpp */,
 				B764DF2028102B8400E92D6D /* StyleRule.h */,
 				B764DF262810532500E92D6D /* List.h */,
+				B764DF2A2812D40400E92D6D /* Declaration.cpp */,
+				B764DF2B2812D40400E92D6D /* Declaration.h */,
 			);
 			path = CSS;
 			sourceTree = "<group>";
@@ -509,6 +514,7 @@
 				B795C20D27C8D4E90032297C /* Node.cpp in Sources */,
 				B709D92F27D0E5C000FD3B22 /* DocumentType.cpp in Sources */,
 				B7ACB13C27EE40DB00227C13 /* Tokenizer.cpp in Sources */,
+				B764DF2C2812D40400E92D6D /* Declaration.cpp in Sources */,
 				B76AE44C280F3BF900138866 /* SimpleBlock.cpp in Sources */,
 				B7F8A74127F367E3003B265C /* ComponentValue.cpp in Sources */,
 				B754B2902772461F003E8566 /* main.m in Sources */,

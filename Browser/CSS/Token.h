@@ -40,6 +40,7 @@ public:
     
     bool is_ident_token() const { return m_type == Type::Ident; }
     bool is_whitespace_token() const { return m_type == Type::Whitespace; }
+    bool is_semicolon_token() const { return m_type == Type::Semicolon; }
     bool is_comma_token() const { return m_type == Type::Comma; }
     bool is_left_curly_bracket_token() const { return m_type == Type::LeftCurlyBracket; }
     bool is_right_curly_bracket_token() const { return m_type == Type::RightCurlyBracket; }

@@ -11,6 +11,7 @@
 #include "Token.h"
 #include "SimpleBlock.h"
 #include "ComponentValue.h"
+#include "Declaration.h"
 #include "QualifiedRule.h"
 #include "StyleSheet.h"
 #include "StyleRule.h"
@@ -18,6 +19,7 @@
 #include "Selectors/SimpleSelector.h"
 #include "Selectors/SelectorList.h"
 #include "List.h"
+#include <cassert>
 
 namespace CSS {
 
@@ -56,6 +58,70 @@ ComponentValue consume_component_value(TokenStream<T>& input)
     }
     
     return token;
+}
+
+template<typename T>
+Declaration* consume_declaration(TokenStream<T>& input)
+{
+    assert(input.next_token().is_ident_token());
+    
+    const auto& token { input.consume_next_token() };
+    
+    auto* declaration { new Declaration { static_cast<Token>(token).value() } };
+    
+    while (input.next_token().is_whitespace_token())
+    {
+        input.consume_next_token();
+    }
+    
+    input.consume_next_token();
+    
+    while (input.next_token().is_whitespace_token())
+    {
+        input.consume_next_token();
+    }
+    
+    while (!input.next_token().is_eof_token())
+    {
+        declaration->value().push_back(consume_component_value(input));
+    }
+    
+    if (declaration->value().back().is_whitespace_token())
+    {
+        declaration->value().pop_back();
+    }
+    
+    return declaration;
+}
+
+template<typename T>
+List<Declaration*> consume_style_block_contents(TokenStream<T>& input)
+{
+    List<Declaration*> decls {};
+    
+    for (;;)
+    {
+        const auto& token { input.consume_next_token() };
+        
+        if (token.is_whitespace_token() || token.is_semicolon_token())
+        {
+            // Do nothing.
+        }
+        else if (token.is_eof_token())
+        {
+            return decls;
+        }
+        else if (token.is_ident_token())
+        {
+            List<ComponentValue> list { token };
+            while (!input.next_token().is_semicolon_token() && !input.next_token().is_eof_token())
+            {
+                list.push_back(consume_component_value(input));
+            }
+            TokenStream<ComponentValue> tokens { list };
+            decls.push_back(consume_declaration(tokens));
+        }
+    }
 }
 
 template<typename T>
@@ -133,19 +199,25 @@ List<List<ComponentValue>> parse_comma_separated_list_of_component_values(TokenS
 template<typename T>
 QualifiedRule* parse_rule(TokenStream<T>& input)
 {
-    while (input.next_token().is_whitespace())
+    while (input.next_token().is_whitespace_token())
     {
         input.consume_next_token();
     }
     
     auto* rule { consume_qualified_rule(input) };
     
-    while (input.next_token().is_whitespace())
+    while (input.next_token().is_whitespace_token())
     {
         input.consume_next_token();
     }
     
     return rule;
+}
+
+template<typename T>
+List<Declaration*> parse_style_block_contents(TokenStream<T>& input)
+{
+    return consume_style_block_contents(input);
 }
 
 template<typename T>
