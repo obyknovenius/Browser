@@ -17,7 +17,7 @@ public:
     enum class Type
     {
         Invalid,
-        TagName,
+        Type,
     };
     
     SimpleSelector(Type type) : m_type { type } {}

@@ -10,7 +10,7 @@
 #include <string>
 #include <string_view>
 
-namespace CSS::Parser {
+namespace CSS {
 
 class Token final
 {
@@ -27,6 +27,7 @@ public:
         Whitespace,
         Colon,
         Semicolon,
+        Comma,
         LeftCurlyBracket,
         RightCurlyBracket,
         EOF_,
@@ -37,17 +38,19 @@ public:
     Token(Type type, char value) : m_type { type },  m_value { value } {}
     Token(Type type, std::string_view value) : m_type { type },  m_value { value } {}
     
-    bool is_ident() const { return m_type == Type::Ident; }
-    bool is_whitespace() const { return m_type == Type::Whitespace; }
-    bool is_left_curly_bracket() const { return m_type == Type::LeftCurlyBracket; }
-    bool is_right_curly_bracket() const { return m_type == Type::RightCurlyBracket; }
-    bool is_eof() const { return m_type == Type::EOF_; }
+    bool is_ident_token() const { return m_type == Type::Ident; }
+    bool is_whitespace_token() const { return m_type == Type::Whitespace; }
+    bool is_comma_token() const { return m_type == Type::Comma; }
+    bool is_left_curly_bracket_token() const { return m_type == Type::LeftCurlyBracket; }
+    bool is_right_curly_bracket_token() const { return m_type == Type::RightCurlyBracket; }
+    bool is_eof_token() const { return m_type == Type::EOF_; }
     
-    bool is_ending(const Token& token) const
+    template<typename T>
+    bool is_ending_token(const T& token) const
     {
-        return (m_type == Type::RightCurlyBracket && token.m_type == Type::LeftCurlyBracket);
+        return token.is_left_curly_bracket_token() && is_right_curly_bracket_token();
     }
-    
+        
     std::string_view value() const { return m_value; }
     
 private:

@@ -10,7 +10,7 @@
 #include <list>
 #include <cstdio>
 
-namespace CSS::Parser {
+namespace CSS {
 
 bool is_digit(int code_point)
 {
@@ -144,7 +144,7 @@ TokenStream<Token> Tokenizer::tokenize()
         std::cout << token;
         m_tokens.push_back(token);
         
-        if (token.is_eof())
+        if (token.is_eof_token())
         {
             break;
         }

@@ -7,27 +7,22 @@
 
 #pragma once
 
-#include "TokenStream.h"
-#include <list>
+#include "QualifiedRule.h"
+#include "List.h"
 
-namespace CSS::Parser {
-
-class QualifiedRule;
+namespace CSS {
 
 class StyleSheet
 {
-    template<typename T>
-    friend StyleSheet* parse_stylesheet(TokenStream<T>& input);
-
     friend std::ostream& operator<<(std::ostream& out, const StyleSheet& stylesheet);
 
 public:
-    const std::list<QualifiedRule*>& value() const { return m_value; }
+    List<QualifiedRule*>& value() { return m_value; }
+    const List<QualifiedRule*>& value() const { return m_value; }
+    void set_value(const List<QualifiedRule*>& value) { m_value = value; }
     
 private:
-    StyleSheet() = default;
-    
-    std::list<QualifiedRule*> m_value {};
+    List<QualifiedRule*> m_value {};
 };
 
 }

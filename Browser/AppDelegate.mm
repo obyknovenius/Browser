@@ -36,14 +36,9 @@
     
     const char *testCss = [[bundle pathForResource:@"test" ofType:@"css"] cStringUsingEncoding:NSUTF8StringEncoding];
     std::ifstream input { testCss };
-    CSS::Parser::Tokenizer css_tokenizer { input };
-    CSS::Parser::TokenStream<CSS::Parser::Token> tokens = css_tokenizer.tokenize();
-    const CSS::Parser::StyleSheet* stylesheet { CSS::Parser::parse_stylesheet(tokens) };
-    std::cout << std::endl << *stylesheet;
-    
-    const CSS::Parser::QualifiedRule *rule = stylesheet->value().front();
-    CSS::Parser::TokenStream<CSS::Parser::ComponentValue> selector_tokens { rule->prelude() };
-    CSS::SimpleSelector selector = CSS::Parser::parse_simple_selector(selector_tokens);
+    CSS::Tokenizer css_tokenizer { input };
+    CSS::TokenStream<CSS::Token> tokens = css_tokenizer.tokenize();
+    CSS::CSSStyleSheet* stylesheet { CSS::parse_css_stylesheet(tokens) };
 }
 
 

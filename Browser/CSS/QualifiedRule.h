@@ -7,29 +7,28 @@
 
 #pragma once
 
-#include "TokenStream.h"
 #include "ComponentValue.h"
-#include <list>
+#include "SimpleBlock.h"
+#include "List.h"
 
-namespace CSS::Parser {
+namespace CSS {
 
 class SimpleBlock;
 
 class QualifiedRule final
 {
-    template<typename T>
-    friend QualifiedRule* consume_qualified_rule(TokenStream<T>& input);
-    
     friend std::ostream& operator<<(std::ostream& out, const QualifiedRule& qualified_rule);
     
 public:
-    const std::list<ComponentValue>& prelude() const { return m_prelude; }
+    List<ComponentValue>& prelude() { return m_prelude; }
+    const List<ComponentValue>& prelude() const { return m_prelude; }
+    
+    SimpleBlock* block() { return m_block; }
     const SimpleBlock* block() const { return m_block; }
+    void set_block(SimpleBlock* block) { m_block = block; }
 
 private:
-    QualifiedRule() = default;
-
-    std::list<ComponentValue> m_prelude {};
+    List<ComponentValue> m_prelude {};
     SimpleBlock* m_block { nullptr };
 };
 

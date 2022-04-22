@@ -8,7 +8,7 @@
 #include "SimpleBlock.h"
 #include <iostream>
 
-namespace CSS::Parser {
+namespace CSS {
 
 std::ostream& operator<<(std::ostream& out, const SimpleBlock& simple_block)
 {

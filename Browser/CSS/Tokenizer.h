@@ -9,9 +9,10 @@
 
 #include "Token.h"
 #include "TokenStream.h"
+#include "List.h"
 #include <fstream>
 
-namespace CSS::Parser {
+namespace CSS {
 
 class Tokenizer final
 {
@@ -23,7 +24,7 @@ public:
 private:
     std::ifstream& m_input;
     
-    std::list<Token> m_tokens {};
+    List<Token> m_tokens {};
             
     int next_input_code_point() { return m_input.peek(); }
     

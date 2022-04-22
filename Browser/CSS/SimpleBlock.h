@@ -9,26 +9,25 @@
 
 #include "Token.h"
 #include "ComponentValue.h"
-#include <list>
+#include "List.h"
 
-namespace CSS::Parser {
+namespace CSS {
 
-class SimpleBlock
+class SimpleBlock final
 {
-    template<typename T>
-    friend SimpleBlock* consume_simple_block(TokenStream<T>& input);
-
     friend std::ostream& operator<<(std::ostream& out, const SimpleBlock& simple_block);
 
 public:
+    SimpleBlock(const Token& token) : m_token { token } {}
+    
     const Token& token() const { return m_token; }
-    const std::list<ComponentValue>& value() const { return m_value; }
+    
+    List<ComponentValue>& value() { return m_value; }
+    const List<ComponentValue>& value() const { return m_value; }
 
 private:
-    SimpleBlock(const Token& token) : m_token { token } {}
-
     Token m_token;
-    std::list<ComponentValue> m_value {};
+    List<ComponentValue> m_value {};
 };
 
 }

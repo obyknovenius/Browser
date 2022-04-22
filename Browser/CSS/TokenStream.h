@@ -8,22 +8,26 @@
 #pragma once
 
 #include "Token.h"
-#include <list>
+#include "List.h"
 #include <iterator>
 
-namespace CSS::Parser {
+namespace CSS {
 
 template<typename T>
 class TokenStream final
 {
 public:
-    TokenStream(const std::list<T>& tokens) : m_tokens { tokens } {}
+    TokenStream(const List<T>& tokens) : m_tokens { tokens } {}
     
     const T& current_token() { return m_current; }
     const T& next_token() { return *m_next; }
         
     const T& consume_next_token()
     {
+        if (m_next == m_tokens.end())
+        {
+            return m_eof;
+        }
         m_current = *m_next;
         ++m_next;
         return m_current;
@@ -32,13 +36,13 @@ public:
     void reconsume() { --m_next; }
     
 private:
-    const std::list<T>& m_tokens {};
+    const List<T>& m_tokens {};
     
-    T m_eof { Token::Type::EOF_ };
+    const T m_eof { Token::Type::EOF_ };
     
-    T& m_current { m_eof };
+    T m_current { m_eof };
     
-    typename std::list<T>::const_iterator m_next { m_tokens.begin() };
+    typename List<T>::const_iterator m_next { m_tokens.begin() };
 };
 
 }
