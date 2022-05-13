@@ -1,5 +1,5 @@
 //
-//  TreeConstruction.h
+//  TreeConstructor.h
 //  Browser
 //
 //  Created by Vitaly Dyachkov on 22.02.22.
@@ -10,7 +10,7 @@
 #include "Document.h"
 #include "Token.h"
 #include "StackOfOpenElements.h"
-#include "../../DOM/Element.h"
+#include "../DOM/Element.h"
 #include <queue>
 #include <optional>
 
@@ -24,10 +24,10 @@ struct InsertionLocation
     Node* before { nullptr };
 };
 
-class TreeConstruction
+class TreeConstructor
 {
 public:
-    TreeConstruction(Document& document, std::queue<Token>& tokens) : m_document { document }, m_tokens { tokens } {}
+    TreeConstructor(Document& document, std::queue<Token>& tokens) : m_document { document }, m_tokens { tokens } {}
     
     bool construct_tree();
     

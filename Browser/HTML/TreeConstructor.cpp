@@ -1,19 +1,19 @@
 //
-//  TreeConstruction.cpp
+//  TreeConstructor.cpp
 //  Browser
 //
 //  Created by Vitaly Dyachkov on 22.02.22.
 //
 
-#include "../../Infra/Namespace.h"
-#include "../../DOM/Node.h"
-#include "../../DOM/Element.h"
-#include "../../DOM/DocumentType.h"
-#include "../../DOM/Comment.h"
-#include "../../DOM/Text.h"
-#include "../XMLCompatability.h"
+#include "../Infra/Namespace.h"
+#include "../DOM/Node.h"
+#include "../DOM/Element.h"
+#include "../DOM/DocumentType.h"
+#include "../DOM/Comment.h"
+#include "../DOM/Text.h"
+#include "XMLCompatability.h"
 #include "Token.h"
-#include "TreeConstruction.h"
+#include "TreeConstructor.h"
 
 using namespace Infra;
 using namespace DOM;
@@ -34,14 +34,14 @@ void insert_at(InsertionLocation location, Node* node)
     insert(node, location.inside, location.before);
 }
 
-InsertionLocation TreeConstruction::appropriate_place_for_inserting_node()
+InsertionLocation TreeConstructor::appropriate_place_for_inserting_node()
 {
     Node* target { current_node() };
     InsertionLocation adjusted_insertion_location { target };
     return adjusted_insertion_location;
 }
 
-Element* TreeConstruction::create_element_for(const Token& token, const std::string& namespace_, Node* intended_parent)
+Element* TreeConstructor::create_element_for(const Token& token, const std::string& namespace_, Node* intended_parent)
 {
     auto* document { intended_parent->node_document() };
     auto& local_name { token.tag_name() };
@@ -49,7 +49,7 @@ Element* TreeConstruction::create_element_for(const Token& token, const std::str
     return element;
 }
 
-Element* TreeConstruction::insert_foreign_element_for(const Token& token, const std::string& namespace_)
+Element* TreeConstructor::insert_foreign_element_for(const Token& token, const std::string& namespace_)
 {
     auto adjusted_insertion_location { appropriate_place_for_inserting_node() };
     auto* element { create_element_for(token, namespace_, adjusted_insertion_location.inside) };
@@ -58,12 +58,12 @@ Element* TreeConstruction::insert_foreign_element_for(const Token& token, const 
     return element;
 }
 
-Element* TreeConstruction::insert_html_element_for(const Token& token)
+Element* TreeConstructor::insert_html_element_for(const Token& token)
 {
     return insert_foreign_element_for(token, Namespace::HTML);
 }
 
-void TreeConstruction::insert_character(const Token& token)
+void TreeConstructor::insert_character(const Token& token)
 {
     auto data { token.data() };
     auto adjusted_insertion_location { appropriate_place_for_inserting_node() };
@@ -72,7 +72,7 @@ void TreeConstruction::insert_character(const Token& token)
         return;
     }
     
-    if (auto* node { immediately_before(adjusted_insertion_location)->is<Text>() }; node)
+    if (auto* node { immediately_before(adjusted_insertion_location)->is<Text>() })
     {
         node->data() += data;
     }
@@ -83,7 +83,7 @@ void TreeConstruction::insert_character(const Token& token)
     }
 }
 
-void TreeConstruction::insert_comment(const Token& token, std::optional<InsertionLocation> position)
+void TreeConstructor::insert_comment(const Token& token, std::optional<InsertionLocation> position)
 {
     const auto& data { token.data() };
     auto adjusted_insertion_location { position ? *position : appropriate_place_for_inserting_node() };
@@ -91,7 +91,7 @@ void TreeConstruction::insert_comment(const Token& token, std::optional<Insertio
     insert_at(adjusted_insertion_location, node);
 }
 
-bool TreeConstruction::construct_tree()
+bool TreeConstructor::construct_tree()
 {
     while (!m_tokens.empty())
     {
@@ -109,12 +109,12 @@ bool TreeConstruction::construct_tree()
     return false;
 }
 
-void TreeConstruction::dispatch(const Token& token)
+void TreeConstructor::dispatch(const Token& token)
 {
     process_using_rules_for(m_insertion_mode, token);
 }
 
-void TreeConstruction::process_using_rules_for(InsertionMode insertion_mode, const Token& token)
+void TreeConstructor::process_using_rules_for(InsertionMode insertion_mode, const Token& token)
 {
     switch (insertion_mode)
     {
@@ -161,7 +161,7 @@ void TreeConstruction::process_using_rules_for(InsertionMode insertion_mode, con
     }
 }
 
-void TreeConstruction::apply_rules_for_initial_insertion_mode(const Token& token)
+void TreeConstructor::apply_rules_for_initial_insertion_mode(const Token& token)
 {
     if (token.is_comment())
     {
@@ -181,7 +181,7 @@ void TreeConstruction::apply_rules_for_initial_insertion_mode(const Token& token
     reprocess(token);
 }
 
-void TreeConstruction::apply_rules_for_before_html_insertion_mode(const Token& token)
+void TreeConstructor::apply_rules_for_before_html_insertion_mode(const Token& token)
 {
     if (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
     {
@@ -198,7 +198,7 @@ void TreeConstruction::apply_rules_for_before_html_insertion_mode(const Token& t
     }
 }
 
-void TreeConstruction::apply_rules_for_before_head_insertion_mode(const Token& token)
+void TreeConstructor::apply_rules_for_before_head_insertion_mode(const Token& token)
 {
     if (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
     {
@@ -220,7 +220,7 @@ void TreeConstruction::apply_rules_for_before_head_insertion_mode(const Token& t
     }
 }
 
-void TreeConstruction::apply_rules_for_in_head_insertion_mode(const Token& token)
+void TreeConstructor::apply_rules_for_in_head_insertion_mode(const Token& token)
 {
     if (token.is_end_tag() && token.tag_name_is("head"))
     {
@@ -230,7 +230,7 @@ void TreeConstruction::apply_rules_for_in_head_insertion_mode(const Token& token
     }
 }
 
-void TreeConstruction::apply_rules_for_after_head_insertion_mode(const Token& token)
+void TreeConstructor::apply_rules_for_after_head_insertion_mode(const Token& token)
 {
     if (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
     {
@@ -253,7 +253,7 @@ void TreeConstruction::apply_rules_for_after_head_insertion_mode(const Token& to
     }
 }
 
-void TreeConstruction::apply_rules_for_in_body_insertion_mode(const Token& token)
+void TreeConstructor::apply_rules_for_in_body_insertion_mode(const Token& token)
 {
     if (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
     {
@@ -290,7 +290,7 @@ void TreeConstruction::apply_rules_for_in_body_insertion_mode(const Token& token
     }
 }
 
-void TreeConstruction::apply_rules_for_after_body_insertion_mode(const Token& token)
+void TreeConstructor::apply_rules_for_after_body_insertion_mode(const Token& token)
 {
     if (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
     {
@@ -310,7 +310,7 @@ void TreeConstruction::apply_rules_for_after_body_insertion_mode(const Token& to
     }
 }
 
-void TreeConstruction::apply_rules_for_after_after_body_insertion_mode(const Token& token)
+void TreeConstructor::apply_rules_for_after_after_body_insertion_mode(const Token& token)
 {
     if (token.is_comment())
     {
@@ -332,7 +332,7 @@ void TreeConstruction::apply_rules_for_after_after_body_insertion_mode(const Tok
     }
 }
 
-void TreeConstruction::stop_parsing()
+void TreeConstructor::stop_parsing()
 {
     m_stack_of_open_elements.pop_all();
 }

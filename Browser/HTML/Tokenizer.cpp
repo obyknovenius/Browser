@@ -6,8 +6,8 @@
 //
 
 #include "Tokenizer.h"
-#include "../../Infra/CodePoint.h"
-#include "../../Infra/String.h"
+#include "../Infra/CodePoint.h"
+#include "../Infra/String.h"
 #include <cstdio>
 
 namespace HTML {

@@ -6,7 +6,6 @@
 //
 
 #include "Tokenizer.h"
-#include "TreeConstruction.h"
 #include "Parser.h"
 #include <iostream>
 
@@ -18,7 +17,7 @@ Document* Parser::parse()
     {
         m_tokenizer.resume();
     }
-    while (!m_tree_construction.construct_tree());
+    while (!m_tree_constructor.construct_tree());
     
     return m_document;
 }

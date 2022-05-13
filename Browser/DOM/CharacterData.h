@@ -9,13 +9,15 @@
 
 #include "Node.h"
 #include <string>
+#include <string_view>
 
 namespace DOM {
 
 class CharacterData : public Node
 {
 public:
-    std::string& data() { return m_data; };
+    std::string& data() { return m_data; }
+    const std::string& data() const { return m_data; }
     
 protected:
     std::string m_data {};

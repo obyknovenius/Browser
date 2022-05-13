@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		B709D92F27D0E5C000FD3B22 /* DocumentType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B709D92D27D0E5C000FD3B22 /* DocumentType.cpp */; };
+		B70E6A5F282AB7E10009814D /* BoxTreeConstructor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B70E6A5D282AB7E10009814D /* BoxTreeConstructor.cpp */; };
+		B70E6A62282AC2510009814D /* TextRun.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B70E6A60282AC2510009814D /* TextRun.cpp */; };
+		B70E6A68282AD9470009814D /* BoxTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B70E6A66282AD9470009814D /* BoxTree.cpp */; };
+		B70E6A6B282E5AA30009814D /* Tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B70E6A69282E5AA30009814D /* Tree.cpp */; };
 		B71C118E2784A2E40098A611 /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B71C118C2784A2E40098A611 /* Parser.cpp */; };
 		B721C6DA27D20B3300D9539F /* List.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B721C6D827D20B3300D9539F /* List.cpp */; };
 		B722914827DA8581008C6DBE /* HTMLHtmlElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B722914627DA8581008C6DBE /* HTMLHtmlElement.cpp */; };
@@ -39,9 +43,8 @@
 		B7B3D14427D917440043B0CE /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7B3D14227D917440043B0CE /* Element.cpp */; };
 		B7B3D14727D918340043B0CE /* HTMLElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7B3D14527D918340043B0CE /* HTMLElement.cpp */; };
 		B7BC75DE2808023500679853 /* SimpleSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7BC75DC2808023500679853 /* SimpleSelector.cpp */; };
-		B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */; };
+		B7C70ADD27C522F600BCBE9A /* TreeConstructor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70ADB27C522F600BCBE9A /* TreeConstructor.cpp */; };
 		B7C70AE427C5388000BCBE9A /* Document.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70AE227C5387F00BCBE9A /* Document.cpp */; };
-		B7CA6F5E27D220EC0071D699 /* Tree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7CA6F5C27D220EC0071D699 /* Tree.cpp */; };
 		B7E6EAA727DBCB7B00A9BF21 /* Text.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7E6EAA527DBCB7B00A9BF21 /* Text.cpp */; };
 		B7E6EAAA27DBCBBA00A9BF21 /* CharacterData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7E6EAA827DBCBBA00A9BF21 /* CharacterData.cpp */; };
 		B7F60EEC27E2520100021C5B /* HTMLBodyElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7F60EEA27E2520100021C5B /* HTMLBodyElement.cpp */; };
@@ -72,6 +75,14 @@
 /* Begin PBXFileReference section */
 		B709D92D27D0E5C000FD3B22 /* DocumentType.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DocumentType.cpp; sourceTree = "<group>"; };
 		B709D92E27D0E5C000FD3B22 /* DocumentType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentType.h; sourceTree = "<group>"; };
+		B70E6A5D282AB7E10009814D /* BoxTreeConstructor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BoxTreeConstructor.cpp; sourceTree = "<group>"; };
+		B70E6A5E282AB7E10009814D /* BoxTreeConstructor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxTreeConstructor.h; sourceTree = "<group>"; };
+		B70E6A60282AC2510009814D /* TextRun.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextRun.cpp; sourceTree = "<group>"; };
+		B70E6A61282AC2510009814D /* TextRun.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextRun.h; sourceTree = "<group>"; };
+		B70E6A66282AD9470009814D /* BoxTree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BoxTree.cpp; sourceTree = "<group>"; };
+		B70E6A67282AD9470009814D /* BoxTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoxTree.h; sourceTree = "<group>"; };
+		B70E6A69282E5AA30009814D /* Tree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tree.cpp; sourceTree = "<group>"; };
+		B70E6A6A282E5AA30009814D /* Tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tree.h; sourceTree = "<group>"; };
 		B71C118C2784A2E40098A611 /* Parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
 		B71C118D2784A2E40098A611 /* Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
 		B721C6D827D20B3300D9539F /* List.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = List.cpp; sourceTree = "<group>"; };
@@ -137,12 +148,10 @@
 		B7B3D14627D918340043B0CE /* HTMLElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLElement.h; sourceTree = "<group>"; };
 		B7BC75DC2808023500679853 /* SimpleSelector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleSelector.cpp; sourceTree = "<group>"; };
 		B7BC75DD2808023500679853 /* SimpleSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleSelector.h; sourceTree = "<group>"; };
-		B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TreeConstruction.cpp; sourceTree = "<group>"; };
-		B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TreeConstruction.h; sourceTree = "<group>"; };
+		B7C70ADB27C522F600BCBE9A /* TreeConstructor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TreeConstructor.cpp; sourceTree = "<group>"; };
+		B7C70ADC27C522F600BCBE9A /* TreeConstructor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TreeConstructor.h; sourceTree = "<group>"; };
 		B7C70AE227C5387F00BCBE9A /* Document.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Document.cpp; sourceTree = "<group>"; };
 		B7C70AE327C5387F00BCBE9A /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
-		B7CA6F5C27D220EC0071D699 /* Tree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tree.cpp; sourceTree = "<group>"; };
-		B7CA6F5D27D220EC0071D699 /* Tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tree.h; sourceTree = "<group>"; };
 		B7E6EAA527DBCB7B00A9BF21 /* Text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Text.cpp; sourceTree = "<group>"; };
 		B7E6EAA627DBCB7B00A9BF21 /* Text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Text.h; sourceTree = "<group>"; };
 		B7E6EAA827DBCBBA00A9BF21 /* CharacterData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterData.cpp; sourceTree = "<group>"; };
@@ -186,6 +195,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B70E6A59282A97F00009814D /* Box */ = {
+			isa = PBXGroup;
+			children = (
+				B754B2B72772468A003E8566 /* Box.cpp */,
+				B754B2B82772468A003E8566 /* Box.h */,
+			);
+			path = Box;
+			sourceTree = "<group>";
+		};
+		B70E6A6C282EC4AA0009814D /* Display */ = {
+			isa = PBXGroup;
+			children = (
+				B70E6A5D282AB7E10009814D /* BoxTreeConstructor.cpp */,
+				B70E6A5E282AB7E10009814D /* BoxTreeConstructor.h */,
+				B70E6A60282AC2510009814D /* TextRun.cpp */,
+				B70E6A61282AC2510009814D /* TextRun.h */,
+				B70E6A66282AD9470009814D /* BoxTree.cpp */,
+				B70E6A67282AD9470009814D /* BoxTree.h */,
+			);
+			path = Display;
+			sourceTree = "<group>";
+		};
 		B754B2782772461D003E8566 = {
 			isa = PBXGroup;
 			children = (
@@ -249,9 +280,9 @@
 		B754B2B627724678003E8566 /* CSS */ = {
 			isa = PBXGroup;
 			children = (
+				B70E6A6C282EC4AA0009814D /* Display */,
+				B70E6A59282A97F00009814D /* Box */,
 				B75DC80128074B1400E0B141 /* Selectors */,
-				B754B2B72772468A003E8566 /* Box.cpp */,
-				B754B2B82772468A003E8566 /* Box.h */,
 				B7ACB13A27EE40DB00227C13 /* Tokenizer.cpp */,
 				B7ACB13B27EE40DB00227C13 /* Tokenizer.h */,
 				B7ACB13D27EE429600227C13 /* Token.cpp */,
@@ -285,7 +316,14 @@
 				B732A0CF27E50C58008D61BF /* XMLCompatability.h */,
 				B71C118C2784A2E40098A611 /* Parser.cpp */,
 				B71C118D2784A2E40098A611 /* Parser.h */,
-				B7F60EF027E267E100021C5B /* Parser */,
+				B754B2BC2772635C003E8566 /* Tokenizer.cpp */,
+				B754B2BD2772635C003E8566 /* Tokenizer.h */,
+				B754B2BF277338C8003E8566 /* Token.cpp */,
+				B754B2C0277338C8003E8566 /* Token.h */,
+				B7C70ADB27C522F600BCBE9A /* TreeConstructor.cpp */,
+				B7C70ADC27C522F600BCBE9A /* TreeConstructor.h */,
+				B7F60EF127E2684D00021C5B /* StackOfOpenElements.cpp */,
+				B7F60EF227E2684D00021C5B /* StackOfOpenElements.h */,
 				B7B3D14527D918340043B0CE /* HTMLElement.cpp */,
 				B7B3D14627D918340043B0CE /* HTMLElement.h */,
 				B722914627DA8581008C6DBE /* HTMLHtmlElement.cpp */,
@@ -322,14 +360,14 @@
 				B795C20F27C8EDBA0032297C /* Comment.h */,
 				B709D92D27D0E5C000FD3B22 /* DocumentType.cpp */,
 				B709D92E27D0E5C000FD3B22 /* DocumentType.h */,
-				B7CA6F5C27D220EC0071D699 /* Tree.cpp */,
-				B7CA6F5D27D220EC0071D699 /* Tree.h */,
 				B7B3D14227D917440043B0CE /* Element.cpp */,
 				B7B3D14327D917440043B0CE /* Element.h */,
 				B7E6EAA527DBCB7B00A9BF21 /* Text.cpp */,
 				B7E6EAA627DBCB7B00A9BF21 /* Text.h */,
 				B7E6EAA827DBCBBA00A9BF21 /* CharacterData.cpp */,
 				B7E6EAA927DBCBBA00A9BF21 /* CharacterData.h */,
+				B70E6A69282E5AA30009814D /* Tree.cpp */,
+				B70E6A6A282E5AA30009814D /* Tree.h */,
 			);
 			path = DOM;
 			sourceTree = "<group>";
@@ -344,21 +382,6 @@
 				B73F18B627F4E85400430C0C /* String.h */,
 			);
 			path = Infra;
-			sourceTree = "<group>";
-		};
-		B7F60EF027E267E100021C5B /* Parser */ = {
-			isa = PBXGroup;
-			children = (
-				B754B2BC2772635C003E8566 /* Tokenizer.cpp */,
-				B754B2BD2772635C003E8566 /* Tokenizer.h */,
-				B754B2BF277338C8003E8566 /* Token.cpp */,
-				B754B2C0277338C8003E8566 /* Token.h */,
-				B7C70ADB27C522F600BCBE9A /* TreeConstruction.cpp */,
-				B7C70ADC27C522F600BCBE9A /* TreeConstruction.h */,
-				B7F60EF127E2684D00021C5B /* StackOfOpenElements.cpp */,
-				B7F60EF227E2684D00021C5B /* StackOfOpenElements.h */,
-			);
-			path = Parser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -500,17 +523,20 @@
 				B7F60EF327E2684D00021C5B /* StackOfOpenElements.cpp in Sources */,
 				B722914B27DA85A4008C6DBE /* HTMLHeadElement.cpp in Sources */,
 				B754B2B52772463E003E8566 /* View.mm in Sources */,
+				B70E6A62282AC2510009814D /* TextRun.cpp in Sources */,
 				B754B2892772461D003E8566 /* ViewController.m in Sources */,
 				B795C21027C8EDBA0032297C /* Comment.cpp in Sources */,
 				B7F8A73E27F36714003B265C /* QualifiedRule.cpp in Sources */,
+				B70E6A68282AD9470009814D /* BoxTree.cpp in Sources */,
 				B721C6DA27D20B3300D9539F /* List.cpp in Sources */,
 				B764DF1E28102B5600E92D6D /* CSSStyleSheet.cpp in Sources */,
-				B7C70ADD27C522F600BCBE9A /* TreeConstruction.cpp in Sources */,
+				B7C70ADD27C522F600BCBE9A /* TreeConstructor.cpp in Sources */,
 				B76EE9322806D6F4003A7B14 /* TokenStream.cpp in Sources */,
 				B7E6EAAA27DBCBBA00A9BF21 /* CharacterData.cpp in Sources */,
 				B7BC75DE2808023500679853 /* SimpleSelector.cpp in Sources */,
 				B7F60EEC27E2520100021C5B /* HTMLBodyElement.cpp in Sources */,
 				B7B3D14427D917440043B0CE /* Element.cpp in Sources */,
+				B70E6A6B282E5AA30009814D /* Tree.cpp in Sources */,
 				B795C20D27C8D4E90032297C /* Node.cpp in Sources */,
 				B709D92F27D0E5C000FD3B22 /* DocumentType.cpp in Sources */,
 				B7ACB13C27EE40DB00227C13 /* Tokenizer.cpp in Sources */,
@@ -519,7 +545,7 @@
 				B7F8A74127F367E3003B265C /* ComponentValue.cpp in Sources */,
 				B754B2902772461F003E8566 /* main.m in Sources */,
 				B7B3D14727D918340043B0CE /* HTMLElement.cpp in Sources */,
-				B7CA6F5E27D220EC0071D699 /* Tree.cpp in Sources */,
+				B70E6A5F282AB7E10009814D /* BoxTreeConstructor.cpp in Sources */,
 				B7E6EAA727DBCB7B00A9BF21 /* Text.cpp in Sources */,
 				B754B2C1277338C8003E8566 /* Token.cpp in Sources */,
 				B7C70AE427C5388000BCBE9A /* Document.cpp in Sources */,

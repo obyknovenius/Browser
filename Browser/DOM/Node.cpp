@@ -14,6 +14,23 @@
 
 namespace DOM {
 
+void Node::Children::append(Node* node)
+{
+    node->m_parent = m_parent;
+    
+    if (!m_last)
+    {
+        m_first = node;
+        m_last = node;
+    }
+    else
+    {
+        m_last->m_next_sibling = node;
+        node->m_previous_sibling = m_last;
+        m_last = node;
+    }
+}
+
 void insert(Node* node, Node* parent, Node* child)
 {
     const std::list<Node*> nodes { node };
@@ -49,42 +66,9 @@ Node* append(Node* node, Node* parent)
     return pre_insert(node, parent, nullptr);
 }
 
-Node* Node::insert_before(Node* node, Node* child)
-{
-    return nullptr;
-}
-
-Node* Node::append_child(Node* node)
-{
-    return append(node, this);
-}
-
-Node* Node::replace_child(Node* node, Node* child)
-{
-    return nullptr;
-}
-
-Node* Node::remove_child(Node* child)
-{
-    return nullptr;
-}
-
 std::ostream& operator<<(std::ostream& out, const Node& node)
 {
     return out << node.to_string();
-}
-
-void print_tree(const Node* root, int level)
-{
-    for (int i {0}; i < level; ++i) {
-        std::cout << ' ';
-    }
-    
-    std::cout << *root << '\n';
-        
-    for (const Node* node { root->first_child() }; node; node = node->next_sibling()) {
-        print_tree(node, level + 1);
-    }
 }
 
 }

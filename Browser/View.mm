@@ -6,14 +6,11 @@
 //
 
 #import "View.h"
-#import "CSS/Box.h"
 
 @implementation View
 
 - (void)drawRect:(NSRect)dirtyRect {
     CGContextRef context = [[NSGraphicsContext currentContext] CGContext];
-    
-    Box box;
 }
 
 @end
