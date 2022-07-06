@@ -16,6 +16,7 @@
 		B721C6DA27D20B3300D9539F /* List.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B721C6D827D20B3300D9539F /* List.cpp */; };
 		B722914827DA8581008C6DBE /* HTMLHtmlElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B722914627DA8581008C6DBE /* HTMLHtmlElement.cpp */; };
 		B722914B27DA85A4008C6DBE /* HTMLHeadElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B722914927DA85A4008C6DBE /* HTMLHeadElement.cpp */; };
+		B747CD182875791C00E2DAA5 /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B747CD162875791C00E2DAA5 /* Context.cpp */; };
 		B754B2862772461D003E8566 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = B754B2852772461D003E8566 /* AppDelegate.mm */; };
 		B754B2892772461D003E8566 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B754B2882772461D003E8566 /* ViewController.m */; };
 		B754B28B2772461F003E8566 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B754B28A2772461F003E8566 /* Assets.xcassets */; };
@@ -96,6 +97,8 @@
 		B732A0CF27E50C58008D61BF /* XMLCompatability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMLCompatability.h; sourceTree = "<group>"; };
 		B73F18B527F4E20900430C0C /* CodePoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodePoint.h; sourceTree = "<group>"; };
 		B73F18B627F4E85400430C0C /* String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = String.h; sourceTree = "<group>"; };
+		B747CD162875791C00E2DAA5 /* Context.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Context.cpp; sourceTree = "<group>"; };
+		B747CD172875791C00E2DAA5 /* Context.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Context.h; sourceTree = "<group>"; };
 		B754B2812772461D003E8566 /* Browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B754B2842772461D003E8566 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B754B2852772461D003E8566 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -217,6 +220,15 @@
 			path = Display;
 			sourceTree = "<group>";
 		};
+		B747CD12287578BA00E2DAA5 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				B747CD162875791C00E2DAA5 /* Context.cpp */,
+				B747CD172875791C00E2DAA5 /* Context.h */,
+			);
+			path = Graphics;
+			sourceTree = "<group>";
+		};
 		B754B2782772461D003E8566 = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +254,7 @@
 		B754B2832772461D003E8566 /* Browser */ = {
 			isa = PBXGroup;
 			children = (
+				B747CD12287578BA00E2DAA5 /* Graphics */,
 				B7CA6F5B27D21FE30071D699 /* Infra */,
 				B7C70AE127C5383400BCBE9A /* DOM */,
 				B754B2BB277262C0003E8566 /* HTML */,
@@ -548,6 +561,7 @@
 				B70E6A5F282AB7E10009814D /* BoxTreeConstructor.cpp in Sources */,
 				B7E6EAA727DBCB7B00A9BF21 /* Text.cpp in Sources */,
 				B754B2C1277338C8003E8566 /* Token.cpp in Sources */,
+				B747CD182875791C00E2DAA5 /* Context.cpp in Sources */,
 				B7C70AE427C5388000BCBE9A /* Document.cpp in Sources */,
 				B7F8A73827F35D68003B265C /* Parser.cpp in Sources */,
 				B7F60EEF27E25D8400021C5B /* HTMLHeadingElement.cpp in Sources */,
