@@ -6,3 +6,12 @@
 //
 
 #include "TextRun.h"
+
+namespace CSS {
+
+void TextRun::draw(Graphics::Context &context)
+{
+    context.draw_text(m_text);
+}
+
+}

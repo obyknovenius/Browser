@@ -18,6 +18,8 @@ class TextRun : public BoxTree::Node
 public:
     TextRun(std::string_view text) : m_text { text } {}
     
+    void draw(Graphics::Context &context) override;
+    
 private:
     std::string m_text;
 };

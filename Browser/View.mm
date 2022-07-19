@@ -6,9 +6,23 @@
 //
 
 #import "View.h"
+#import "CSS/Display/BoxTree.h"
+#import "CSS/Display/TextRun.h"
 #import "Graphics/Context.h"
 
 @implementation View
+
+CSS::BoxTree::Node* boxTree;
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self)
+    {
+        boxTree = new CSS::TextRun("Hello World");
+    }
+    return self;
+}
 
 - (BOOL)isFlipped
 {
@@ -22,7 +36,8 @@
     CGContextSetTextMatrix(cgContext, CGAffineTransformMakeScale(1.0f, -1.0f));
     
     Graphics::Context context { cgContext };
-    context.draw_text("Hello World!");
+    
+    boxTree->draw(context);
 }
 
 @end

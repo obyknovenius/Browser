@@ -7,8 +7,9 @@
 
 #pragma once
 
-namespace CSS {
+#include "../../Graphics/Context.h"
 
+namespace CSS {
 
 class BoxTree
 {
@@ -19,6 +20,8 @@ public:
         virtual ~Node() {}
         
         void set_parent(Node* parent);
+        
+        virtual void draw(Graphics::Context &context) = 0;
         
     private:
         Node* m_parent {};
