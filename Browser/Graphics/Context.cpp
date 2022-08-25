@@ -5,54 +5,58 @@
 //  Created by Vitaly Dyachkov on 06.07.22.
 //
 
-#include <CoreText/CoreText.h>
 #include "Context.h"
+#include <CoreFoundation/CoreFoundation.h>
+#include <CoreText/CoreText.h>
+#include <iostream>
 
 namespace Graphics {
 
-Context::Context(CGContextRef context)
+Context::Context(CGContextRef cg_context)
 {
-    CFRetain(context);
-    m_context = context;
+    CFRetain(cg_context);
+    m_cg_context = cg_context;
 }
 
 Context::~Context()
 {
-    CFRelease(m_context);
+    CFRelease(m_cg_context);
 }
 
-void Context::draw_text(std::string_view text)
+void Context::draw_text(const std::string& text, const Font& font, int y) const
 {
-    CGContextSetTextMatrix(m_context, CGAffineTransformMakeScale(1.0f, -1.0f));
+    CGContextSetTextMatrix(m_cg_context, CGAffineTransformMakeScale(1.0f, -1.0f));
+    CGContextSetTextPosition(m_cg_context, 0, y + font.get_ascent());
     
-    CFStringRef string = CFStringCreateWithCString(NULL, text.data(), kCFStringEncodingUTF8);
+    size_t count { text.size() };
     
-    CFStringRef fontName = CFSTR("Helvetica");
-    CGFloat fontSize = 24.0f;
-    CTFontRef font = CTFontCreateWithName(fontName, fontSize, NULL);
-    CFRelease(fontName);
+    UniChar* characters { new UniChar[count] };
+    for (long i { 0 }; i < count; i++) {
+        characters[i] = text[i];
+    }
     
-    CFStringRef keys[] = { kCTFontAttributeName };
-    CFTypeRef values[] = { font };
-        
-    CFDictionaryRef attributes = CFDictionaryCreate(NULL,
-                                                    (const void**)&keys,
-                                                    (const void**)&values,
-                                                    sizeof(keys) / sizeof(keys[0]),
-                                                    &kCFTypeDictionaryKeyCallBacks,
-                                                    &kCFTypeDictionaryValueCallBacks);
-    CFRelease(font);
+    CTFontRef ct_font { font.ct_font() };
     
-    CFAttributedStringRef attrString = CFAttributedStringCreate(NULL, string, attributes);
-    CFRelease(string);
-    CFRelease(attributes);
+    CGGlyph* glyphs { new CGGlyph[count] };
+    CTFontGetGlyphsForCharacters(ct_font, characters, glyphs, count);
+    delete[] characters;
     
-    CTLineRef line = CTLineCreateWithAttributedString(attrString);
-    CFRelease(attrString);
+    CGSize* advances = { new CGSize[count] };
+    CTFontGetAdvancesForGlyphs(ct_font, kCTFontOrientationHorizontal, glyphs, advances, count);
     
-    CGContextSetTextPosition(m_context, 0, CTFontGetAscent(font));
-    CTLineDraw(line, m_context);
-    CFRelease(line);
+    CGPoint* positions { new CGPoint[count] };
+    CGAffineTransform matrix { CGAffineTransformInvert(CGContextGetTextMatrix(m_cg_context)) };
+    positions[0] = CGPointZero;
+    for (int i { 1 }; i < count; ++i) {
+        CGSize advance { CGSizeApplyAffineTransform(advances[i - 1], matrix) };
+        positions[i].x = positions[i - 1].x + advance.width;
+        positions[i].y = positions[i - 1].y + advance.height;
+    }
+    delete[] advances;
+
+    CTFontDrawGlyphs(ct_font, glyphs, positions, count, m_cg_context);
+    delete[] positions;
+    delete[] glyphs;
 }
 
 }

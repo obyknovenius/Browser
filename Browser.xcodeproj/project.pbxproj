@@ -44,6 +44,7 @@
 		B7AB4E5D2885523A00A00456 /* TextFragment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E5B2885523A00A00456 /* TextFragment.cpp */; };
 		B7AB4E6028856E3800A00456 /* InlineFormattingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E5E28856E3800A00456 /* InlineFormattingContext.cpp */; };
 		B7AB4E63288571EC00A00456 /* FormattingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E61288571EC00A00456 /* FormattingContext.cpp */; };
+		B7AB4E682889227C00A00456 /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E662889227C00A00456 /* Font.cpp */; };
 		B7ACB13C27EE40DB00227C13 /* Tokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7ACB13A27EE40DB00227C13 /* Tokenizer.cpp */; };
 		B7ACB13F27EE429600227C13 /* Token.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7ACB13D27EE429600227C13 /* Token.cpp */; };
 		B7ACB14127EE440B00227C13 /* test.css in Resources */ = {isa = PBXBuildFile; fileRef = B7ACB14027EE440B00227C13 /* test.css */; };
@@ -158,6 +159,8 @@
 		B7AB4E61288571EC00A00456 /* FormattingContext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FormattingContext.cpp; sourceTree = "<group>"; };
 		B7AB4E62288571EC00A00456 /* FormattingContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormattingContext.h; sourceTree = "<group>"; };
 		B7AB4E642886C9E700A00456 /* FragmentationContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FragmentationContainer.h; sourceTree = "<group>"; };
+		B7AB4E662889227C00A00456 /* Font.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Font.cpp; sourceTree = "<group>"; };
+		B7AB4E672889227C00A00456 /* Font.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
 		B7ACB13A27EE40DB00227C13 /* Tokenizer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tokenizer.cpp; sourceTree = "<group>"; };
 		B7ACB13B27EE40DB00227C13 /* Tokenizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tokenizer.h; sourceTree = "<group>"; };
 		B7ACB13D27EE429600227C13 /* Token.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Token.cpp; sourceTree = "<group>"; };
@@ -236,6 +239,8 @@
 			children = (
 				B747CD162875791C00E2DAA5 /* Context.cpp */,
 				B747CD172875791C00E2DAA5 /* Context.h */,
+				B7AB4E662889227C00A00456 /* Font.cpp */,
+				B7AB4E672889227C00A00456 /* Font.h */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -598,6 +603,7 @@
 				B7ACB13C27EE40DB00227C13 /* Tokenizer.cpp in Sources */,
 				B764DF2C2812D40400E92D6D /* Declaration.cpp in Sources */,
 				B76AE44C280F3BF900138866 /* SimpleBlock.cpp in Sources */,
+				B7AB4E682889227C00A00456 /* Font.cpp in Sources */,
 				B7F8A74127F367E3003B265C /* ComponentValue.cpp in Sources */,
 				B754B2902772461F003E8566 /* main.m in Sources */,
 				B7B3D14727D918340043B0CE /* HTMLElement.cpp in Sources */,

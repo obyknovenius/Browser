@@ -21,7 +21,7 @@ public:
         
         void set_parent(Node* parent);
         
-        virtual void draw(Graphics::Context &context) = 0;
+        virtual void draw(const Graphics::Context &context) = 0;
         
     private:
         Node* m_parent {};

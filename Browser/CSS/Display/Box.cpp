@@ -9,7 +9,7 @@
 
 namespace CSS {
 
-void Box::draw(Graphics::Context &context)
+void Box::draw(const Graphics::Context &context)
 {
     
 }

@@ -7,21 +7,22 @@
 
 #pragma once
 
+#include "Font.h"
 #include <CoreGraphics/CoreGraphics.h>
-#include <string_view>
+#include <string>
 
 namespace Graphics {
 
 class Context final
 {
 public:
-    Context(CGContextRef context);
+    Context(CGContextRef cg_context);
     ~Context();
-    
-    void draw_text(std::string_view text);
+        
+    void draw_text(const std::string& text, const Font& font, int y) const;
     
 private:
-    CGContextRef m_context;
+    CGContextRef m_cg_context;
 };
 
 }

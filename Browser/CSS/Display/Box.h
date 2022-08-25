@@ -14,7 +14,7 @@ namespace CSS {
 class Box : public BoxTree::Node
 {
 public:
-    void draw(Graphics::Context &context) override;
+    void draw(const Graphics::Context &context) override;
 };
 
 }
