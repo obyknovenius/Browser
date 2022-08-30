@@ -7,19 +7,19 @@
 
 #pragma once
 
-#include <string>
+#include <string_view>
 
 namespace CSS {
 
 class Fragment final
 {
 public:
-    Fragment(const std::string& content) : m_content { content } {}
+    Fragment(const std::string_view content) : m_content { content } {}
     
-    const std::string& content() const { return m_content; }
+    const std::string_view content() const { return m_content; }
 
 private:
-    std::string m_content;
+    std::string_view m_content;
 };
 
 }

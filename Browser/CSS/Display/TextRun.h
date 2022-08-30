@@ -26,7 +26,7 @@ public:
     
     const Graphics::Font& font() const { return m_font; }
     
-    std::vector<Fragment> split(float remaining_fragmentainer_extent);
+    std::vector<Fragment> split(double remaining_fragmentainer_extent);
         
 private:
     std::string m_text;
