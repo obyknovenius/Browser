@@ -5,18 +5,22 @@
 //  Created by Vitaly Dyachkov on 15.07.22.
 //
 
+#pragma once
+
+#include "../Break/Fragment.h"
+#include <vector>
+
 namespace CSS {
 
 class LineBox
 {
 public:
-    void set_width();
+    void append(Fragment fragment);
     
-    void set_height();
-    
+    const std::vector<Fragment>& fragments() const { return m_fragments; }
+
 private:
-    float m_width;
-    float m_height;
+    std::vector<Fragment> m_fragments {};
 };
 
 }
