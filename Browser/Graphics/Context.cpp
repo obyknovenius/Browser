@@ -23,10 +23,10 @@ Context::~Context()
     CFRelease(m_cg_context);
 }
 
-void Context::draw_text(const std::string& text, const Font& font, int y) const
+void Context::draw_text(const std::string_view text, const Font& font, int y) const
 {
     CGContextSetTextMatrix(m_cg_context, CGAffineTransformMakeScale(1.0f, -1.0f));
-    CGContextSetTextPosition(m_cg_context, 0, y + font.get_ascent());
+    CGContextSetTextPosition(m_cg_context, 0, y + font.ascent());
     
     size_t count { text.size() };
     

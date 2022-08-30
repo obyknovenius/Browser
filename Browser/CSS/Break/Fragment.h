@@ -7,11 +7,19 @@
 
 #pragma once
 
+#include <string>
+
 namespace CSS {
 
-class Fragment
+class Fragment final
 {
+public:
+    Fragment(const std::string& content) : m_content { content } {}
     
+    const std::string& content() const { return m_content; }
+
+private:
+    std::string m_content;
 };
 
 }

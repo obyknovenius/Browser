@@ -39,9 +39,7 @@
 		B795C21027C8EDBA0032297C /* Comment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20E27C8EDBA0032297C /* Comment.cpp */; };
 		B7AB4E4F2881E9EC00A00456 /* LineBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E4D2881E9EC00A00456 /* LineBox.cpp */; };
 		B7AB4E542881F35000A00456 /* Fragment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E522881F35000A00456 /* Fragment.cpp */; };
-		B7AB4E572881F3AA00A00456 /* FragmentationContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E552881F3AA00A00456 /* FragmentationContainer.cpp */; };
 		B7AB4E5A28854F5100A00456 /* Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E5828854F5100A00456 /* Box.cpp */; };
-		B7AB4E5D2885523A00A00456 /* TextFragment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E5B2885523A00A00456 /* TextFragment.cpp */; };
 		B7AB4E6028856E3800A00456 /* InlineFormattingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E5E28856E3800A00456 /* InlineFormattingContext.cpp */; };
 		B7AB4E63288571EC00A00456 /* FormattingContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E61288571EC00A00456 /* FormattingContext.cpp */; };
 		B7AB4E682889227C00A00456 /* Font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7AB4E662889227C00A00456 /* Font.cpp */; };
@@ -149,16 +147,12 @@
 		B7AB4E4E2881E9EC00A00456 /* LineBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineBox.h; sourceTree = "<group>"; };
 		B7AB4E522881F35000A00456 /* Fragment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Fragment.cpp; sourceTree = "<group>"; };
 		B7AB4E532881F35000A00456 /* Fragment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fragment.h; sourceTree = "<group>"; };
-		B7AB4E552881F3AA00A00456 /* FragmentationContainer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FragmentationContainer.cpp; sourceTree = "<group>"; };
 		B7AB4E5828854F5100A00456 /* Box.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Box.cpp; sourceTree = "<group>"; };
 		B7AB4E5928854F5100A00456 /* Box.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Box.h; sourceTree = "<group>"; };
-		B7AB4E5B2885523A00A00456 /* TextFragment.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextFragment.cpp; sourceTree = "<group>"; };
-		B7AB4E5C2885523A00A00456 /* TextFragment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextFragment.h; sourceTree = "<group>"; };
 		B7AB4E5E28856E3800A00456 /* InlineFormattingContext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InlineFormattingContext.cpp; sourceTree = "<group>"; };
 		B7AB4E5F28856E3800A00456 /* InlineFormattingContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InlineFormattingContext.h; sourceTree = "<group>"; };
 		B7AB4E61288571EC00A00456 /* FormattingContext.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FormattingContext.cpp; sourceTree = "<group>"; };
 		B7AB4E62288571EC00A00456 /* FormattingContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormattingContext.h; sourceTree = "<group>"; };
-		B7AB4E642886C9E700A00456 /* FragmentationContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FragmentationContainer.h; sourceTree = "<group>"; };
 		B7AB4E662889227C00A00456 /* Font.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Font.cpp; sourceTree = "<group>"; };
 		B7AB4E672889227C00A00456 /* Font.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
 		B7ACB13A27EE40DB00227C13 /* Tokenizer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Tokenizer.cpp; sourceTree = "<group>"; };
@@ -397,10 +391,6 @@
 			children = (
 				B7AB4E522881F35000A00456 /* Fragment.cpp */,
 				B7AB4E532881F35000A00456 /* Fragment.h */,
-				B7AB4E552881F3AA00A00456 /* FragmentationContainer.cpp */,
-				B7AB4E642886C9E700A00456 /* FragmentationContainer.h */,
-				B7AB4E5B2885523A00A00456 /* TextFragment.cpp */,
-				B7AB4E5C2885523A00A00456 /* TextFragment.h */,
 			);
 			path = Break;
 			sourceTree = "<group>";
@@ -587,7 +577,6 @@
 				B7AB4E4F2881E9EC00A00456 /* LineBox.cpp in Sources */,
 				B7AB4E63288571EC00A00456 /* FormattingContext.cpp in Sources */,
 				B70E6A68282AD9470009814D /* BoxTree.cpp in Sources */,
-				B7AB4E572881F3AA00A00456 /* FragmentationContainer.cpp in Sources */,
 				B721C6DA27D20B3300D9539F /* List.cpp in Sources */,
 				B764DF1E28102B5600E92D6D /* CSSStyleSheet.cpp in Sources */,
 				B7C70ADD27C522F600BCBE9A /* TreeConstructor.cpp in Sources */,
@@ -607,7 +596,6 @@
 				B7F8A74127F367E3003B265C /* ComponentValue.cpp in Sources */,
 				B754B2902772461F003E8566 /* main.m in Sources */,
 				B7B3D14727D918340043B0CE /* HTMLElement.cpp in Sources */,
-				B7AB4E5D2885523A00A00456 /* TextFragment.cpp in Sources */,
 				B70E6A5F282AB7E10009814D /* BoxTreeConstructor.cpp in Sources */,
 				B7E6EAA727DBCB7B00A9BF21 /* Text.cpp in Sources */,
 				B754B2C1277338C8003E8566 /* Token.cpp in Sources */,

@@ -12,32 +12,31 @@ namespace CSS {
 
 void TextRun::draw(const Graphics::Context &context)
 {
-    Graphics::Font font { "Helvetica", 24 };
-    context.draw_text(m_text, font, 0);
+    context.draw_text(m_text, m_font, 0);
 }
 
-std::vector<std::string> TextRun::lines(const Graphics::Font& font, float width)
+std::vector<Fragment> TextRun::split(float remaining_fragmentainer_extent)
 {
-    std::vector<std::string> lines {};
+    std::vector<Fragment> fragments {};
     
     std::string line {};
     
-    double line_width = width;
+    double line_width = remaining_fragmentainer_extent;
     
-    double whitespace_width = font.width(" ");
+    double whitespace_width = m_font.width(" ");
     
     auto word_begin = m_text.begin();
     for (auto it = word_begin; it != m_text.end() ; ++it)
     {
         if (*it == ' ') {
             auto word = std::string(word_begin, it);
-            auto word_width = font.width(word);
+            auto word_width = m_font.width(word);
                         
             if (line_width < word_width)
             {
-                lines.push_back(line);
+                fragments.push_back({ line });
                 line = {};
-                line_width = width;
+                line_width = remaining_fragmentainer_extent;
             }
             
             line += word;
@@ -48,9 +47,9 @@ std::vector<std::string> TextRun::lines(const Graphics::Font& font, float width)
         }
     }
     
-    lines.push_back(line);
+    fragments.push_back({ line });
 
-    return lines;
+    return fragments;
 }
 
 }

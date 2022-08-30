@@ -11,21 +11,17 @@ namespace Graphics {
 
 Font::Font(const std::string& name, float size)
 {
-    CFStringRef cf_name = CFStringCreateWithCString(NULL, name.c_str(), kCFStringEncodingUTF8);
+    CFStringRef cf_name { CFStringCreateWithCString(kCFAllocatorDefault, name.c_str(), kCFStringEncodingUTF8) };
     m_ct_font = CTFontCreateWithName(cf_name, size, NULL);
     CFRelease(cf_name);
     
     m_ascent = CTFontGetAscent(m_ct_font);
+    m_descent = CTFontGetDescent(m_ct_font);
 }
 
 Font::~Font()
 {
     CFRelease(m_ct_font);
-}
-
-float Font::get_ascent() const
-{
-    return m_ascent;
 }
 
 double Font::width(std::string_view text) const

@@ -8,6 +8,7 @@
 #import "View.h"
 #import "CSS/Display/BoxTree.h"
 #import "CSS/Display/TextRun.h"
+#import "CSS/Break/Fragment.h"
 #import "Graphics/Context.h"
 
 @implementation View
@@ -39,19 +40,19 @@ CSS::TextRun* textRun;
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGContextRef cgContext = [NSGraphicsContext currentContext].CGContext;
-    
     Graphics::Context context { cgContext };
-    
-    Graphics::Font font { "Helvetica", 24 };
-         
+             
     CGRect frame = self.frame;
-    std::vector<std::string> lines = textRun->lines(font, frame.size.width);
+    std::vector<CSS::Fragment> fragments = textRun->split(frame.size.width);
+    
+    const Graphics::Font& font = textRun->font();
+    
     int y = 0;
-    for (int i { 0 }; i < lines.size(); ++i)
+    for (int i { 0 }; i < fragments.size(); ++i)
     {
-        const auto& line = lines.at(i);
-        context.draw_text(line, font, y);
-        y += 24;
+        const auto& fragment = fragments.at(i);
+        context.draw_text(fragment.content(), font, y);
+        y += (font.ascent() + font.descent());
     }
 }
 
