@@ -18,15 +18,13 @@ namespace CSS {
 class TextRun : public BoxTree::Node
 {
 public:
-    TextRun(std::string_view text) : m_text { text }, m_font { "Helvetica", 24 } {}
+    TextRun(std::string_view text) : m_text { text }, m_font { "Times", 16 } {}
     
     void draw(const Graphics::Context& context) override;
     
     const std::string& text() const { return m_text; }
     
     const Graphics::Font& font() const { return m_font; }
-    
-    std::vector<Fragment> split(double remaining_fragmentainer_extent);
         
 private:
     std::string m_text;

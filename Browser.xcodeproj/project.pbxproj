@@ -48,6 +48,7 @@
 		B7ACB14127EE440B00227C13 /* test.css in Resources */ = {isa = PBXBuildFile; fileRef = B7ACB14027EE440B00227C13 /* test.css */; };
 		B7B3D14427D917440043B0CE /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7B3D14227D917440043B0CE /* Element.cpp */; };
 		B7B3D14727D918340043B0CE /* HTMLElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7B3D14527D918340043B0CE /* HTMLElement.cpp */; };
+		B7BB46F928BE406E00C26410 /* FragmentIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7BB46F728BE406E00C26410 /* FragmentIterator.cpp */; };
 		B7BC75DE2808023500679853 /* SimpleSelector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7BC75DC2808023500679853 /* SimpleSelector.cpp */; };
 		B7C70ADD27C522F600BCBE9A /* TreeConstructor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70ADB27C522F600BCBE9A /* TreeConstructor.cpp */; };
 		B7C70AE427C5388000BCBE9A /* Document.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B7C70AE227C5387F00BCBE9A /* Document.cpp */; };
@@ -164,6 +165,8 @@
 		B7B3D14327D917440043B0CE /* Element.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Element.h; sourceTree = "<group>"; };
 		B7B3D14527D918340043B0CE /* HTMLElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HTMLElement.cpp; sourceTree = "<group>"; };
 		B7B3D14627D918340043B0CE /* HTMLElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLElement.h; sourceTree = "<group>"; };
+		B7BB46F728BE406E00C26410 /* FragmentIterator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FragmentIterator.cpp; sourceTree = "<group>"; };
+		B7BB46F828BE406E00C26410 /* FragmentIterator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FragmentIterator.h; sourceTree = "<group>"; };
 		B7BC75DC2808023500679853 /* SimpleSelector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleSelector.cpp; sourceTree = "<group>"; };
 		B7BC75DD2808023500679853 /* SimpleSelector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleSelector.h; sourceTree = "<group>"; };
 		B7C70ADB27C522F600BCBE9A /* TreeConstructor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TreeConstructor.cpp; sourceTree = "<group>"; };
@@ -391,6 +394,8 @@
 			children = (
 				B7AB4E522881F35000A00456 /* Fragment.cpp */,
 				B7AB4E532881F35000A00456 /* Fragment.h */,
+				B7BB46F728BE406E00C26410 /* FragmentIterator.cpp */,
+				B7BB46F828BE406E00C26410 /* FragmentIterator.h */,
 			);
 			path = Break;
 			sourceTree = "<group>";
@@ -590,6 +595,7 @@
 				B709D92F27D0E5C000FD3B22 /* DocumentType.cpp in Sources */,
 				B7AB4E542881F35000A00456 /* Fragment.cpp in Sources */,
 				B7ACB13C27EE40DB00227C13 /* Tokenizer.cpp in Sources */,
+				B7BB46F928BE406E00C26410 /* FragmentIterator.cpp in Sources */,
 				B764DF2C2812D40400E92D6D /* Declaration.cpp in Sources */,
 				B76AE44C280F3BF900138866 /* SimpleBlock.cpp in Sources */,
 				B7AB4E682889227C00A00456 /* Font.cpp in Sources */,

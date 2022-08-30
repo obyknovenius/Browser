@@ -9,6 +9,7 @@
 #import "CSS/Display/BoxTree.h"
 #import "CSS/Display/TextRun.h"
 #import "CSS/Break/Fragment.h"
+#import "CSS/Break/FragmentIterator.h"
 #import "Graphics/Context.h"
 
 @implementation View
@@ -41,17 +42,15 @@ CSS::TextRun* textRun;
 {
     CGContextRef cgContext = [NSGraphicsContext currentContext].CGContext;
     Graphics::Context context { cgContext };
-             
-    CGRect frame = self.frame;
-    std::vector<CSS::Fragment> fragments = textRun->split(frame.size.width);
     
     const Graphics::Font& font = textRun->font();
+        
+    CSS::FragmentIterator it { textRun->text(), font };
     
     int y = 0;
-    for (int i { 0 }; i < fragments.size(); ++i)
+    while (std::optional<CSS::Fragment> fragment { it.next_fragment(self.frame.size.width) })
     {
-        const auto& fragment = fragments.at(i);
-        context.draw_text(fragment.content(), font, y);
+        context.draw_text(fragment->content(), font, y);
         y += (font.ascent() + font.descent());
     }
 }
