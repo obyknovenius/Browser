@@ -9,7 +9,7 @@
 #include "../../DOM/Document.h"
 #include "../../DOM/Element.h"
 #include "../../DOM/Text.h"
-#include "Box.h"
+#include "BlockBox.h"
 #include "TextRun.h"
 
 namespace CSS {
@@ -42,12 +42,12 @@ BoxTree::Node* BoxTreeConstructor::create_node_for(const DOM::Node* node)
 {
     if (node->is<DOM::Document>())
     {
-        return new Box();
+        return new BlockBox();
     }
     
     if (node->is<DOM::Element>())
     {
-        return new Box();
+        return new BlockBox();
     }
     
     if (const auto* text { node->is<DOM::Text>() })

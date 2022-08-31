@@ -34,6 +34,10 @@
 		B764DF2128102B8400E92D6D /* StyleRule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B764DF1F28102B8400E92D6D /* StyleRule.cpp */; };
 		B764DF2C2812D40400E92D6D /* Declaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B764DF2A2812D40400E92D6D /* Declaration.cpp */; };
 		B76AE44C280F3BF900138866 /* SimpleBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B76AE44A280F3BF900138866 /* SimpleBlock.cpp */; };
+		B76DF84428BF9A810046E4B2 /* Size.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B76DF84228BF9A810046E4B2 /* Size.cpp */; };
+		B76DF84728BF9C5E0046E4B2 /* BlockContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B76DF84528BF9C5E0046E4B2 /* BlockContainer.cpp */; };
+		B76DF84A28BF9DA50046E4B2 /* InlineBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B76DF84828BF9DA50046E4B2 /* InlineBox.cpp */; };
+		B76DF84D28BF9DB20046E4B2 /* BlockBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B76DF84B28BF9DB20046E4B2 /* BlockBox.cpp */; };
 		B76EE9322806D6F4003A7B14 /* TokenStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B76EE9302806D6F4003A7B14 /* TokenStream.cpp */; };
 		B795C20D27C8D4E90032297C /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20B27C8D4E90032297C /* Node.cpp */; };
 		B795C21027C8EDBA0032297C /* Comment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B795C20E27C8EDBA0032297C /* Comment.cpp */; };
@@ -138,6 +142,14 @@
 		B764DF2B2812D40400E92D6D /* Declaration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Declaration.h; sourceTree = "<group>"; };
 		B76AE44A280F3BF900138866 /* SimpleBlock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleBlock.cpp; sourceTree = "<group>"; };
 		B76AE44B280F3BF900138866 /* SimpleBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleBlock.h; sourceTree = "<group>"; };
+		B76DF84228BF9A810046E4B2 /* Size.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Size.cpp; sourceTree = "<group>"; };
+		B76DF84328BF9A810046E4B2 /* Size.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Size.h; sourceTree = "<group>"; };
+		B76DF84528BF9C5E0046E4B2 /* BlockContainer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BlockContainer.cpp; sourceTree = "<group>"; };
+		B76DF84628BF9C5E0046E4B2 /* BlockContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockContainer.h; sourceTree = "<group>"; };
+		B76DF84828BF9DA50046E4B2 /* InlineBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = InlineBox.cpp; sourceTree = "<group>"; };
+		B76DF84928BF9DA50046E4B2 /* InlineBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InlineBox.h; sourceTree = "<group>"; };
+		B76DF84B28BF9DB20046E4B2 /* BlockBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BlockBox.cpp; sourceTree = "<group>"; };
+		B76DF84C28BF9DB20046E4B2 /* BlockBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockBox.h; sourceTree = "<group>"; };
 		B76EE9302806D6F4003A7B14 /* TokenStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TokenStream.cpp; sourceTree = "<group>"; };
 		B76EE9312806D6F4003A7B14 /* TokenStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TokenStream.h; sourceTree = "<group>"; };
 		B795C20B27C8D4E90032297C /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
@@ -227,6 +239,12 @@
 				B70E6A67282AD9470009814D /* BoxTree.h */,
 				B7AB4E5828854F5100A00456 /* Box.cpp */,
 				B7AB4E5928854F5100A00456 /* Box.h */,
+				B76DF84528BF9C5E0046E4B2 /* BlockContainer.cpp */,
+				B76DF84628BF9C5E0046E4B2 /* BlockContainer.h */,
+				B76DF84828BF9DA50046E4B2 /* InlineBox.cpp */,
+				B76DF84928BF9DA50046E4B2 /* InlineBox.h */,
+				B76DF84B28BF9DB20046E4B2 /* BlockBox.cpp */,
+				B76DF84C28BF9DB20046E4B2 /* BlockBox.h */,
 			);
 			path = Display;
 			sourceTree = "<group>";
@@ -238,6 +256,8 @@
 				B747CD172875791C00E2DAA5 /* Context.h */,
 				B7AB4E662889227C00A00456 /* Font.cpp */,
 				B7AB4E672889227C00A00456 /* Font.h */,
+				B76DF84228BF9A810046E4B2 /* Size.cpp */,
+				B76DF84328BF9A810046E4B2 /* Size.h */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -569,6 +589,7 @@
 				B764DF2128102B8400E92D6D /* StyleRule.cpp in Sources */,
 				B7AB4E5A28854F5100A00456 /* Box.cpp in Sources */,
 				B722914827DA8581008C6DBE /* HTMLHtmlElement.cpp in Sources */,
+				B76DF84D28BF9DB20046E4B2 /* BlockBox.cpp in Sources */,
 				B75C28C627FEE37A0034103B /* StyleSheet.cpp in Sources */,
 				B7ACB13F27EE429600227C13 /* Token.cpp in Sources */,
 				B71C118E2784A2E40098A611 /* Parser.cpp in Sources */,
@@ -583,12 +604,15 @@
 				B7AB4E63288571EC00A00456 /* FormattingContext.cpp in Sources */,
 				B70E6A68282AD9470009814D /* BoxTree.cpp in Sources */,
 				B721C6DA27D20B3300D9539F /* List.cpp in Sources */,
+				B76DF84728BF9C5E0046E4B2 /* BlockContainer.cpp in Sources */,
 				B764DF1E28102B5600E92D6D /* CSSStyleSheet.cpp in Sources */,
 				B7C70ADD27C522F600BCBE9A /* TreeConstructor.cpp in Sources */,
 				B76EE9322806D6F4003A7B14 /* TokenStream.cpp in Sources */,
 				B7E6EAAA27DBCBBA00A9BF21 /* CharacterData.cpp in Sources */,
 				B7BC75DE2808023500679853 /* SimpleSelector.cpp in Sources */,
 				B7F60EEC27E2520100021C5B /* HTMLBodyElement.cpp in Sources */,
+				B76DF84A28BF9DA50046E4B2 /* InlineBox.cpp in Sources */,
+				B76DF84428BF9A810046E4B2 /* Size.cpp in Sources */,
 				B7B3D14427D917440043B0CE /* Element.cpp in Sources */,
 				B70E6A6B282E5AA30009814D /* Tree.cpp in Sources */,
 				B795C20D27C8D4E90032297C /* Node.cpp in Sources */,

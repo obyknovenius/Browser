@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface View : NSView
 
-@property CSS::TextRun *textRun;
+@property CSS::BoxTree::Node *boxTree;
 
 @end
 

@@ -13,8 +13,6 @@ namespace CSS {
 
 class Box : public BoxTree::Node
 {
-public:
-    void draw(const Graphics::Context &context) override;
 };
 
 }

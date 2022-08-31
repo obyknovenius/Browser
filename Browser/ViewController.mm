@@ -7,15 +7,32 @@
 
 #import "ViewController.h"
 #import "View.h"
+#import "CSS/Display/BoxTree.h"
+#import "CSS/Display/BoxTreeConstructor.h"
 #import "CSS/Display/TextRun.h"
+#import "DOM/Document.h"
+#import "DOM/Tree.h"
+#import "HTML/Parser.h"
+#import <iostream>
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    
+    const char *testHtml = [[bundle pathForResource:@"test" ofType:@"html"] cStringUsingEncoding:NSUTF8StringEncoding];
+    std::ifstream input_stream { testHtml };
+    HTML::Parser html_parser { input_stream };
+    DOM::Document* document { html_parser.parse() };
+    DOM::dump_tree(document);
+    
+    CSS::BoxTreeConstructor box_tree_constructor {};
+    CSS::BoxTree::Node* box_tree { box_tree_constructor.construct_tree(document) };
 
     View* view = (View *)self.view;
-    view.textRun = new CSS::TextRun("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac feugiat erat. Donec venenatis mattis rutrum. Curabitur id nisi vehicula lacus volutpat fringilla vitae eu est. Sed id ultricies ligula, non mattis nisi. Vestibulum blandit nisl id sem egestas eleifend. In porttitor maximus aliquam. Sed id aliquam dui. Aliquam a pretium elit. Phasellus pretium nisl vel mi efficitur ultrices.");
+    view.boxTree = box_tree;
 }
 
 

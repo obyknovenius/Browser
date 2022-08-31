@@ -8,10 +8,4 @@
 #include "Box.h"
 
 namespace CSS {
-
-void Box::draw(const Graphics::Context &context)
-{
-    
-}
-
 }

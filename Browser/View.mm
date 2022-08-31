@@ -32,7 +32,7 @@
 
 - (void)dealloc
 {
-    delete _textRun;
+    delete _boxTree;
     delete _lineBoxes;
 }
 
@@ -60,16 +60,7 @@
 
 - (void)layout
 {
-    self.lineBoxes->clear();
-    
-    CSS::FragmentIterator it = CSS::FragmentIterator(self.textRun->text(), self.textRun->font());
-    
-    while (std::optional<CSS::Fragment> fragment = it.next_fragment(self.frame.size.width))
-    {
-        CSS::LineBox lineBox = CSS::LineBox();
-        lineBox.append(*fragment);
-        self.lineBoxes->push_back(lineBox);
-    }
+    self.boxTree->layout({ self.frame.size.width, self.frame.size.height});
     
     [self setNeedsDisplay:YES];
 }
@@ -79,16 +70,7 @@
     CGContextRef cgContext = [NSGraphicsContext currentContext].CGContext;
     Graphics::Context context = Graphics::Context(cgContext);
     
-    const Graphics::Font& font = self.textRun->font();
-    int y = 0;
-    for (const CSS::LineBox& lineBox : *self.lineBoxes)
-    {
-        for (const CSS::Fragment& fragment : lineBox.fragments())
-        {
-            context.draw_text(fragment.content(), font, y);
-        }
-        y += (font.ascent() + font.descent());
-    }
+    self.boxTree->draw(context);
 }
 
 @end

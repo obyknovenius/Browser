@@ -28,7 +28,7 @@ std::optional<Fragment> FragmentIterator::next_fragment(double remaining_fragmen
             {
                 ++m_pos;
                 std::string_view line { m_fragmented_flow.data() + line_begin, word_begin - line_begin };
-                return { line };
+                return Fragment { line, m_font };
             }
             
             line_width -= (word_wdith + space_width);
