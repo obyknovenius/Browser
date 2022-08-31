@@ -18,7 +18,7 @@
 		B722914B27DA85A4008C6DBE /* HTMLHeadElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B722914927DA85A4008C6DBE /* HTMLHeadElement.cpp */; };
 		B747CD182875791C00E2DAA5 /* Context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B747CD162875791C00E2DAA5 /* Context.cpp */; };
 		B754B2862772461D003E8566 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = B754B2852772461D003E8566 /* AppDelegate.mm */; };
-		B754B2892772461D003E8566 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B754B2882772461D003E8566 /* ViewController.m */; };
+		B754B2892772461D003E8566 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B754B2882772461D003E8566 /* ViewController.mm */; };
 		B754B28B2772461F003E8566 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B754B28A2772461F003E8566 /* Assets.xcassets */; };
 		B754B28E2772461F003E8566 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B754B28C2772461F003E8566 /* Main.storyboard */; };
 		B754B2902772461F003E8566 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B754B28F2772461F003E8566 /* main.m */; };
@@ -109,7 +109,7 @@
 		B754B2842772461D003E8566 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B754B2852772461D003E8566 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		B754B2872772461D003E8566 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		B754B2882772461D003E8566 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		B754B2882772461D003E8566 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		B754B28A2772461F003E8566 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B754B28D2772461F003E8566 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B754B28F2772461F003E8566 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -275,7 +275,7 @@
 				B754B2842772461D003E8566 /* AppDelegate.h */,
 				B754B2852772461D003E8566 /* AppDelegate.mm */,
 				B754B2872772461D003E8566 /* ViewController.h */,
-				B754B2882772461D003E8566 /* ViewController.m */,
+				B754B2882772461D003E8566 /* ViewController.mm */,
 				B754B28A2772461F003E8566 /* Assets.xcassets */,
 				B754B28C2772461F003E8566 /* Main.storyboard */,
 				B754B28F2772461F003E8566 /* main.m */,
@@ -576,7 +576,7 @@
 				B722914B27DA85A4008C6DBE /* HTMLHeadElement.cpp in Sources */,
 				B754B2B52772463E003E8566 /* View.mm in Sources */,
 				B70E6A62282AC2510009814D /* TextRun.cpp in Sources */,
-				B754B2892772461D003E8566 /* ViewController.m in Sources */,
+				B754B2892772461D003E8566 /* ViewController.mm in Sources */,
 				B795C21027C8EDBA0032297C /* Comment.cpp in Sources */,
 				B7F8A73E27F36714003B265C /* QualifiedRule.cpp in Sources */,
 				B7AB4E4F2881E9EC00A00456 /* LineBox.cpp in Sources */,

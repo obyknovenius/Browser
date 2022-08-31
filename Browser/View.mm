@@ -6,35 +6,34 @@
 //
 
 #import "View.h"
-#import "CSS/Display/BoxTree.h"
-#import "CSS/Display/TextRun.h"
 #import "CSS/Inline/LineBox.h"
 #import "CSS/Break/Fragment.h"
 #import "CSS/Break/FragmentIterator.h"
 #import "Graphics/Context.h"
 #import <vector>
 
+@interface View ()
+
+@property (readonly) std::vector<CSS::LineBox> *lineBoxes;
+
+@end
+
 @implementation View
-
-CSS::TextRun* textRun;
-
-std::vector<CSS::LineBox> *lineBoxes;
 
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
     if (self)
     {
-        textRun = new CSS::TextRun("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac feugiat erat. Donec venenatis mattis rutrum. Curabitur id nisi vehicula lacus volutpat fringilla vitae eu est. Sed id ultricies ligula, non mattis nisi. Vestibulum blandit nisl id sem egestas eleifend. In porttitor maximus aliquam. Sed id aliquam dui. Aliquam a pretium elit. Phasellus pretium nisl vel mi efficitur ultrices.");
-        lineBoxes = new std::vector<CSS::LineBox>();
+        _lineBoxes = new std::vector<CSS::LineBox>();
     }
     return self;
 }
 
 - (void)dealloc
 {
-    delete textRun;
-    delete lineBoxes;
+    delete _textRun;
+    delete _lineBoxes;
 }
 
 - (BOOL)wantsLayer
@@ -61,15 +60,15 @@ std::vector<CSS::LineBox> *lineBoxes;
 
 - (void)layout
 {
-    lineBoxes->clear();
+    self.lineBoxes->clear();
     
-    CSS::FragmentIterator it { textRun->text(), textRun->font() };
+    CSS::FragmentIterator it = CSS::FragmentIterator(self.textRun->text(), self.textRun->font());
     
-    while (std::optional<CSS::Fragment> fragment { it.next_fragment(self.frame.size.width) })
+    while (std::optional<CSS::Fragment> fragment = it.next_fragment(self.frame.size.width))
     {
         CSS::LineBox lineBox = CSS::LineBox();
         lineBox.append(*fragment);
-        lineBoxes->push_back(lineBox);
+        self.lineBoxes->push_back(lineBox);
     }
     
     [self setNeedsDisplay:YES];
@@ -78,11 +77,11 @@ std::vector<CSS::LineBox> *lineBoxes;
 - (void)drawRect:(NSRect)dirtyRect
 {
     CGContextRef cgContext = [NSGraphicsContext currentContext].CGContext;
-    Graphics::Context context { cgContext };
+    Graphics::Context context = Graphics::Context(cgContext);
     
-    const Graphics::Font& font = textRun->font();
+    const Graphics::Font& font = self.textRun->font();
     int y = 0;
-    for (const CSS::LineBox& lineBox : *lineBoxes)
+    for (const CSS::LineBox& lineBox : *self.lineBoxes)
     {
         for (const CSS::Fragment& fragment : lineBox.fragments())
         {
