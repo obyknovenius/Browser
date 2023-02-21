@@ -5,7 +5,7 @@ project(Browser)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM REQUIRED gtkmm-4.0)
 
-add_executable(browser main.cpp Window.cpp)
+add_executable(browser main.cpp Window.cpp WebView.cpp)
 
 target_link_libraries(browser ${GTKMM_LIBRARIES})
 target_include_directories(browser PUBLIC ${GTKMM_INCLUDE_DIRS})
