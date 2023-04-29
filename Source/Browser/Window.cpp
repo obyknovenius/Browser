@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include <gtkmm.h>
+
 namespace Browser {
 
 Window::Window()
