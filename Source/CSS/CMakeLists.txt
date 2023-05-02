@@ -2,6 +2,7 @@ set(CSS_SOURCES)
 
 add_subdirectory(Break)
 add_subdirectory(Display)
+add_subdirectory(Inline)
 
 add_library(css STATIC ${CSS_SOURCES})
 

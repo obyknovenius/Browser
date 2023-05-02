@@ -16,50 +16,51 @@ FragmentedFlow::FragmentedFlow(const Box& fragmentation_root, const Cairo::Conte
     context.get_text_extents(" ", whitespace_extents);
     m_whitespace_advance = whitespace_extents.x_advance;
 
-    auto previous_soft_wrap_opportunity { m_text.cbegin() };
+    auto previous_soft_wrap_opportunity { m_text.cbegin() - 1 };
     for (auto character { m_text.cbegin() }; character <= m_text.cend(); ++character)
     {
         if (*character == ' ' || character == m_text.cend())
         {
-            std::string word { previous_soft_wrap_opportunity, character };
+            std::string word { previous_soft_wrap_opportunity + 1, character };
             Cairo::TextExtents extents {};
             context.get_text_extents(word, extents);
 
-            m_words.push_back({ previous_soft_wrap_opportunity, character, extents.x_advance });
+            m_words.push_back({ previous_soft_wrap_opportunity + 1, character, extents.x_advance });
 
-            previous_soft_wrap_opportunity = character + 1;
+            previous_soft_wrap_opportunity = character;
         }
     }
 
     m_new_line_word = m_words.cbegin();
 }
 
-std::unique_ptr<BoxFragment> FragmentedFlow::next_fragment(const Cairo::Context& context, float remaining_fragmentainer_extent)
+const BoxFragment* FragmentedFlow::next_fragment(double remaining_fragmentainer_extent)
 {
     assert(has_next_fragment());
 
-    double fragment_advance { 0 };
+    double fragment_width { 0 };
     for (auto word { m_new_line_word }; word < m_words.cend(); ++word)
     {
         double advance = word->advance;
         if (word != m_new_line_word)
-        {
             advance += m_whitespace_advance;
-        }
 
-        if ((fragment_advance + advance) > remaining_fragmentainer_extent)
+        if ((fragment_width + advance) > remaining_fragmentainer_extent)
         {
+            if (word == m_new_line_word)
+                return nullptr;
+
             std::string fragment_text { m_new_line_word->begin, (word - 1)->end };
             m_new_line_word = word;
-            return std::make_unique<BoxFragment>(fragment_text);
+            return new BoxFragment(fragment_text, fragment_width);
         }
 
-        fragment_advance += advance;
+        fragment_width += advance;
     }
 
     std::string fragment_text { m_new_line_word->begin, m_text.cend() };
     m_new_line_word = m_words.end();
-    return std::make_unique<BoxFragment>(fragment_text);
+    return new BoxFragment(fragment_text, fragment_width);
 }
 
 }
