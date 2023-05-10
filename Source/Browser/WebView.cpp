@@ -1,9 +1,9 @@
 #include "Window.h"
 
 #include "../CSS/Break/BoxFragment.h"
-#include "../CSS/Break/FragmentedFlow.h"
 #include "../CSS/Display/InlineBox.h"
 #include "../CSS/Display/TextSequence.h"
+#include "../CSS/Inline/InlineFormattingContext.h"
 #include "../CSS/Inline/LineBox.h"
 
 #include <gtkmm.h>
@@ -22,27 +22,8 @@ void WebView::on_draw(const Cairo::RefPtr<Cairo::Context>& context, int width, i
     CSS::InlineBox root_inline_box {};
     text_sequence.set_parent(&root_inline_box);
 
-    CSS::FragmentedFlow fragmented_flow { root_inline_box, *context };
-
-    std::vector<const CSS::LineBox*> line_boxes {};
-
-    CSS::LineBox* line_box { new CSS::LineBox() };
-    line_boxes.push_back(line_box);
-
-    double remaining_fragmentainer_extent { width };
-    while (fragmented_flow.has_next_fragment())
-    {
-        const CSS::BoxFragment* fragment { fragmented_flow.next_fragment(remaining_fragmentainer_extent) };
-        if (!fragment)
-        {
-            remaining_fragmentainer_extent = width;
-            line_box = new CSS::LineBox();
-            line_boxes.push_back(line_box);
-            continue;
-        }
-        line_box->add_fragment(fragment);
-        remaining_fragmentainer_extent -= fragment->width();
-    }
+    CSS::InlineFormattingContext inline_formatting_context { root_inline_box, *context };
+    inline_formatting_context.layout(width);
 
     double y { 0 };
 
@@ -51,13 +32,15 @@ void WebView::on_draw(const Cairo::RefPtr<Cairo::Context>& context, int width, i
 
     context->set_source_rgb(0.0, 0.0, 0.0);
 
-    for (const CSS::LineBox *line_box : line_boxes)
+    for (const CSS::LineBox *line_box : inline_formatting_context.line_boxes())
     {
         y += font_extents.height;
         context->move_to(0, y);
 
         for (const CSS::BoxFragment* fragment : line_box->fragments())
+        {
             context->show_text(fragment->text());
+        }
     }
 }
 

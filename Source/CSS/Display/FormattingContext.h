@@ -1,13 +1,11 @@
 #pragma once
 
-#include "../Break/FragmentationContext.h"
-
 namespace CSS {
 
-class FormattingContext : public FragmentationContext
+class FormattingContext
 {
 public:
-    virtual ~FormattingContext();
+    virtual ~FormattingContext() = default;
 };
 
 }

@@ -6,9 +6,8 @@ namespace CSS {
 
 class FragmentationContext
 {
-    virtual ~FragmentationContext() {}
-
-    virtual Fragmentainer& create_fragmentainer() = 0;
+public:
+    virtual ~FragmentationContext() = default;
 };
 
 }

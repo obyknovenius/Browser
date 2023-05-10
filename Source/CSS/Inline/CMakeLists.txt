@@ -1,4 +1,5 @@
 set(CSS_INLINE_SOURCES
+    InlineFormattingContext.cpp
     LineBox.cpp
 )
 
