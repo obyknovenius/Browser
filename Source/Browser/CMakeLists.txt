@@ -14,3 +14,5 @@ target_link_libraries(browser PRIVATE css ${GTKMM_LIBRARIES})
 target_include_directories(browser PUBLIC ${GTKMM_INCLUDE_DIRS})
 
 target_compile_options(browser PUBLIC ${GTKMM_CFLAGS_OTHER})
+
+install(TARGETS browser DESTINATION bin)

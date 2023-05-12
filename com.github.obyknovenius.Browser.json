@@ -1,0 +1,110 @@
+{
+    "app-id": "com.github.obyknovenius.Browser",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "44",
+    "sdk": "org.gnome.Sdk",
+    "command": "browser",
+    "finish-args": [
+        "--socket=wayland",
+        "--device=dri"
+    ],
+    "modules": [
+        {
+            "name": "mm-common",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/mm-common.git",
+                    "tag": "1.0.5"
+                },
+                {
+                    "type": "file",
+                    "url": "https://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen/libstdc++.tag",
+                    "sha256": "dfb6521cb807fc827c34bcd47dbcf2f7564b2fc1b6014ebb13bed349ddf55af0",
+                    "dest": "doctags"
+                }
+            ]
+        },
+        {
+            "name": "sigc++",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dbuild-documentation=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/libsigcplusplus/libsigcplusplus.git",
+                    "tag": "3.4.0"
+                }
+            ]
+        },
+        {
+            "name": "cairomm",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dbuild-documentation=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.freedesktop.org/cairo/cairomm.git",
+                    "tag": "1.16.2"
+                }
+            ]
+        },
+        {
+            "name": "glibmm",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dbuild-documentation=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/glibmm.git",
+                    "tag": "2.68.2"
+                }
+            ]
+        },
+        {
+            "name": "pangomm",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dbuild-documentation=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/pangomm.git",
+                    "tag": "2.50.1"
+                }
+            ]
+        },
+        {
+            "name": "gtkmm",
+            "buildsystem": "meson",
+            "config-opts": [
+                "-Dbuild-documentation=false"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/gtkmm.git",
+                    "tag": "4.10.0"
+                }
+            ]
+        },
+        {
+            "name": "browser",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "."
+                }
+            ]
+        }
+    ]
+}
