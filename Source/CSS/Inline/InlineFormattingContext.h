@@ -14,7 +14,7 @@ class LineBox;
 class InlineFormattingContext final : public FormattingContext, public FragmentationContext
 {
 public:
-    InlineFormattingContext(const InlineBox& root_inline_box, const Cairo::Context& context) : m_fragmented_flow { root_inline_box, context } {}
+    InlineFormattingContext(const InlineBox& root_inline_box) : m_fragmented_flow { root_inline_box } {}
 
     void layout(double width);
 

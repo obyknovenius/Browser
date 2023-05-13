@@ -5,15 +5,16 @@
 #include "BoxFragment.h"
 
 #include <cassert>
+
 namespace CSS {
 
-FragmentedFlow::FragmentedFlow(const Box& fragmentation_root, const Cairo::Context& context)
+FragmentedFlow::FragmentedFlow(const Box& fragmentation_root) : m_fragmentation_root { fragmentation_root }
 {
     const TextSequence* text_sequence { reinterpret_cast<const TextSequence*>(fragmentation_root.first_child()) };
     m_text = text_sequence->text();
 
     Cairo::TextExtents whitespace_extents {};
-    context.get_text_extents(" ", whitespace_extents);
+    m_fragmentation_root.font()->get_text_extents(" ", whitespace_extents);
     m_whitespace_advance = whitespace_extents.x_advance;
 
     auto previous_soft_wrap_opportunity { m_text.cbegin() - 1 };
@@ -23,7 +24,7 @@ FragmentedFlow::FragmentedFlow(const Box& fragmentation_root, const Cairo::Conte
         {
             std::string word { previous_soft_wrap_opportunity + 1, character };
             Cairo::TextExtents extents {};
-            context.get_text_extents(word, extents);
+            m_fragmentation_root.font()->get_text_extents(word, extents);
 
             m_words.push_back({ previous_soft_wrap_opportunity + 1, character, extents.x_advance });
 
@@ -52,7 +53,7 @@ const BoxFragment* FragmentedFlow::next_fragment(double remaining_fragmentainer_
 
             std::string fragment_text { m_new_line_word->begin, (word - 1)->end };
             m_new_line_word = word;
-            return new BoxFragment(fragment_text, fragment_width);
+            return new BoxFragment(m_fragmentation_root, fragment_text, fragment_width);
         }
 
         fragment_width += advance;
@@ -60,7 +61,7 @@ const BoxFragment* FragmentedFlow::next_fragment(double remaining_fragmentainer_
 
     std::string fragment_text { m_new_line_word->begin, m_text.cend() };
     m_new_line_word = m_words.end();
-    return new BoxFragment(fragment_text, fragment_width);
+    return new BoxFragment(m_fragmentation_root, fragment_text, fragment_width);
 }
 
 }

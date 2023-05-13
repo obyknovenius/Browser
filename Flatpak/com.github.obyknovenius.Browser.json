@@ -51,6 +51,10 @@
                     "type": "git",
                     "url": "https://gitlab.freedesktop.org/cairo/cairomm.git",
                     "tag": "1.16.2"
+                },
+                {
+                    "type": "patch",
+                    "path": "cairomm-font-get-extents.patch"
                 }
             ]
         },

@@ -1,0 +1,99 @@
+From 70a162188ffa0301589fdaf0e0d8d3058829ce06 Mon Sep 17 00:00:00 2001
+From: Vitaly Dyachkov <obyknovenius@me.com>
+Date: Tue, 14 Mar 2023 12:50:36 +0100
+Subject: [PATCH] Implement get_text_extents() and get_glyph_extents() of
+ ScaledFont
+
+ScaledFont::get_text_extents() and ScaledFont::get_glyph_extents()
+were declared in the header but their implementations were missing.
+Fixes #30
+---
+ cairomm/scaledfont.cc     | 12 ++++++++++++
+ cairomm/scaledfont.h      |  2 +-
+ tests/test-scaled-font.cc | 35 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 48 insertions(+), 1 deletion(-)
+
+diff --git a/cairomm/scaledfont.cc b/cairomm/scaledfont.cc
+index c9c6b99..4974e90 100644
+--- a/cairomm/scaledfont.cc
++++ b/cairomm/scaledfont.cc
+@@ -62,6 +62,18 @@ void ScaledFont::get_extents(FontExtents& extents) const
+   check_object_status_and_throw_exception(*this);
+ }
+
++void ScaledFont::get_text_extents(const std::string& utf8, TextExtents& extents) const
++{
++  cairo_scaled_font_text_extents(m_cobject, utf8.c_str(), static_cast<cairo_text_extents_t*>(&extents));
++  check_object_status_and_throw_exception(*this);
++}
++
++void ScaledFont::get_glyph_extents(const std::vector<Glyph>& glyphs, TextExtents& extents) const
++{
++  cairo_scaled_font_glyph_extents(m_cobject, glyphs.data(), glyphs.size(), static_cast<cairo_text_extents_t*>(&extents));
++  check_object_status_and_throw_exception(*this);
++}
++
+ RefPtr<FontFace> ScaledFont::get_font_face() const
+ {
+   auto face = cairo_scaled_font_get_font_face(m_cobject);
+diff --git a/cairomm/scaledfont.h b/cairomm/scaledfont.h
+index 4f1ae3a..fa76bb0 100644
+--- a/cairomm/scaledfont.h
++++ b/cairomm/scaledfont.h
+@@ -137,7 +137,7 @@ public:
+    *
+    * @since 1.8
+    **/
+-  void get_glyph_extents(const std::vector<Glyph>& glyphs, TextExtents& extents);
++  void get_glyph_extents(const std::vector<Glyph>& glyphs, TextExtents& extents) const;
+
+   /** The FontFace with which this ScaledFont was created.
+    * @since 1.2
+diff --git a/tests/test-scaled-font.cc b/tests/test-scaled-font.cc
+index ff5f1a7..110c088 100644
+--- a/tests/test-scaled-font.cc
++++ b/tests/test-scaled-font.cc
+@@ -52,6 +52,41 @@ BOOST_AUTO_TEST_CASE(test_scale_matrix)
+   // no real test, just excercising the functionality
+ }
+
++BOOST_AUTO_TEST_CASE(test_get_text_extents)
++{
++  auto face = ToyFontFace::create("sans", ToyFontFace::Slant::NORMAL, ToyFontFace::Weight::NORMAL);
++  Matrix m;
++  cairo_matrix_init_scale(&m, 2.0, 4.0);
++  auto font = ScaledFont::create(face, m, m, FontOptions());
++  BOOST_REQUIRE(font);
++
++  TextExtents extents;
++  font->get_text_extents("sans", extents);
++
++  BOOST_CHECK_LE(0, extents.width);
++  BOOST_CHECK_LE(0, extents.height);
++}
++
++BOOST_AUTO_TEST_CASE(test_get_glyph_extents)
++{
++  auto face = ToyFontFace::create("sans", ToyFontFace::Slant::NORMAL, ToyFontFace::Weight::NORMAL);
++  Matrix m;
++  cairo_matrix_init_scale(&m, 2.0, 4.0);
++  auto font = ScaledFont::create(face, m, m, FontOptions());
++  BOOST_REQUIRE(font);
++
++  std::vector<Glyph> glyphs;
++  std::vector<TextCluster> clusters;
++  TextClusterFlags flags;
++  font->text_to_glyphs(0, 0, "sans", glyphs, clusters, flags);
++
++  TextExtents extents;
++  font->get_glyph_extents(glyphs, extents);
++
++  BOOST_CHECK_LE(0, extents.width);
++  BOOST_CHECK_LE(0, extents.height);
++}
++
+ BOOST_AUTO_TEST_CASE(test_get_font_face)
+ {
+   // this is to test for a bug where we were accidentally freeing the resulting
+--
+GitLab
