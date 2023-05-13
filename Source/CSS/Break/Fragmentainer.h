@@ -11,7 +11,7 @@ class Fragmentainer
 public:
     virtual ~Fragmentainer() = default;
 
-    void add_fragment(const BoxFragment* fragment);
+    virtual void add_fragment(const BoxFragment* fragment);
 
     const std::vector<const BoxFragment*>& fragments() const { return m_fragments; }
 

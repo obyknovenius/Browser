@@ -17,6 +17,10 @@ WebView::WebView()
 
 void WebView::on_draw(const Cairo::RefPtr<Cairo::Context>& context, int width, int height)
 {
+    context->rectangle(0.0, 0.0, width, height);
+    context->set_source_rgb(255.0, 255.0, 255.0);
+    context->fill();
+
     const Cairo::RefPtr<Cairo::ToyFontFace> font_face { Cairo::ToyFontFace::create("serif", Cairo::ToyFontFace::Slant::NORMAL, Cairo::ToyFontFace::Weight::NORMAL) };
     const Cairo::RefPtr<Cairo::ScaledFont> font { Cairo::ScaledFont::create(font_face, Cairo::scaling_matrix(16, 16), context->get_matrix()) };
 
@@ -28,21 +32,15 @@ void WebView::on_draw(const Cairo::RefPtr<Cairo::Context>& context, int width, i
     CSS::InlineFormattingContext inline_formatting_context { root_inline_box };
     inline_formatting_context.layout(width);
 
-    double y { 0 };
-
-    Cairo::FontExtents font_extents {};
-    font->get_extents(font_extents);
-
-    context->set_source_rgb(0.0, 0.0, 0.0);
-
+    double y {};
     for (const CSS::LineBox *line_box : inline_formatting_context.line_boxes())
     {
-        y += font_extents.height;
-        context->move_to(0, y);
-
+        y += line_box->height();
+        context->move_to(0.0, y);
         for (const CSS::BoxFragment* fragment : line_box->fragments())
         {
             context->set_scaled_font(fragment->box().font());
+            context->set_source_rgb(0.0, 0.0, 0.0);
             context->show_text(fragment->text());
         }
     }

@@ -31,7 +31,8 @@ private:
     {
         const std::string::const_iterator begin {};
         const std::string::const_iterator end {};
-        const double advance {};
+        const double width {};
+        const double height {};
     };
 
     std::vector<Word> m_words {};
