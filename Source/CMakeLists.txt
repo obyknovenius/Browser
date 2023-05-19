@@ -4,5 +4,8 @@ project(Browser)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_subdirectory(Browser)
 add_subdirectory(CSS)
+add_subdirectory(HTML)
+add_subdirectory(Browser)
+
+install(FILES ../test.html DESTINATION usr/share/browser)

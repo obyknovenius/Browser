@@ -1,5 +1,5 @@
 /*
- * BrowserWindow.h
+ * Strings.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -21,19 +21,25 @@
 
 #pragma once
 
-#include "WebView.h"
+#include <algorithm>
+#include <cctype>
+#include <string>
 
-#include <gtkmm.h>
+namespace Infra {
 
-namespace Browser {
-
-class Window final : public Gtk::Window
+std::string ascii_lowercase(const std::string& string)
 {
-public:
-    Window(const Glib::RefPtr<Gio::File>& file);
+    std::string lowercase_string { string };
+    std::transform(lowercase_string.begin(),
+                   lowercase_string.end(),
+                   lowercase_string.begin(),
+                   [](unsigned char character) { return std::tolower(character); });
+    return lowercase_string;
+}
 
-private:
-    WebView* m_web_view {};
-};
+bool is_ascii_case_insensitive_match(const std::string& a, const std::string& b)
+{
+    return ascii_lowercase(a) == ascii_lowercase(b);
+}
 
 }

@@ -1,5 +1,5 @@
 /*
- * BrowserWindow.h
+ * TreeConstructor.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -21,19 +21,21 @@
 
 #pragma once
 
-#include "WebView.h"
+#include "Token.h"
 
-#include <gtkmm.h>
+#include <iostream>
 
-namespace Browser {
+namespace HTML {
 
-class Window final : public Gtk::Window
+class Document;
+
+
+class TreeConstructor final
 {
 public:
-    Window(const Glib::RefPtr<Gio::File>& file);
+    void handle(const Token& token) { std::cout << token; }
 
-private:
-    WebView* m_web_view {};
+    Document* document() { return nullptr; }
 };
 
 }

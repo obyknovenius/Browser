@@ -1,5 +1,5 @@
 /*
- * BrowserWindow.h
+ * Parser.cpp
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,21 +19,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#pragma once
+#include "Parser.h"
 
-#include "WebView.h"
+#include "../DOM/Document.h"
+#include "TreeConstructor.h"
 
-#include <gtkmm.h>
+namespace HTML {
 
-namespace Browser {
-
-class Window final : public Gtk::Window
+Document* Parser::parse()
 {
-public:
-    Window(const Glib::RefPtr<Gio::File>& file);
-
-private:
-    WebView* m_web_view {};
-};
+    m_tokenizer.resume();
+    return m_tree_constructor.document();
+}
 
 }

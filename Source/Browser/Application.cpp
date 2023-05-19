@@ -1,5 +1,5 @@
 /*
- * BrowserWindow.h
+ * BrowserApplication.cpp
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,21 +19,42 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#pragma once
+#include "Application.h"
 
-#include "WebView.h"
-
-#include <gtkmm.h>
+#include "Window.h"
 
 namespace Browser {
 
-class Window final : public Gtk::Window
+Glib::RefPtr<Application> Application::create()
 {
-public:
-    Window(const Glib::RefPtr<Gio::File>& file);
+    return Glib::make_refptr_for_instance<Application>(new Application());
+}
 
-private:
-    WebView* m_web_view {};
-};
+Window* Application::create_window(const Glib::RefPtr<Gio::File>& file)
+{
+    Window* window = new Window(file);
+
+    add_window(*window);
+
+    return window;
+}
+
+void Application::on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint)
+{
+    Window* window = nullptr;
+
+    auto windows = get_windows();
+    if (windows.size() > 0)
+    {
+        window = dynamic_cast<Window*>(windows[0]);
+    }
+
+    if (!window)
+    {
+        window = create_window(files[0]);
+    }
+
+    window->present();
+}
 
 }

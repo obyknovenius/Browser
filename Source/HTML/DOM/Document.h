@@ -1,5 +1,5 @@
 /*
- * BrowserWindow.h
+ * Document.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -21,19 +21,10 @@
 
 #pragma once
 
-#include "WebView.h"
+namespace HTML {
 
-#include <gtkmm.h>
-
-namespace Browser {
-
-class Window final : public Gtk::Window
+class Document
 {
-public:
-    Window(const Glib::RefPtr<Gio::File>& file);
-
-private:
-    WebView* m_web_view {};
 };
 
 }

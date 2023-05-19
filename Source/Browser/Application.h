@@ -1,5 +1,5 @@
 /*
- * BrowserWindow.h
+ * BrowserApplication.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -21,19 +21,23 @@
 
 #pragma once
 
-#include "WebView.h"
+#include "Window.h"
 
 #include <gtkmm.h>
 
 namespace Browser {
 
-class Window final : public Gtk::Window
+class Application final : public Gtk::Application
 {
 public:
-    Window(const Glib::RefPtr<Gio::File>& file);
+    static Glib::RefPtr<Application> create();
 
-private:
-    WebView* m_web_view {};
+    Window* create_window(const Glib::RefPtr<Gio::File>& file);
+
+protected:
+    Application() : Gtk::Application("com.github.obyknovenius.Browser", Gio::Application::Flags::HANDLES_OPEN) {}
+
+    void on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint) override;
 };
 
 }

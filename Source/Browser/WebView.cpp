@@ -1,18 +1,23 @@
-#include "Window.h"
+#include "WebView.h"
 
 #include "../CSS/Break/BoxFragment.h"
 #include "../CSS/Display/InlineBox.h"
 #include "../CSS/Display/TextSequence.h"
 #include "../CSS/Inline/InlineFormattingContext.h"
 #include "../CSS/Inline/LineBox.h"
+#include "../HTML/Parsing/Parser.h"
 
 #include <gtkmm.h>
 
 namespace Browser {
 
-WebView::WebView()
+WebView::WebView(const std::string& filename)
 {
     set_draw_func(sigc::mem_fun(*this, &WebView::on_draw));
+
+    std::ifstream input_stream { filename };
+    HTML::Parser parser { input_stream };
+    parser.parse();
 }
 
 void WebView::on_draw(const Cairo::RefPtr<Cairo::Context>& context, int width, int height)

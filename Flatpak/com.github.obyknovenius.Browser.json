@@ -8,6 +8,9 @@
         "--socket=wayland",
         "--device=dri"
     ],
+    "x-run-args": [
+    	"/app/usr/share/browser/test.html"
+    ],
     "modules": [
         {
             "name": "mm-common",

@@ -1,4 +1,5 @@
-/* main.cpp
+/*
+ * Parser.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -18,22 +19,27 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <gtkmm.h>
+#pragma once
 
-class BrowserWindow : public Gtk::Window
+#include "Tokenizer.h"
+#include "TreeConstructor.h"
+
+namespace HTML {
+
+class Document;
+
+class Parser final
 {
 public:
-    BrowserWindow();
+    Parser(std::ifstream& input_stream)
+        : m_tokenizer { input_stream, m_tree_constructor }
+    {}
+
+    Document* parse();
+
+private:
+    Tokenizer m_tokenizer;
+    TreeConstructor m_tree_constructor {};
 };
 
-BrowserWindow::BrowserWindow()
-{
-    set_title("Browser");
-    set_default_size(640, 480);
-}
-
-int main(int argc, char** argv)
-{
-    auto app = Gtk::Application::create("com.obyknovenius.Browser");
-    return app->make_window_and_run<BrowserWindow>(argc, argv);
 }

@@ -1,5 +1,5 @@
 /*
- * BrowserWindow.h
+ * CodePoints.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -21,19 +21,21 @@
 
 #pragma once
 
-#include "WebView.h"
+namespace Infra {
 
-#include <gtkmm.h>
-
-namespace Browser {
-
-class Window final : public Gtk::Window
+bool is_ascii_upper_alpha(int code_point)
 {
-public:
-    Window(const Glib::RefPtr<Gio::File>& file);
+    return code_point >= 'A' && code_point <= 'Z';
+}
 
-private:
-    WebView* m_web_view {};
-};
+bool is_ascii_lower_alpha(int code_point)
+{
+    return code_point >= 'a' && code_point <= 'z';
+}
+
+bool is_ascii_alpha(int code_point)
+{
+    return is_ascii_upper_alpha(code_point) || is_ascii_lower_alpha(code_point);
+}
 
 }
