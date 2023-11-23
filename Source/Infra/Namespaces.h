@@ -1,5 +1,5 @@
 /*
- * Parser.cpp
+ * Namespaces.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,16 +19,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Parser.h"
+#pragma once
 
-#include "../../DOM/Document.h"
-#include "TreeConstructor.h"
+#include <string>
 
-namespace HTML {
+namespace Infra {
+namespace Namespace {
 
-void Parser::parse()
-{
-    m_tokenizer.resume();
+static const std::string HTML { "http://www.w3.org/1999/xhtml" };
+
 }
-
 }

@@ -1,0 +1,7 @@
+set(INFRA_SOURCES
+    Strings.cpp
+)
+
+list(TRANSFORM DOM_SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
+
+add_library(infra STATIC ${INFRA_SOURCES})

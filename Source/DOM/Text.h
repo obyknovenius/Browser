@@ -1,5 +1,5 @@
 /*
- * Parser.cpp
+ * Text.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,16 +19,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Parser.h"
+#pragma once
 
-#include "../../DOM/Document.h"
-#include "TreeConstructor.h"
+#include "CharacterData.h"
 
-namespace HTML {
+namespace DOM {
 
-void Parser::parse()
+class Text final : public CharacterData
 {
-    m_tokenizer.resume();
-}
+public:
+    Text(Document& node_document, const std::string& data)
+        : CharacterData { node_document, data }
+    {}
+
+    std::string_view node_name() const override { return "#text"; }
+};
 
 }

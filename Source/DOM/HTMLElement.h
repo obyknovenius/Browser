@@ -1,5 +1,5 @@
 /*
- * Parser.cpp
+ * HTMLElement.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,16 +19,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Parser.h"
+#pragma once
 
-#include "../../DOM/Document.h"
-#include "TreeConstructor.h"
+#include "Element.h"
 
-namespace HTML {
+namespace DOM {
 
-void Parser::parse()
+class HTMLElement : public Element
 {
-    m_tokenizer.resume();
-}
+public:
+    HTMLElement(Document& node_document, const std::string& local_name, const std::string& namespace_)
+        : Element { node_document, local_name, namespace_ }
+    {}
+};
 
 }

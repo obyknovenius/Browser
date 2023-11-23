@@ -7,7 +7,7 @@
 
 #include "Element.h"
 #include "../Infra/Namespace.h"
-#include "../HTML/Interface.h"
+#include "../HTML/Interfaces.h"
 #include "../HTML/HTMLHtmlElement.h"
 #include "../HTML/HTMLHeadElement.h"
 #include "../HTML/HTMLBodyElement.h"

@@ -1,5 +1,5 @@
 /*
- * Parser.cpp
+ * Interfaces.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,16 +19,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Parser.h"
+#pragma once
 
-#include "../../DOM/Document.h"
-#include "TreeConstructor.h"
+#include <string>
 
 namespace HTML {
+namespace Interfaces {
 
-void Parser::parse()
-{
-    m_tokenizer.resume();
+static const std::string HTMLBodyElement { "HTMLBodyElement" };
+static const std::string HTMLHeadElement { "HTMLHeadElement" };
+static const std::string HTMLHeadingElement { "HTMLHeadingElement" };
+static const std::string HTMLHtmlElement { "HTMLHtmlElement" };
+
 }
-
 }

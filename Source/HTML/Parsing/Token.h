@@ -83,6 +83,8 @@ public:
 
     char data() const { return m_data; }
 
+    bool operator==(char character) const { return m_data == character; }
+
 private:
     char m_data;
 };

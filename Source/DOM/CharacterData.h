@@ -1,5 +1,5 @@
 /*
- * Parser.cpp
+ * CharacterData.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,16 +19,26 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Parser.h"
+#pragma once
 
-#include "../../DOM/Document.h"
-#include "TreeConstructor.h"
+#include "Node.h"
 
-namespace HTML {
+#include <string>
 
-void Parser::parse()
+namespace DOM {
+
+class CharacterData : public Node
 {
-    m_tokenizer.resume();
-}
+public:
+    CharacterData(Document node_document, const std::string& data)
+        : Node { node_document }
+        , m_data { data }
+    {}
+
+    std::string& data() { return m_data; }
+
+private:
+    std::string m_data {};
+};
 
 }

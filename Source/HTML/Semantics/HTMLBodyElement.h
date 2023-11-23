@@ -1,5 +1,5 @@
 /*
- * Document.h
+ * HTMLBodyElement.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -21,10 +21,16 @@
 
 #pragma once
 
+#include "../../DOM/HTMLElement.h"
+
 namespace HTML {
 
-class Document
+class HTMLBodyElement final : public DOM::HTMLElement
 {
+public:
+    HTMLBodyElement(DOM::Document& node_document, const std::string& local_name, const std::string& namespace_)
+        : HTMLElement { node_document, local_name, namespace_ }
+    {}
 };
 
 }

@@ -62,7 +62,7 @@ void Tokenizer::resume()
 
                 if (curren_input_character == '<')
                 {
-                    switch_to_state(State::TagOpen);
+                    switch_to(State::TagOpen);
                     break;
                 }
 
@@ -81,21 +81,21 @@ void Tokenizer::resume()
 
                 if (current_input_character == '!')
                 {
-                    switch_to_state(State::MarkupDeclarationOpen);
+                    switch_to(State::MarkupDeclarationOpen);
                     break;
                 }
 
                 if (current_input_character == '/')
                 {
-                    switch_to_state(State::EndTagOpen);
+                    switch_to(State::EndTagOpen);
                     break;
                 }
 
                 if (Infra::is_ascii_alpha(current_input_character))
                 {
-                    auto* start_tag_token = create_token<StartTagToken>();
+                    auto* start_tag_token = create<StartTagToken>();
                     start_tag_token->set_name("");
-                    reconsume_in_state(State::TagName);
+                    reconsume_in(State::TagName);
                     break;
                 }
             }
@@ -105,9 +105,9 @@ void Tokenizer::resume()
 
                 if (Infra::is_ascii_alpha(current_input_character))
                 {
-                    auto* end_tag_token = create_token<EndTagToken>();
+                    auto* end_tag_token = create<EndTagToken>();
                     end_tag_token->set_name("");
-                    reconsume_in_state(State::TagName);
+                    reconsume_in(State::TagName);
                     break;
                 }
             }
@@ -117,12 +117,12 @@ void Tokenizer::resume()
 
                 if (current_input_character == '>')
                 {
-                    switch_to_state(State::Data);
-                    emit(*current_token<TagToken>());
+                    switch_to(State::Data);
+                    emit(*current<TagToken>());
                     break;
                 }
 
-                current_token<TagToken>()->name() += static_cast<char>(current_input_character);
+                current<TagToken>()->name() += static_cast<char>(current_input_character);
                 break;
             }
             case State::MarkupDeclarationOpen:
@@ -130,15 +130,15 @@ void Tokenizer::resume()
                 if (next_few_characters(2) == "--")
                 {
                     consume_those_characters();
-                    create_token<CommentToken>("");
-                    switch_to_state(State::CommentStart);
+                    create<CommentToken>("");
+                    switch_to(State::CommentStart);
                     break;
                 }
 
                 if (Infra::is_ascii_case_insensitive_match(next_few_characters(7), "DOCTYPE"))
                 {
                     consume_those_characters();
-                    switch_to_state(State::Doctype);
+                    switch_to(State::Doctype);
                     break;
                 }
             }
@@ -146,7 +146,7 @@ void Tokenizer::resume()
             {
                 int current_input_character { consume_next_input_character() };
 
-                reconsume_in_state(State::Comment);
+                reconsume_in(State::Comment);
                 break;
             }
             case State::Comment:
@@ -155,11 +155,11 @@ void Tokenizer::resume()
 
                 if (current_input_character == '-')
                 {
-                    switch_to_state(State::CommentEndDash);
+                    switch_to(State::CommentEndDash);
                     break;
                 }
 
-                current_token<CommentToken>()->data() += current_input_character;
+                current<CommentToken>()->data() += current_input_character;
                 break;
             }
             case State::CommentEndDash:
@@ -168,7 +168,7 @@ void Tokenizer::resume()
 
                 if (current_input_character == '-')
                 {
-                    switch_to_state(State::CommentEnd);
+                    switch_to(State::CommentEnd);
                     break;
                 }
             }
@@ -178,8 +178,8 @@ void Tokenizer::resume()
 
                 if (current_input_character == '>')
                 {
-                    switch_to_state(State::Data);
-                    emit(*current_token<CommentToken>());
+                    switch_to(State::Data);
+                    emit(*current<CommentToken>());
                     break;
                 }
             }
@@ -192,7 +192,7 @@ void Tokenizer::resume()
                 || current_input_character == '\f'
                 || current_input_character == ' ')
                 {
-                    switch_to_state(State::BeforeDoctypeName);
+                    switch_to(State::BeforeDoctypeName);
                     break;
                 }
             }
@@ -210,15 +210,15 @@ void Tokenizer::resume()
 
                 if (Infra::is_ascii_upper_alpha(current_input_character))
                 {
-                    auto* doctype_token { create_token<DoctypeToken>() };
+                    auto* doctype_token { create<DoctypeToken>() };
                     doctype_token->set_name({ static_cast<char>(current_input_character + 0x0020) });
-                    switch_to_state(State::DoctypeName);
+                    switch_to(State::DoctypeName);
                     break;
                 }
 
-                auto* doctype_token { create_token<DoctypeToken>() };
+                auto* doctype_token { create<DoctypeToken>() };
                 doctype_token->set_name({ static_cast<char>(current_input_character) });
-                switch_to_state(State::DoctypeName);
+                switch_to(State::DoctypeName);
                 break;
             }
             case State::DoctypeName:
@@ -227,20 +227,20 @@ void Tokenizer::resume()
 
                 if (Infra::is_ascii_upper_alpha(current_input_character))
                 {
-                    auto* doctype_token { create_token<DoctypeToken>() };
+                    auto* doctype_token { create<DoctypeToken>() };
                     doctype_token->set_name({ static_cast<char>(current_input_character + 0x0020) });
-                    switch_to_state(State::DoctypeName);
+                    switch_to(State::DoctypeName);
                     break;
                 }
 
                 if (current_input_character == '>')
                 {
-                    switch_to_state(State::Data);
-                    emit(*current_token<DoctypeToken>());
+                    switch_to(State::Data);
+                    emit(*current<DoctypeToken>());
                     break;
                 }
 
-                *current_token<DoctypeToken>()->name() += static_cast<char>(current_input_character);
+                *current<DoctypeToken>()->name() += static_cast<char>(current_input_character);
                 break;
             }
         }

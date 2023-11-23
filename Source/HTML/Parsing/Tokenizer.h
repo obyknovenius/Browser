@@ -87,11 +87,11 @@ private:
 
     Token* m_current_token {};
 
-    void switch_to_state(State state) { m_state = state; }
+    void switch_to(State state) { m_state = state; }
 
     int consume_next_input_character() { return m_input_stream.get(); }
 
-    void reconsume_in_state(State state)
+    void reconsume_in(State state)
     {
         m_input_stream.unget();
         m_state = state;
@@ -101,7 +101,7 @@ private:
     void consume_those_characters();
 
     template <typename T, typename... Args>
-    T* create_token(Args... args)
+    T* create(Args... args)
     {
         T* current_token = new T(args...);
         m_current_token = current_token;
@@ -109,9 +109,9 @@ private:
     }
 
     template <typename T>
-    T* current_token() { return dynamic_cast<T*>(m_current_token); }
+    T* current() { return dynamic_cast<T*>(m_current_token); }
 
-    void emit(const Token& token) { m_tree_constructor.handle(token); }
+    void emit(const Token& token) { m_tree_constructor.dispatch(token); }
 };
 
 }

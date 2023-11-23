@@ -1,5 +1,5 @@
 /*
- * Parser.cpp
+ * OrderedSet.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,16 +19,29 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Parser.h"
+#pragma once
 
-#include "../../DOM/Document.h"
-#include "TreeConstructor.h"
+#include "List.h"
 
-namespace HTML {
+#include <cassert>
 
-void Parser::parse()
+namespace Infra {
+
+template <typename T>
+class OrderedSet : public List<T>
 {
-    m_tokenizer.resume();
-}
+public:
+    void append(T* item) override
+    {
+        for (T* current_item { this->m_first_item }; current_item = current_item->next_sibling(); current_item != nullptr)
+        {
+            if (current_item == item)
+            {
+                assert();
+            }
+        }
+        List<T>::append(item);
+    }
+};
 
 }

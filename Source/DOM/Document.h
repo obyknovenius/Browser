@@ -1,5 +1,5 @@
 /*
- * Parser.cpp
+ * Document.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,16 +19,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Parser.h"
+#pragma once
 
-#include "../../DOM/Document.h"
-#include "TreeConstructor.h"
+#include "Node.h"
 
-namespace HTML {
+namespace DOM {
 
-void Parser::parse()
+class Document final : public Node
 {
-    m_tokenizer.resume();
-}
+public:
+    Document() : Node { *this } {}
+
+    bool is_html_document() { return true; }
+
+    std::string_view node_name() const override { return "#document"; }
+};
 
 }

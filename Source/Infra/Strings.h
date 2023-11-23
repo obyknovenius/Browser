@@ -27,19 +27,9 @@
 
 namespace Infra {
 
-std::string ascii_lowercase(const std::string& string)
-{
-    std::string lowercase_string { string };
-    std::transform(lowercase_string.begin(),
-                   lowercase_string.end(),
-                   lowercase_string.begin(),
-                   [](unsigned char character) { return std::tolower(character); });
-    return lowercase_string;
-}
+std::string ascii_lowercase(const std::string& string);
+std::string ascii_uppercase(const std::string& string);
 
-bool is_ascii_case_insensitive_match(const std::string& a, const std::string& b)
-{
-    return ascii_lowercase(a) == ascii_lowercase(b);
-}
+bool is_ascii_case_insensitive_match(const std::string& a, const std::string& b);
 
 }

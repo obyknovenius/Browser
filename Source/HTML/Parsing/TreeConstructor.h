@@ -21,21 +21,99 @@
 
 #pragma once
 
-#include "Token.h"
+#include "../../DOM/Document.h"
 
-#include <iostream>
+#include <optional>
+#include <stack>
+#include <string>
+
+namespace DOM {
+
+class Element;
+class Node;
+
+}
 
 namespace HTML {
 
-class Document;
+class CharacterToken;
+class CommentToken;
+class TagToken;
+class Token;
 
+struct InsertionLocation
+{
+    DOM::Node* inside {};
+    DOM::Node* before {};
+};
 
 class TreeConstructor final
 {
 public:
-    void handle(const Token& token) { std::cout << token; }
+    TreeConstructor(DOM::Document& document) : m_document { document } {}
 
-    Document* document() { return nullptr; }
+    void dispatch(const Token& next_token);
+
+private:
+    DOM::Document& m_document;
+
+    enum class InsertionMode
+    {
+        Initial,
+        BeforeHtml,
+        BeforeHead,
+        InHead,
+        AfterHead,
+        InBody,
+        AfterBody,
+        AfterAfterBody
+    };
+
+    InsertionMode m_insertion_mode { InsertionMode::Initial };
+
+    // https://html.spec.whatwg.org/multipage/parsing.html#stack-of-open-elements
+    std::stack<DOM::Node*> m_stack_of_open_elements {};
+
+    // https://html.spec.whatwg.org/multipage/parsing.html#the-element-pointers
+    DOM::Element* m_head_element_pointer {};
+    DOM::Element* m_form_element_pointer {};
+
+    // https://html.spec.whatwg.org/multipage/parsing.html#other-parsing-state-flags
+    enum class FramesetOkFlag
+    {
+        Ok,
+        NotOk,
+    };
+
+    FramesetOkFlag m_frameset_ok_flag { FramesetOkFlag::Ok };
+
+    void switch_to(InsertionMode insertion_mode) { m_insertion_mode = insertion_mode; }
+
+    DOM::Node* current_node() { return m_stack_of_open_elements.top(); }
+
+    DOM::Element* create_element_for(const TagToken& token, const std::string& namespace_, DOM::Node* intended_parent);
+
+    DOM::Element* insert_foreign_element_for(const TagToken& token, const std::string& namespace_);
+    DOM::Element* insert_html_element_for(const TagToken& token);
+
+    InsertionLocation appropriate_place_for_inserting_node();
+
+    void insert_character(const CharacterToken& token);
+    void insert_comment(const CommentToken& token, std::optional<InsertionLocation> position = std::nullopt);
+
+    void process_using_rules_for(InsertionMode insertion_mode, const Token& token);
+    void reprocess(const Token& token) { process_using_rules_for(m_insertion_mode, token); }
+
+    void apply_rules_for_initial_insertion_mode(const Token& token);
+    void apply_rules_for_before_html_insertion_mode(const Token& token);
+    void apply_rules_for_before_head_insertion_mode(const Token& token);
+    void apply_rules_for_in_head_insertion_mode(const Token& token);
+    void apply_rules_for_after_head_insertion_mode(const Token& token);
+    void apply_rules_for_in_body_insertion_mode(const Token& token);
+    void apply_rules_for_after_body_insertion_mode(const Token& token);
+    void apply_rules_for_after_after_body_insertion_mode(const Token& token);
+
+    void stop_parsing();
 };
 
 }

@@ -1,5 +1,5 @@
 /*
- * Parser.h
+ * Element.h
  *
  * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -21,30 +21,35 @@
 
 #pragma once
 
-#include "Tokenizer.h"
-#include "TreeConstructor.h"
+#include "Node.h"
+#include "../Infra/Namespaces.h"
+
+#include <string>
 
 namespace DOM {
 
-class Document;
-
-}
-
-namespace HTML {
-
-class Parser final
+class Element : public Node
 {
 public:
-    Parser(DOM::Document& document, std::ifstream& input_stream)
-        : m_tree_constructor { document }
-        , m_tokenizer { input_stream, m_tree_constructor }
+    Element(Document& node_document, const std::string& local_name, const std::string& namespace_)
+        : Node { node_document }
+        , m_namespace { namespace_ }
+        , m_local_name { local_name }
     {}
 
-    void parse();
+
+    std::string qualified_name() const;
+    std::string html_uppercased_qualified_name() const;
+
+    std::string_view node_name() const override { return html_uppercased_qualified_name(); }
+
+    const std::string& local_name() const { return m_local_name; }
 
 private:
-    Tokenizer m_tokenizer;
-    TreeConstructor m_tree_constructor;
+    const std::string m_local_name;
+    const std::string m_namespace;
 };
+
+Element* create_element(Document& document, const std::string& namespace_, const std::string& local_name);
 
 }

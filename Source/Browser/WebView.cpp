@@ -6,8 +6,10 @@
 #include "../CSS/Inline/InlineFormattingContext.h"
 #include "../CSS/Inline/LineBox.h"
 #include "../HTML/Parsing/Parser.h"
+#include "../DOM/Document.h"
 
 #include <gtkmm.h>
+#include <iostream>
 
 namespace Browser {
 
@@ -15,9 +17,17 @@ WebView::WebView(const std::string& filename)
 {
     set_draw_func(sigc::mem_fun(*this, &WebView::on_draw));
 
+    DOM::Document document;
     std::ifstream input_stream { filename };
-    HTML::Parser parser { input_stream };
+    HTML::Parser parser { document, input_stream };
     parser.parse();
+
+    std::cout << document << std::endl;
+
+    for (const DOM::Node& child : document.children())
+    {
+        std::cout << child << std::endl;
+    }
 }
 
 void WebView::on_draw(const Cairo::RefPtr<Cairo::Context>& context, int width, int height)
