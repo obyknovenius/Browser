@@ -106,6 +106,9 @@
         {
             "name": "browser",
             "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DCMAKE_BUILD_TYPE=Debug"
+            ],
             "sources": [
                 {
                     "type": "dir",

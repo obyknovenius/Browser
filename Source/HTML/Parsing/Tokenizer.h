@@ -1,7 +1,7 @@
 /*
  * Tokenizer.h
  *
- * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
+ * Copyright 2023-2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 #include "TreeConstructor.h"
 
+#include <cassert>
 #include <fstream>
 
 namespace HTML {
@@ -85,8 +86,6 @@ private:
 
     size_t m_those_characters_count {};
 
-    Token* m_current_token {};
-
     void switch_to_state(State state) { m_state = state; }
 
     int consume_next_input_character() { return m_input_stream.get(); }
@@ -100,16 +99,50 @@ private:
     std::string next_few_characters(size_t count);
     void consume_those_characters();
 
-    template <typename T, typename... Args>
-    T* create_token(Args... args)
+    Token& current_doctype_token()
     {
-        T* current_token = new T(args...);
-        m_current_token = current_token;
-        return current_token;
+        assert(m_current_token.is_doctype());
+        return m_current_token;
     }
 
-    template <typename T>
-    T* current_token() { return dynamic_cast<T*>(m_current_token); }
+    Token& current_tag_token()
+    {
+        assert(m_current_token.is_tag());
+        return m_current_token;
+    }
+
+    Token& current_comment_token()
+    {
+        assert(m_current_token.is_comment());
+        return m_current_token;
+    }
+
+    Token& create_doctype_token()
+    {
+        m_current_token = { Token::Type::Doctype };
+        return m_current_token;
+    }
+
+    Token& create_start_tag_token()
+    {
+        m_current_token = { Token::Type::StartTag };
+        return m_current_token;
+    }
+
+    Token& create_end_tag_token()
+    {
+        m_current_token = { Token::Type::EndTag };
+        return m_current_token;
+    }
+
+    Token& create_comment_token(const std::string& data)
+    {
+        m_current_token = { Token::Type::Comment };
+        m_current_token.set_data(data);
+        return m_current_token;
+    }
+
+    Token m_current_token;
 
     void emit(const Token& token) { m_tree_constructor.handle(token); }
 };

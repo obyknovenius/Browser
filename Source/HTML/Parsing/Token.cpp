@@ -1,7 +1,7 @@
 /*
  * Token.cpp
  *
- * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
+ * Copyright 2023-2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,26 +25,26 @@ namespace HTML {
 
 std::ostream& operator<< (std::ostream& out, const Token& token)
 {
-    if (auto doctype_token = dynamic_cast<const DoctypeToken*>(&token))
-    {
-        std::cout << "<!DOCTYPE " << *doctype_token->name() << '>';
-    }
-    else if (auto start_tag_token = dynamic_cast<const StartTagToken*>(&token))
-    {
-        std::cout << '<' << start_tag_token->name() << '>';
-    }
-    else if (auto end_tag_token = dynamic_cast<const EndTagToken*>(&token))
-    {
-        std::cout << "</" << end_tag_token->name() << '>';
-    }
-    else if (auto comment_token = dynamic_cast<const CommentToken*>(&token))
-    {
-        std::cout << "<!--" << comment_token->data() << "-->";
-    }
-    else if (auto character_token = dynamic_cast<const CharacterToken*>(&token))
-    {
-        std::cout << character_token->data();
-    }
+    if (token.is_doctype())
+        return out << "<!DOCTYPE " << token.name() << '>';
+
+    if (token.is_start_tag())
+        return out << '<' << token.tag_name() << '>';
+
+    if (token.is_end_tag())
+        return out << "</" << token.tag_name() << '>';
+
+    if (token.is_comment())
+        return out << "<!--" << token.data() << "-->";
+
+    if (token.is_character())
+        return out << token.data();
+
+    if (token.is_end_of_file())
+        return out << "EOF";
+
+    assert(false);
+
     return out;
 }
 
