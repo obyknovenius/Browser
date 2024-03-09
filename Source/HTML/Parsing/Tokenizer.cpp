@@ -34,7 +34,7 @@ std::string Tokenizer::next_few_characters(size_t count)
     std::string characters {};
     characters.resize(count);
 
-    std::streampos position = m_input_stream.tellg();
+    std::streampos position { m_input_stream.tellg() };
     m_input_stream.read(characters.data(), count);
     m_input_stream.seekg(position);
 
@@ -50,7 +50,7 @@ void Tokenizer::consume_those_characters()
     }
 }
 
-void Tokenizer::resume()
+const Token Tokenizer::resume()
 {
     for (;;)
     {
@@ -67,13 +67,9 @@ void Tokenizer::resume()
                 }
 
                 if (curren_input_character == EOF)
-                {
-                    emit({ Token::Type::EndOfFile });
-                    return;
-                }
+                    return { Token::Type::EndOfFile };
 
-                emit({ static_cast<char>(curren_input_character) });
-                break;
+                return { static_cast<char>(curren_input_character) };
             }
             case State::TagOpen:
             {
@@ -118,8 +114,7 @@ void Tokenizer::resume()
                 if (current_input_character == '>')
                 {
                     switch_to_state(State::Data);
-                    emit(current_tag_token());
-                    break;
+                    return current_tag_token();
                 }
 
                 current_tag_token().tag_name() += static_cast<char>(current_input_character);
@@ -179,8 +174,7 @@ void Tokenizer::resume()
                 if (current_input_character == '>')
                 {
                     switch_to_state(State::Data);
-                    emit(current_comment_token());
-                    break;
+                    return current_comment_token();
                 }
             }
             case State::Doctype:
@@ -236,8 +230,7 @@ void Tokenizer::resume()
                 if (current_input_character == '>')
                 {
                     switch_to_state(State::Data);
-                    emit(current_doctype_token());
-                    break;
+                    return current_doctype_token();
                 }
 
                 current_doctype_token().name() += static_cast<char>(current_input_character);

@@ -1,7 +1,7 @@
 /*
  * TreeConstructor.h
  *
- * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
+ * Copyright 2023-2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,11 +29,17 @@ namespace HTML {
 
 class Document;
 
-
 class TreeConstructor final
 {
 public:
-    void handle(const Token& token) { std::cout << token; }
+    bool handle(const Token& token)
+    {
+        if (token.is_end_of_file())
+            return true;
+
+        std::cout << token;
+        return false;
+    }
 
     Document* document() { return nullptr; }
 };

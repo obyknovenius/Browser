@@ -1,7 +1,7 @@
 /*
  * Parser.h
  *
- * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
+ * Copyright 2023-2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@
 
 #include "Tokenizer.h"
 #include "TreeConstructor.h"
+#include <fstream>
 
 namespace HTML {
 
@@ -31,9 +32,7 @@ class Document;
 class Parser final
 {
 public:
-    Parser(std::ifstream& input_stream)
-        : m_tokenizer { input_stream, m_tree_constructor }
-    {}
+    Parser(std::ifstream& input_stream) : m_tokenizer { input_stream } {}
 
     Document* parse();
 

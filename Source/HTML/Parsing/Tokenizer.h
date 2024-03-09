@@ -31,17 +31,12 @@ namespace HTML {
 class Tokenizer final
 {
 public:
-    Tokenizer(std::ifstream& input_stream, TreeConstructor& tree_constructor)
-      : m_input_stream { input_stream }
-      , m_tree_constructor { tree_constructor }
-    {}
+    Tokenizer(std::ifstream& input_stream) : m_input_stream { input_stream } {}
 
-    void resume();
+    const Token resume();
 
 private:
     std::ifstream& m_input_stream;
-
-    TreeConstructor& m_tree_constructor;
 
     enum class State
     {
@@ -143,8 +138,6 @@ private:
     }
 
     Token m_current_token;
-
-    void emit(const Token& token) { m_tree_constructor.handle(token); }
 };
 
 }

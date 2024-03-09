@@ -1,7 +1,7 @@
 /*
  * Parser.cpp
  *
- * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
+ * Copyright 2023-2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,10 @@ namespace HTML {
 
 Document* Parser::parse()
 {
-    m_tokenizer.resume();
+    while(!m_tree_constructor.handle(m_tokenizer.resume()))
+    {
+    }
+
     return m_tree_constructor.document();
 }
 
