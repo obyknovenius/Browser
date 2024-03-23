@@ -22,13 +22,16 @@
 #pragma once
 
 #include "EventTarget.h"
+#include "Tree.h"
 
 namespace DOM {
 
-class Node : public EventTarget
+class Node : public Tree<Node>::Object, public EventTarget
 {
 };
 
+Node* pre_insert(Node* node, Node* parent, Node* child);
 void insert(Node* node, Node* parent, Node* child);
+Node* append(Node* node, Node* parent);
 
 }

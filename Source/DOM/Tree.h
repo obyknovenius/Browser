@@ -24,35 +24,55 @@
 #include "../Infra/OrderedSet.h"
 #include <cassert>
 
-namespace DOM::Tree {
+namespace DOM {
 
-class Object
+template <typename T>
+class Tree final
 {
 public:
-    Object* parent() { return m_parent; }
+    Tree() = delete;
 
-    Infra::OrderedSet<Object*>& children() { return m_children; }
-
-private:
-    Object* m_parent {};
-
-    class Children final : public Infra::OrderedSet<Object*>
+    class Object
     {
     public:
-        Children(Object* parent) : m_parent { parent } {}
+        T* parent() { return m_parent; }
 
-        void append(Object* child)
-        {
-            assert(!child->m_parent);
-            child->m_parent = m_parent;
-            Infra::OrderedSet<Object*>::append(child);
-        }
+        Infra::OrderedSet<T*>& children() { return m_children; }
+        const Infra::OrderedSet<T*>& children() const { return m_children; }
+
+        T* previous_sibling() { return m_previous_sibling; }
+        const T* previous_sibling() const { return m_previous_sibling; }
+
+        T* next_sibling() { return m_next_sibling; }
+        const T* next_sibling() const { return m_next_sibling; }
 
     private:
-        Object* m_parent {};
-    };
+        T* m_parent {};
 
-    Children m_children { this };
+        class Children final : public Infra::OrderedSet<T*>
+        {
+        public:
+            Children(T* parent) : m_parent { parent } {}
+
+            void append(T* child)
+            {
+                child->m_parent = m_parent;
+
+                child->m_previous_sibling = this->m_items.back();
+                this->m_items.back()->m_next_sibling = child;
+
+                Infra::OrderedSet<T*>::append(child);
+            }
+
+        private:
+            T* m_parent {};
+        };
+
+        Children m_children { this };
+
+        T* m_previous_sibling { nullptr };
+        T* m_next_sibling { nullptr };
+    };
 };
 
 }

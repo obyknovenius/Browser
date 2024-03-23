@@ -40,4 +40,20 @@ void insert(Node* node, Node* parent, Node* child)
     }
 }
 
+Node* pre_insert(Node* node, Node* parent, Node* child)
+{
+    auto* referenceChild { child };
+
+    if (referenceChild == node)
+        referenceChild = node->next_sibling();
+
+    insert(node, parent, referenceChild);
+    return node;
+}
+
+Node* append(Node* node, Node* parent)
+{
+    return pre_insert(node, parent, nullptr);
+}
+
 }

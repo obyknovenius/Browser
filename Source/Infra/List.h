@@ -22,7 +22,7 @@
 #pragma once
 
 #include <algorithm>
-#include <vector>
+#include <list>
 
 namespace Infra {
 
@@ -38,8 +38,8 @@ public:
 
     size_t size() const { return m_items.size(); }
 
-protected:
-    std::vector<Item> m_items;
+public:
+    std::list<Item> m_items;
 };
 
 }

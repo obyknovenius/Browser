@@ -21,11 +21,9 @@
 
 #pragma once
 
-#include "Tree.h"
-
 namespace DOM {
 
-class EventTarget : public Tree::Object
+class EventTarget
 {
 };
 
