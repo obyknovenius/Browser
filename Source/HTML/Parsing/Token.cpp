@@ -26,7 +26,12 @@ namespace HTML {
 std::ostream& operator<< (std::ostream& out, const Token& token)
 {
     if (token.is_doctype())
-        return out << "<!DOCTYPE " << token.name() << '>';
+    {
+        if (token.name())
+            return out << "<!DOCTYPE " << *token.name() << '>';
+        else
+            return out <<"!DOCTYPE>";
+    }
 
     if (token.is_start_tag())
         return out << '<' << token.tag_name() << '>';

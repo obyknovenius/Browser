@@ -1,7 +1,7 @@
 /*
- * Parser.cpp
+ * StackOfOpenElements.h
  *
- * Copyright 2023-2024 Vitaly Dyachkov <obyknovenius@me.com>
+ * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,25 +19,28 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Parser.h"
+#pragma once
 
-#include "Tokenizer.h"
-#include "TreeConstructor.h"
-#include "../Document.h"
+#include <deque>
+
+namespace DOM {
+
+class Element;
+
+}
 
 namespace HTML {
 
-Document* Parser::parse()
+class StackOfOpenElements
 {
-    Document* document { new Document {} };
-    Tokenizer tokenizer { m_input_stream };
-    TreeConstructor tree_constructor { *document, m_parse_state };
+public:
+    DOM::Element* topmost() { return m_deque.front(); }
+    DOM::Element* bottommost() { return m_deque.back(); }
 
-    while(!tree_constructor.dispatch(tokenizer.resume()))
-    {
-    }
+    void push(DOM::Element* element) { m_deque.push_back(element); }
 
-    return tree_constructor.document();
-}
+private:
+    std::deque<DOM::Element*> m_deque;
+};
 
 }

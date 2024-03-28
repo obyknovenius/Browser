@@ -21,8 +21,7 @@
 
 #pragma once
 
-#include "Tokenizer.h"
-#include "TreeConstructor.h"
+#include "ParseState.h"
 #include <fstream>
 
 namespace HTML {
@@ -32,13 +31,14 @@ class Document;
 class Parser final
 {
 public:
-    Parser(std::ifstream& input_stream) : m_tokenizer { input_stream } {}
+    Parser(std::ifstream& input_stream) : m_input_stream { input_stream } {}
 
     Document* parse();
 
 private:
-    Tokenizer m_tokenizer;
-    TreeConstructor m_tree_constructor {};
+    std::ifstream& m_input_stream;
+
+    ParseState m_parse_state {};
 };
 
 }

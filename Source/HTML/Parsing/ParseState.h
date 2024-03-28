@@ -1,7 +1,7 @@
 /*
- * Parser.cpp
+ * ParseState.h
  *
- * Copyright 2023-2024 Vitaly Dyachkov <obyknovenius@me.com>
+ * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,25 +19,32 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Parser.h"
+#pragma once
 
-#include "Tokenizer.h"
-#include "TreeConstructor.h"
-#include "../Document.h"
+#include "StackOfOpenElements.h"
+#include "../../DOM/Element.h"
 
 namespace HTML {
 
-Document* Parser::parse()
+enum class InsertionMode
 {
-    Document* document { new Document {} };
-    Tokenizer tokenizer { m_input_stream };
-    TreeConstructor tree_constructor { *document, m_parse_state };
+    Initial,
+    BeforeHtml,
+    BeforeHead,
+    InHead,
+    AfterHead,
+    InBody,
+    AfterBody,
+    AfterAfterBody
+};
 
-    while(!tree_constructor.dispatch(tokenizer.resume()))
-    {
-    }
+struct ParseState
+{
+    InsertionMode insertion_mode { InsertionMode::Initial };
 
-    return tree_constructor.document();
-}
+    StackOfOpenElements stack_of_open_elements {};
+
+    DOM::Node* current_node() { return stack_of_open_elements.bottommost(); }
+};
 
 }

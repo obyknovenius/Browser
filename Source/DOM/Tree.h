@@ -46,6 +46,9 @@ public:
         T* next_sibling() { return m_next_sibling; }
         const T* next_sibling() const { return m_next_sibling; }
 
+    protected:
+        Object() = default;
+
     private:
         T* m_parent {};
 
@@ -68,7 +71,7 @@ public:
             T* m_parent {};
         };
 
-        Children m_children { this };
+        Children m_children { static_cast<T*>(this) };
 
         T* m_previous_sibling { nullptr };
         T* m_next_sibling { nullptr };

@@ -21,8 +21,8 @@
 
 #pragma once
 
+#include "Token.h"
 #include "TreeConstructor.h"
-
 #include <cassert>
 #include <fstream>
 

@@ -2,6 +2,7 @@ set(HTML_PARSING_SOURCES
     Parser.cpp
     Token.cpp
     Tokenizer.cpp
+    TreeConstructor.cpp
 )
 
 list(TRANSFORM HTML_PARSING_SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")

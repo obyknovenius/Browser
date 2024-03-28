@@ -1,7 +1,7 @@
 /*
- * Parser.cpp
+ * Namespaces.h
  *
- * Copyright 2023-2024 Vitaly Dyachkov <obyknovenius@me.com>
+ * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,25 +19,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Parser.h"
+#pragma once
 
-#include "Tokenizer.h"
-#include "TreeConstructor.h"
-#include "../Document.h"
+#include <string>
 
-namespace HTML {
+namespace Infra::Namespace {
 
-Document* Parser::parse()
-{
-    Document* document { new Document {} };
-    Tokenizer tokenizer { m_input_stream };
-    TreeConstructor tree_constructor { *document, m_parse_state };
-
-    while(!tree_constructor.dispatch(tokenizer.resume()))
-    {
-    }
-
-    return tree_constructor.document();
-}
+static const std::string HTML { "http://www.w3.org/1999/xhtml" };
 
 }

@@ -25,9 +25,20 @@
 
 namespace DOM {
 
-void insert(Node* node, Node* parent, Node* child)
+Node& pre_insert(Node& node, Node& parent, Node* child)
 {
-    const std::list<Node*> nodes { node };
+    auto* referenceChild { child };
+
+    if (referenceChild == &node)
+        referenceChild = node.next_sibling();
+
+    insert(node, parent, referenceChild);
+    return node;
+}
+
+void insert(Node& node, Node& parent, Node* child, bool suppress_observers_flag)
+{
+    const std::list<Node*> nodes { &node };
 
     auto count { nodes.size() };
     if (count == 0)
@@ -36,22 +47,11 @@ void insert(Node* node, Node* parent, Node* child)
     for (auto* node : nodes)
     {
         if (!child)
-            parent->children().append(node);
+            parent.children().append(node);
     }
 }
 
-Node* pre_insert(Node* node, Node* parent, Node* child)
-{
-    auto* referenceChild { child };
-
-    if (referenceChild == node)
-        referenceChild = node->next_sibling();
-
-    insert(node, parent, referenceChild);
-    return node;
-}
-
-Node* append(Node* node, Node* parent)
+Node& append(Node& node, Node& parent)
 {
     return pre_insert(node, parent, nullptr);
 }

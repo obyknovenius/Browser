@@ -54,6 +54,8 @@ public:
     bool is_character() const { return m_type == Type::Character; }
     bool is_end_of_file() const { return m_type == Type::EndOfFile; }
 
+    bool operator==(char character) const { return m_type == Type::Character && m_data.length() == 1 && m_data[0] == character; }
+
     std::string& name()
     {
         assert(is_doctype());
@@ -61,11 +63,10 @@ public:
         return *m_name;
     }
 
-    const std::string& name() const
+    const std::optional<std::string>& name() const
     {
         assert(is_doctype());
-        assert(m_name);
-        return *m_name;
+        return m_name;
     }
 
     void set_name(const std::string& name)

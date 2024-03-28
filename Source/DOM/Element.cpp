@@ -1,7 +1,7 @@
 /*
- * Parser.cpp
+ * Element.cpp
  *
- * Copyright 2023-2024 Vitaly Dyachkov <obyknovenius@me.com>
+ * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,25 +19,31 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Parser.h"
+#include "Element.h"
 
-#include "Tokenizer.h"
-#include "TreeConstructor.h"
-#include "../Document.h"
+namespace DOM {
 
-namespace HTML {
+namespace Interface {
 
-Document* Parser::parse()
+const std::string Element { "Element" };
+
+}
+
+static const std::string& element_interface(const std::string& name, const std::string& namespace_)
 {
-    Document* document { new Document {} };
-    Tokenizer tokenizer { m_input_stream };
-    TreeConstructor tree_constructor { *document, m_parse_state };
+    return Interface::Element;
+}
 
-    while(!tree_constructor.dispatch(tokenizer.resume()))
-    {
-    }
+Element* create_element(const Document& document, const std::string& local_name, const std::string& namespace_)
+{
+    Element* result {};
+    const std::string& interface { element_interface(local_name, namespace_) };
 
-    return tree_constructor.document();
+    if (interface == Interface::Element)
+        return new Element(document);
+
+    assert(false);
+    return {};
 }
 
 }
