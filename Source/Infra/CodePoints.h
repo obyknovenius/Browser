@@ -23,19 +23,8 @@
 
 namespace Infra {
 
-bool is_ascii_upper_alpha(int code_point)
-{
-    return code_point >= 'A' && code_point <= 'Z';
-}
-
-bool is_ascii_lower_alpha(int code_point)
-{
-    return code_point >= 'a' && code_point <= 'z';
-}
-
-bool is_ascii_alpha(int code_point)
-{
-    return is_ascii_upper_alpha(code_point) || is_ascii_lower_alpha(code_point);
-}
+bool is_ascii_upper_alpha(int code_point);
+bool is_ascii_lower_alpha(int code_point);
+bool is_ascii_alpha(int code_point);
 
 }

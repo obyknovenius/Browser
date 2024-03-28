@@ -1,5 +1,5 @@
 /*
- * Node.cpp
+ * Element.cpp
  *
  * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,41 +19,31 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Node.h"
-
-#include <list>
+#include "Element.h"
 
 namespace DOM {
 
-Node& pre_insert(Node& node, Node& parent, Node* child)
-{
-    auto* referenceChild { child };
+namespace Interface {
 
-    if (referenceChild == &node)
-        referenceChild = node.next_sibling();
+const std::string Element { "Element" };
 
-    insert(node, parent, referenceChild);
-    return node;
 }
 
-void insert(Node& node, Node& parent, Node* child, bool suppress_observers_flag)
+static const std::string& element_interface(const std::string& name, const std::string& namespace_)
 {
-    const std::list<Node*> nodes { &node };
-
-    auto count { nodes.size() };
-    if (count == 0)
-        return;
-
-    for (auto* node : nodes)
-    {
-        if (!child)
-            parent.children().append(node);
-    }
+    return Interface::Element;
 }
 
-Node& append(Node& node, Node& parent)
+Element* create_element(const Document& document, const std::string& local_name, const std::string& namespace_)
 {
-    return pre_insert(node, parent, nullptr);
+    Element* result {};
+    const std::string& interface { element_interface(local_name, namespace_) };
+
+    if (interface == Interface::Element)
+        return new Element(document);
+
+    assert(false);
+    return {};
 }
 
 }

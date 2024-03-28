@@ -21,8 +21,8 @@
 
 #pragma once
 
+#include "Token.h"
 #include "TreeConstructor.h"
-
 #include <cassert>
 #include <fstream>
 
@@ -81,11 +81,11 @@ private:
 
     size_t m_those_characters_count {};
 
-    void switch_to_state(State state) { m_state = state; }
+    void switch_to(State state) { m_state = state; }
 
     int consume_next_input_character() { return m_input_stream.get(); }
 
-    void reconsume_in_state(State state)
+    void reconsume_in(State state)
     {
         m_input_stream.unget();
         m_state = state;
@@ -133,7 +133,7 @@ private:
     Token& create_comment_token(const std::string& data)
     {
         m_current_token = { Token::Type::Comment };
-        m_current_token.set_data(data);
+        m_current_token.data() = data;
         return m_current_token;
     }
 

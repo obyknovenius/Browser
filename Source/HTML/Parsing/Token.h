@@ -54,24 +54,18 @@ public:
     bool is_character() const { return m_type == Type::Character; }
     bool is_end_of_file() const { return m_type == Type::EndOfFile; }
 
-    std::string& name()
+    bool operator==(char character) const { return m_type == Type::Character && m_data.length() == 1 && m_data[0] == character; }
+
+    std::optional<std::string>& name()
     {
         assert(is_doctype());
-        assert(m_name);
-        return *m_name;
+        return m_name;
     }
 
-    const std::string& name() const
+    const std::optional<std::string>& name() const
     {
         assert(is_doctype());
-        assert(m_name);
-        return *m_name;
-    }
-
-    void set_name(const std::string& name)
-    {
-        assert(is_doctype());
-        m_name = name;
+        return m_name;
     }
 
     std::string& tag_name()
@@ -86,12 +80,6 @@ public:
         return m_tag_name;
     }
 
-    void set_tag_name(const std::string& tag_name)
-    {
-        assert(is_tag());
-        m_tag_name = tag_name;
-    }
-
     std::string& data()
     {
         assert(is_comment() || is_character());
@@ -102,12 +90,6 @@ public:
     {
         assert(is_comment() || is_character());
         return m_data;
-    }
-
-    void set_data(const std::string& data)
-    {
-        assert(is_comment() || is_character());
-        m_data = data;
     }
 
 private:

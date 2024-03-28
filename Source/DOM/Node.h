@@ -26,12 +26,21 @@
 
 namespace DOM {
 
+class Document;
+
 class Node : public Tree<Node>::Object, public EventTarget
 {
+public:
+    Node(const Document& node_document) : m_node_document { node_document } {}
+
+    const Document& node_document() const { return m_node_document; }
+
+private:
+    const Document& m_node_document;
 };
 
-Node* pre_insert(Node* node, Node* parent, Node* child);
-void insert(Node* node, Node* parent, Node* child);
-Node* append(Node* node, Node* parent);
+Node& pre_insert(Node& node, Node& parent, Node* child);
+void insert(Node& node, Node& parent, Node* child, bool suppress_observers_flag = false);
+Node& append(Node& node, Node& parent);
 
 }

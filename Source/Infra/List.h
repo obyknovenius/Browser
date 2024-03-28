@@ -38,6 +38,10 @@ public:
 
     size_t size() const { return m_items.size(); }
 
+    bool empty() const { return m_items.empty(); }
+
+    Item last() const { return m_items.back(); }
+
 public:
     std::list<Item> m_items;
 };

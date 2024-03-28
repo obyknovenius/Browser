@@ -21,18 +21,24 @@
 
 #include "Parser.h"
 
-#include "../DOM/Document.h"
+#include "Tokenizer.h"
 #include "TreeConstructor.h"
+#include "../Document.h"
 
 namespace HTML {
 
 Document* Parser::parse()
 {
-    while(!m_tree_constructor.handle(m_tokenizer.resume()))
+    Document* document { new Document {} };
+    Tokenizer tokenizer { m_input_stream };
+    TreeConstructor tree_constructor { *document, m_parse_state };
+
+    while (!m_parse_state.parsing_stopped)
     {
+        tree_constructor.dispatch(tokenizer.resume());
     }
 
-    return m_tree_constructor.document();
+    return tree_constructor.document();
 }
 
 }

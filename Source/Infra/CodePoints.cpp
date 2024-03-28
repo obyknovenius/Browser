@@ -1,5 +1,5 @@
 /*
- * Node.cpp
+ * CodePoints.cpp
  *
  * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,41 +19,23 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Node.h"
+#include "CodePoints.h"
 
-#include <list>
+namespace Infra {
 
-namespace DOM {
-
-Node& pre_insert(Node& node, Node& parent, Node* child)
+bool is_ascii_upper_alpha(int code_point)
 {
-    auto* referenceChild { child };
-
-    if (referenceChild == &node)
-        referenceChild = node.next_sibling();
-
-    insert(node, parent, referenceChild);
-    return node;
+    return code_point >= 'A' && code_point <= 'Z';
 }
 
-void insert(Node& node, Node& parent, Node* child, bool suppress_observers_flag)
+bool is_ascii_lower_alpha(int code_point)
 {
-    const std::list<Node*> nodes { &node };
-
-    auto count { nodes.size() };
-    if (count == 0)
-        return;
-
-    for (auto* node : nodes)
-    {
-        if (!child)
-            parent.children().append(node);
-    }
+    return code_point >= 'a' && code_point <= 'z';
 }
 
-Node& append(Node& node, Node& parent)
+bool is_ascii_alpha(int code_point)
 {
-    return pre_insert(node, parent, nullptr);
+    return is_ascii_upper_alpha(code_point) || is_ascii_lower_alpha(code_point);
 }
 
 }

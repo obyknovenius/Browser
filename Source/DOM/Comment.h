@@ -1,5 +1,5 @@
 /*
- * Node.cpp
+ * Comment.h
  *
  * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,41 +19,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Node.h"
+#pragma once
 
-#include <list>
+#include "CharacterData.h"
 
 namespace DOM {
 
-Node& pre_insert(Node& node, Node& parent, Node* child)
+class Comment final : public CharacterData
 {
-    auto* referenceChild { child };
-
-    if (referenceChild == &node)
-        referenceChild = node.next_sibling();
-
-    insert(node, parent, referenceChild);
-    return node;
-}
-
-void insert(Node& node, Node& parent, Node* child, bool suppress_observers_flag)
-{
-    const std::list<Node*> nodes { &node };
-
-    auto count { nodes.size() };
-    if (count == 0)
-        return;
-
-    for (auto* node : nodes)
-    {
-        if (!child)
-            parent.children().append(node);
-    }
-}
-
-Node& append(Node& node, Node& parent)
-{
-    return pre_insert(node, parent, nullptr);
-}
+public:
+    Comment(const Document& node_document, const std::string& data)
+        : CharacterData { node_document, data }
+    {}
+};
 
 }

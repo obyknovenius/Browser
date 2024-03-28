@@ -21,27 +21,83 @@
 
 #pragma once
 
-#include "Token.h"
+#include "Parser.h"
+#include <optional>
 
-#include <iostream>
+namespace DOM {
+
+class Element;
+class Node;
+
+}
 
 namespace HTML {
 
 class Document;
+class Token;
+
+struct InsertionLocation
+{
+public:
+    InsertionLocation(DOM::Node& inside, DOM::Node* before = nullptr)
+        : m_inside { inside }
+        , m_before { before }
+    {}
+
+    InsertionLocation(const InsertionLocation& other)
+        : m_inside { other.m_inside }
+        , m_before { other.m_before }
+    {}
+
+    DOM::Node& inside() const { return m_inside; }
+    DOM::Node* before() const { return m_before; }
+
+    DOM::Node* immediately_before() { return m_before ? m_before->previous_sibling() : m_inside.last_child(); }
+
+private:
+    DOM::Node& m_inside;
+    DOM::Node* m_before;
+};
 
 class TreeConstructor final
 {
 public:
-    bool handle(const Token& token)
-    {
-        if (token.is_end_of_file())
-            return true;
+    TreeConstructor(Document& document, ParseState& parse_state)
+        : m_parse_state { parse_state }
+        , m_document { document }
+    {}
 
-        std::cout << token;
-        return false;
-    }
+    void dispatch(const Token& token);
 
     Document* document() { return nullptr; }
+
+private:
+    InsertionLocation appropriate_place_for_inserting_node();
+    DOM::Element* create_element_for(const Token& token, const std::string& namespace_, const DOM::Node& intended_parent);
+    void insert_element_at_adjusted_insertion_location(DOM::Element& element);
+    DOM::Element* insert_foreign_element_for(const Token& token, const std::string& namespace_, bool only_add_to_element_stack);
+    DOM::Element* insert_html_element_for(const Token& token);
+    void insert_character(const Token& token);
+    void insert_comment(const Token& token, std::optional<InsertionLocation> position = std::nullopt);
+
+    void process_using_rules_for(InsertionMode insertion_mode, const Token& token);
+
+    void apply_rules_for_initial_insertion_mode(const Token& token);
+    void apply_rules_for_before_html_insertion_mode(const Token& token);
+    void apply_rules_for_before_head_insertion_mode(const Token& token);
+    void apply_rules_for_in_head_insertion_mode(const Token& token);
+    void apply_rules_for_after_head_insertion_mode(const Token& token);
+    void apply_rules_for_in_body_insertion_mode(const Token& token);
+    void apply_rules_for_after_body_insertion_mode(const Token& token);
+    void apply_rules_for_after_after_body_insertion_mode(const Token& token);
+
+    void reprocess(const Token& token) { process_using_rules_for(m_parse_state.insertion_mode, token); }
+
+    void stop_parsing() { m_parse_state.parsing_stopped = true; }
+
+    Document& m_document;
+    ParseState& m_parse_state;
 };
 
 }
+

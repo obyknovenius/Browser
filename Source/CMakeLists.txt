@@ -5,6 +5,7 @@ project(Browser)
 set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory(CSS)
+add_subdirectory(Infra)
 add_subdirectory(DOM)
 add_subdirectory(HTML)
 add_subdirectory(Browser)

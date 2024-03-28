@@ -1,5 +1,5 @@
 /*
- * Node.cpp
+ * StackOfOpenElements.h
  *
  * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,41 +19,39 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Node.h"
+#pragma once
 
-#include <list>
+#include <deque>
+#include <functional>
 
 namespace DOM {
 
-Node& pre_insert(Node& node, Node& parent, Node* child)
-{
-    auto* referenceChild { child };
+class Element;
 
-    if (referenceChild == &node)
-        referenceChild = node.next_sibling();
-
-    insert(node, parent, referenceChild);
-    return node;
 }
 
-void insert(Node& node, Node& parent, Node* child, bool suppress_observers_flag)
+namespace HTML {
+
+class StackOfOpenElements
 {
-    const std::list<Node*> nodes { &node };
+public:
+    DOM::Element* first() { return m_deque.front(); }
+    DOM::Element* current_node() { return m_deque.back(); }
 
-    auto count { nodes.size() };
-    if (count == 0)
-        return;
+    void push(DOM::Element* element) { m_deque.push_back(element); }
+    DOM::Element* pop_current_node();
 
-    for (auto* node : nodes)
-    {
-        if (!child)
-            parent.children().append(node);
-    }
-}
+    void pop_until(const std::function<bool(DOM::Element& element)>& condition);
 
-Node& append(Node& node, Node& parent)
+private:
+    std::deque<DOM::Element*> m_deque;
+};
+
+inline DOM::Element* StackOfOpenElements::pop_current_node()
 {
-    return pre_insert(node, parent, nullptr);
+    auto* element { m_deque.back() };
+    m_deque.pop_back();
+    return element;
 }
 
 }

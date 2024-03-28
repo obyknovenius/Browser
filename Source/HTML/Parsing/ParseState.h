@@ -1,5 +1,5 @@
 /*
- * Node.cpp
+ * ParseState.h
  *
  * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,41 +19,42 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "Node.h"
+#pragma once
 
-#include <list>
+#include "StackOfOpenElements.h"
+#include "../../DOM/Element.h"
 
-namespace DOM {
+namespace HTML {
 
-Node& pre_insert(Node& node, Node& parent, Node* child)
+enum class InsertionMode
 {
-    auto* referenceChild { child };
+    Initial,
+    BeforeHtml,
+    BeforeHead,
+    InHead,
+    AfterHead,
+    InBody,
+    AfterBody,
+    AfterAfterBody
+};
 
-    if (referenceChild == &node)
-        referenceChild = node.next_sibling();
-
-    insert(node, parent, referenceChild);
-    return node;
-}
-
-void insert(Node& node, Node& parent, Node* child, bool suppress_observers_flag)
+enum class FramesetOkFlag
 {
-    const std::list<Node*> nodes { &node };
+    Ok,
+    NotOk,
+};
 
-    auto count { nodes.size() };
-    if (count == 0)
-        return;
-
-    for (auto* node : nodes)
-    {
-        if (!child)
-            parent.children().append(node);
-    }
-}
-
-Node& append(Node& node, Node& parent)
+struct ParseState
 {
-    return pre_insert(node, parent, nullptr);
-}
+    InsertionMode insertion_mode { InsertionMode::Initial };
+
+    StackOfOpenElements stack_of_open_elements {};
+
+    DOM::Node* head_element_pointer {};
+
+    FramesetOkFlag frameset_ok_flag { FramesetOkFlag::Ok };
+
+    bool parsing_stopped { false };
+};
 
 }

@@ -1,7 +1,7 @@
 /*
- * Document.h
+ * Interfaces.h
  *
- * Copyright 2023 Vitaly Dyachkov <obyknovenius@me.com>
+ * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,10 +21,22 @@
 
 #pragma once
 
+#include <cassert>
+#include <string>
+
 namespace HTML {
 
-class Document
+namespace Interface {
+    const std::string HTMLHtmlElement { "HTMLHtmlElement" };
+}
+
+const std::string* element_interface_for(const std::string local_name)
 {
-};
+    if (local_name == "html")
+        return &Interface::HTMLHtmlElement;
+
+    assert(false);
+    return nullptr;
+}
 
 }
