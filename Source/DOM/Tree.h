@@ -35,10 +35,15 @@ public:
     class Object
     {
     public:
+        virtual ~Object() = default;
+
         T* parent() { return m_parent; }
 
         Infra::OrderedSet<T*>& children() { return m_children; }
         const Infra::OrderedSet<T*>& children() const { return m_children; }
+
+        T* last_child() { return m_children.is_empty() ? nullptr : m_children.last(); }
+        const T* last_child() const { return m_children.is_empty() ? nullptr : m_children.last(); }
 
         T* previous_sibling() { return m_previous_sibling; }
         const T* previous_sibling() const { return m_previous_sibling; }

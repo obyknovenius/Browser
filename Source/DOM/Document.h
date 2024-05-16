@@ -29,6 +29,8 @@ class Document : public Node
 {
 public:
     Document() : Node { *this } {}
+
+    bool is_html_document() const { return true; }
 };
 
 }

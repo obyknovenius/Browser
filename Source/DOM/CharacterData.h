@@ -34,6 +34,9 @@ public:
         , m_data { data }
     {}
 
+    std::string& data() { return m_data; }
+    const std::string& data() const { return m_data; }
+
 private:
     std::string m_data;
 };

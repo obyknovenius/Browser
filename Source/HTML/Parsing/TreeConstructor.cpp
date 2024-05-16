@@ -23,10 +23,12 @@
 
 #include "Token.h"
 #include "../Document.h"
+#include "../Infrastructure/XMLCompatibility.h"
 #include "../../DOM/Comment.h"
 #include "../../DOM/DocumentType.h"
 #include "../../DOM/Element.h"
 #include "../../DOM/Node.h"
+#include "../../DOM/Text.h"
 #include "../../Infra/Namespaces.h"
 
 #include <cassert>
@@ -36,7 +38,7 @@ namespace HTML {
 
 InsertionLocation TreeConstructor::appropriate_place_for_inserting_node()
 {
-    DOM::Node* target { m_parse_state.current_node() };
+    DOM::Node* target { m_parse_state.stack_of_open_elements.current_node() };
     assert(target);
     InsertionLocation adjusted_insertion_location { *target };
     return adjusted_insertion_location;
@@ -69,6 +71,23 @@ DOM::Element* TreeConstructor::insert_foreign_element_for(const Token& token, co
 DOM::Element* TreeConstructor::insert_html_element_for(const Token& token)
 {
     return insert_foreign_element_for(token, Infra::Namespace::HTML, false);
+}
+
+void TreeConstructor::insert_character(const Token& token)
+{
+    const auto& data { token.data() };
+    auto adjusted_insertion_location { appropriate_place_for_inserting_node() };
+
+    if (dynamic_cast<DOM::Document*>(&adjusted_insertion_location.inside()))
+        return;
+
+    if (auto* text { dynamic_cast<DOM::Text*>(adjusted_insertion_location.immediately_before()) })
+        text->data() += data;
+    else
+    {
+        text = new DOM::Text { adjusted_insertion_location.inside().node_document(), data };
+        insert(*text, adjusted_insertion_location.inside(), adjusted_insertion_location.before());
+    }
 }
 
 void TreeConstructor::insert_comment(const Token& token, std::optional<InsertionLocation> position)
@@ -171,25 +190,15 @@ void TreeConstructor::apply_rules_for_before_head_insertion_mode(const Token& to
     if (token.is_start_tag() && token.tag_name() == "head")
     {
         auto* element { insert_html_element_for(token) };
-        m_head_element_pointer = element;
-        switch_to(InsertionMode::InHead);
+        m_parse_state.head_element_pointer = element;
+        m_parse_state.insertion_mode = InsertionMode::InHead;
         return;
     }
 }
 
 void TreeConstructor::apply_rules_for_in_head_insertion_mode(const Token& token)
 {
-    if (token.is_end_tag() && token.tag_name_is("head"))
-    {
-        m_stack_of_open_elements.pop();
-        switch_to(InsertionMode::AfterHead);
-        return;
-    }
-}
-
-void TreeConstructor::apply_rules_for_after_head_insertion_mode(const Token& token)
-{
-    if (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
+    if (token == '\t' || token == '\n' || token == '\f' || token == ' ')
     {
         insert_character(token);
         return;
@@ -201,18 +210,40 @@ void TreeConstructor::apply_rules_for_after_head_insertion_mode(const Token& tok
         return;
     }
 
-    if (token.is_start_tag() && token.tag_name_is("body"))
+    if (token.is_end_tag() && token.tag_name() == "head")
+    {
+        m_parse_state.stack_of_open_elements.pop_current_node();
+        m_parse_state.insertion_mode = InsertionMode::AfterHead;
+        return;
+    }
+}
+
+void TreeConstructor::apply_rules_for_after_head_insertion_mode(const Token& token)
+{
+    if (token == '\t' || token == '\n' || token == '\f' || token == ' ')
+    {
+        insert_character(token);
+        return;
+    }
+
+    if (token.is_comment())
+    {
+        insert_comment(token);
+        return;
+    }
+
+    if (token.is_start_tag() && token.tag_name() == "body")
     {
         insert_html_element_for(token);
-        m_frameset_ok_flag = FramesetOkFlag::NotOk;
-        switch_to(InsertionMode::InBody);
+        m_parse_state.frameset_ok_flag = FramesetOkFlag::NotOk;
+        m_parse_state.insertion_mode = InsertionMode::InBody;
         return;
     }
 }
 
 void TreeConstructor::apply_rules_for_in_body_insertion_mode(const Token& token)
 {
-    if (token.is_character() && token.is_one_of({'\t', '\n', '\f', ' '}))
+    if (token == '\t' || token == '\n' || token == '\f' || token == ' ')
     {
         insert_character(token);
         return;
@@ -221,29 +252,57 @@ void TreeConstructor::apply_rules_for_in_body_insertion_mode(const Token& token)
     if (token.is_character())
     {
         insert_character(token);
-        m_frameset_ok_flag = FramesetOkFlag::NotOk;
+        m_parse_state.frameset_ok_flag = FramesetOkFlag::NotOk;
         return;
     }
 
-    if (token.is_end_tag() && token.tag_name_is("body"))
+    if (token.is_comment())
     {
-        switch_to(InsertionMode::AfterBody);
+        insert_comment(token);
         return;
     }
 
-    if (token.is_start_tag() && token.tag_name_is_one_of({"h1", "h2", "h3", "h4", "h5", "h6"}))
+    if (token.is_end_tag() && token.tag_name() == "body")
     {
-        insert_html_element_for(token);
+        m_parse_state.insertion_mode = InsertionMode::AfterBody;
         return;
     }
 
-    if (token.is_end_tag() && token.tag_name_is_one_of({"h1", "h2", "h3", "h4", "h5", "h6"}))
+    if (token.is_start_tag())
     {
-        m_stack_of_open_elements.pop_until([](Element* element)
+        if (token.tag_name() == "h1"
+        || token.tag_name() == "h2"
+        || token.tag_name() == "h3"
+        || token.tag_name() == "h4"
+        || token.tag_name() == "h5"
+        || token.tag_name() == "h6")
         {
-            return is_html_element(*element) && element->tag_name_is_one_of({"h1", "h2", "h3", "h4", "h5", "h6"});
-        });
-        return;
+            insert_html_element_for(token);
+            return;
+        }
+    }
+
+    if (token.is_end_tag())
+    {
+        if (token.tag_name() == "h1"
+        || token.tag_name() == "h2"
+        || token.tag_name() == "h3"
+        || token.tag_name() == "h4"
+        || token.tag_name() == "h5"
+        || token.tag_name() == "h6")
+        {
+            m_parse_state.stack_of_open_elements.pop_until([](DOM::Element& element) -> bool
+            {
+                return is_html_element(element)
+                && (element.tag_name() == "h1"
+                || element.tag_name() == "h2"
+                || element.tag_name() == "h3"
+                || element.tag_name() =="h4"
+                || element.tag_name() =="h5"
+                || element.tag_name() =="h6");
+            });
+            return;
+        }
     }
 }
 

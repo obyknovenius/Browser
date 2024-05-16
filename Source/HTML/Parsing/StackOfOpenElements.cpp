@@ -1,5 +1,5 @@
 /*
- * StackOfOpenElements.h
+ * StackOfOpenElements.cpp
  *
  * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,38 +19,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#pragma once
-
-#include <deque>
-#include <functional>
-
-namespace DOM {
-
-class Element;
-
-}
+#include "StackOfOpenElements.h"
 
 namespace HTML {
 
-class StackOfOpenElements
+void StackOfOpenElements::pop_until(const std::function<bool(DOM::Element&)>& condition)
 {
-public:
-    DOM::Element* current_node() { return m_deque.back(); }
-
-    void push(DOM::Element* element) { m_deque.push_back(element); }
-    DOM::Element* pop_current_node();
-
-    void pop_until(const std::function<bool(DOM::Element& element)>& condition);
-
-private:
-    std::deque<DOM::Element*> m_deque;
-};
-
-inline DOM::Element* StackOfOpenElements::pop_current_node()
-{
-    auto* element { m_deque.back() };
-    m_deque.pop_back();
-    return element;
+    while (!m_deque.empty() && !condition(*m_deque.back()))
+        m_deque.pop_back();
 }
 
 }

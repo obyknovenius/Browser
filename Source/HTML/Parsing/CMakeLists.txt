@@ -1,5 +1,6 @@
 set(HTML_PARSING_SOURCES
     Parser.cpp
+    StackOfOpenElements.cpp
     Token.cpp
     Tokenizer.cpp
     TreeConstructor.cpp

@@ -21,7 +21,12 @@
 
 #pragma once
 
+#include "Document.h"
 #include "Node.h"
+#include "../Infra/Namespaces.h"
+#include "../Infra/Strings.h"
+#include <format>
+#include <optional>
 #include <string>
 
 namespace DOM {
@@ -32,6 +37,30 @@ class Element : public Node
 {
 public:
     Element(const Document& node_document) : Node { node_document } {}
+
+    const std::string& namespace_() const { return m_namespace_; }
+
+    std::string qualified_name() const
+    {
+        if (!m_namespace_prefix)
+            return m_local_name;
+        return std::format("{}:{}", *m_namespace_prefix, m_local_name);
+    }
+
+    std::string html_uppercased_qualified_name() const
+    {
+        auto qualified_name = this->qualified_name();
+        if (m_namespace_ == Infra::Namespace::HTML && node_document().is_html_document())
+            qualified_name = Infra::ascii_uppercase(qualified_name);
+        return qualified_name;
+    }
+
+    std::string tag_name() const { return html_uppercased_qualified_name(); }
+
+private:
+    std::string m_namespace_;
+    std::optional<std::string> m_namespace_prefix;
+    std::string m_local_name;
 };
 
 Element* create_element(const Document& document, const std::string& local_name, const std::string& namespace_);

@@ -52,6 +52,8 @@ public:
     DOM::Node& inside() const { return m_inside; }
     DOM::Node* before() const { return m_before; }
 
+    DOM::Node* immediately_before() { return m_before ? m_before->previous_sibling() : m_inside.last_child(); }
+
 private:
     DOM::Node& m_inside;
     DOM::Node* m_before;
@@ -75,6 +77,7 @@ private:
     void insert_element_at_adjusted_insertion_location(DOM::Element& element);
     DOM::Element* insert_foreign_element_for(const Token& token, const std::string& namespace_, bool only_add_to_element_stack);
     DOM::Element* insert_html_element_for(const Token& token);
+    void insert_character(const Token& token);
     void insert_comment(const Token& token, std::optional<InsertionLocation> position = std::nullopt);
 
     void process_using_rules_for(InsertionMode insertion_mode, const Token& token);

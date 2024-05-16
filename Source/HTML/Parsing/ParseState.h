@@ -38,13 +38,21 @@ enum class InsertionMode
     AfterAfterBody
 };
 
+enum class FramesetOkFlag
+{
+    Ok,
+    NotOk,
+};
+
 struct ParseState
 {
     InsertionMode insertion_mode { InsertionMode::Initial };
 
     StackOfOpenElements stack_of_open_elements {};
 
-    DOM::Node* current_node() { return stack_of_open_elements.bottommost(); }
+    DOM::Node* head_element_pointer {};
+
+    FramesetOkFlag frameset_ok_flag { FramesetOkFlag::Ok };
 };
 
 }
