@@ -22,7 +22,9 @@
 #pragma once
 
 #include "../Infra/OrderedSet.h"
+#include "../Infra/List.h"
 #include <cassert>
+#include <iostream>
 
 namespace DOM {
 

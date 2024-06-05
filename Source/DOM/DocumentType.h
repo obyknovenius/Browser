@@ -34,6 +34,8 @@ public:
         , m_name { name }
     {}
 
+    const std::string node_name() const override { return m_name; }
+
 private:
     std::string m_name;
 };

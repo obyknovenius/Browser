@@ -38,7 +38,7 @@ Document* Parser::parse()
         tree_constructor.dispatch(tokenizer.resume());
     }
 
-    return tree_constructor.document();
+    return document;
 }
 
 }

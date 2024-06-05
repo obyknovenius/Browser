@@ -42,6 +42,9 @@ public:
 
     Item last() const { return m_items.back(); }
 
+    std::list<Item>::const_iterator begin() const { return m_items.cbegin(); }
+    std::list<Item>::const_iterator end() const { return m_items.cend(); }
+
 public:
     std::list<Item> m_items;
 };

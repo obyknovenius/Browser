@@ -1,4 +1,5 @@
 set(DOM_SOURCES
+	Dump.cpp
 	Element.cpp
 	Node.cpp
 )

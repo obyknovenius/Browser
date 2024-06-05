@@ -1,5 +1,5 @@
 /*
- * Node.h
+ * Dump.cpp
  *
  * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,30 +19,38 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#pragma once
+#include "Dump.h"
 
-#include "EventTarget.h"
-#include "Tree.h"
+#include "Node.h"
+#include "Text.h"
 
 namespace DOM {
 
-class Document;
-
-class Node : public Tree<Node>::Object, public EventTarget
+void dump_tree(const Node& root, int indent)
 {
-public:
-    Node(const Document& node_document) : m_node_document { node_document } {}
+    for (int i = 0; i < indent; ++i)
+    {
+        std::cout << ' ';
+    }
 
-    const Document& node_document() const { return m_node_document; }
+    if (const auto* text { dynamic_cast<const Text*>(&root) })
+    {
+        std::cout << text->data();
+    }
+    else
+    {
+        std::cout << root.node_name() << std::endl;
+    }
+    std::cout << std::endl;
 
-    virtual const std::string node_name() const = 0;
-
-private:
-    const Document& m_node_document;
-};
-
-Node& pre_insert(Node& node, Node& parent, Node* child);
-void insert(Node& node, Node& parent, Node* child, bool suppress_observers_flag = false);
-Node& append(Node& node, Node& parent);
+    ++indent;
+    if (!root.children().empty())
+    {
+        for (const auto* child : root.children())
+        {
+            dump_tree(*child, indent);
+        }
+    }
+}
 
 }

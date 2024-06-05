@@ -36,7 +36,11 @@ class Document;
 class Element : public Node
 {
 public:
-    Element(const Document& node_document) : Node { node_document } {}
+    Element(const Document& node_document, const std::string namespace_, const std::string local_name)
+        : Node { node_document }
+        , m_namespace_ { namespace_ }
+        , m_local_name { local_name }
+    {}
 
     const std::string& namespace_() const { return m_namespace_; }
 
@@ -57,10 +61,12 @@ public:
 
     std::string tag_name() const { return html_uppercased_qualified_name(); }
 
+    const std::string node_name() const override { return html_uppercased_qualified_name(); }
+
 private:
-    std::string m_namespace_;
-    std::optional<std::string> m_namespace_prefix;
-    std::string m_local_name;
+    std::string m_namespace_ {};
+    std::optional<std::string> m_namespace_prefix {};
+    std::string m_local_name {};
 };
 
 Element* create_element(const Document& document, const std::string& local_name, const std::string& namespace_);

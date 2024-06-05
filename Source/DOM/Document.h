@@ -31,6 +31,8 @@ public:
     Document() : Node { *this } {}
 
     bool is_html_document() const { return true; }
+
+    const std::string node_name() const override { return "#document"; }
 };
 
 }

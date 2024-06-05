@@ -5,6 +5,8 @@
 #include "../CSS/Display/TextSequence.h"
 #include "../CSS/Inline/InlineFormattingContext.h"
 #include "../CSS/Inline/LineBox.h"
+#include "../DOM/Dump.h"
+#include "../HTML/Document.h"
 #include "../HTML/Parsing/Parser.h"
 
 #include <gtkmm.h>
@@ -17,7 +19,9 @@ WebView::WebView(const std::string& filename)
 
     std::ifstream input_stream { filename };
     HTML::Parser parser { input_stream };
-    parser.parse();
+    HTML::Document* document { parser.parse() };
+
+    DOM::dump_tree(*document);
 }
 
 void WebView::on_draw(const Cairo::RefPtr<Cairo::Context>& context, int width, int height)

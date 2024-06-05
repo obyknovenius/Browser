@@ -31,6 +31,8 @@ public:
     Comment(const Document& node_document, const std::string& data)
         : CharacterData { node_document, data }
     {}
+
+    const std::string node_name() const override { return "#comment"; }
 };
 
 }

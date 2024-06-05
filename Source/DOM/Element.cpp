@@ -21,6 +21,9 @@
 
 #include "Element.h"
 
+#include "../HTML/HTMLHeadElement.h"
+#include "../HTML/HTMLHtmlElement.h"
+
 namespace DOM {
 
 namespace Interface {
@@ -29,18 +32,41 @@ const std::string Element { "Element" };
 
 }
 
-static const std::string& element_interface(const std::string& name, const std::string& namespace_)
+static const std::string& element_interface_for(const std::string& name, const std::string& namespace_)
 {
+    if (namespace_ == Infra::Namespace::HTML)
+    {
+        if (name == "head")
+        {
+            return HTML::Interface::HTMLHeadElement;
+        }
+        if (name == "html")
+        {
+            return HTML::Interface::HTMLHtmlElement;
+        }
+    }
     return Interface::Element;
 }
 
 Element* create_element(const Document& document, const std::string& local_name, const std::string& namespace_)
 {
     Element* result {};
-    const std::string& interface { element_interface(local_name, namespace_) };
+    const std::string& interface { element_interface_for(local_name, namespace_) };
+
+    if (interface == HTML::Interface::HTMLHeadElement)
+    {
+        return new HTML::HTMLHeadElement(document, namespace_, local_name);
+    }
+
+    if (interface == HTML::Interface::HTMLHtmlElement)
+    {
+        return new HTML::HTMLHtmlElement(document, namespace_, local_name);
+    }
 
     if (interface == Interface::Element)
-        return new Element(document);
+    {
+        return new Element(document, namespace_, local_name);
+    }
 
     assert(false);
     return {};

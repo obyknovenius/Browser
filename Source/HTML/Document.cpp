@@ -1,5 +1,5 @@
 /*
- * Interfaces.h
+ * Document.cpp
  *
  * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -19,24 +19,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#pragma once
-
-#include <cassert>
-#include <string>
+#include "Document.h"
 
 namespace HTML {
-
-namespace Interface {
-    const std::string HTMLHtmlElement { "HTMLHtmlElement" };
-}
-
-const std::string* element_interface_for(const std::string local_name)
-{
-    if (local_name == "html")
-        return &Interface::HTMLHtmlElement;
-
-    assert(false);
-    return nullptr;
-}
 
 }

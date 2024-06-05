@@ -1,5 +1,5 @@
 /*
- * Node.h
+ * HTMLHtmlElement.h
  *
  * Copyright 2024 Vitaly Dyachkov <obyknovenius@me.com>
  *
@@ -21,28 +21,20 @@
 
 #pragma once
 
-#include "EventTarget.h"
-#include "Tree.h"
+#include "HTMLElement.h"
 
-namespace DOM {
+namespace HTML {
 
-class Document;
+namespace Interface {
+    const std::string HTMLHtmlElement { "HTMLHtmlElement" };
+}
 
-class Node : public Tree<Node>::Object, public EventTarget
+class HTMLHtmlElement : public HTMLElement
 {
 public:
-    Node(const Document& node_document) : m_node_document { node_document } {}
-
-    const Document& node_document() const { return m_node_document; }
-
-    virtual const std::string node_name() const = 0;
-
-private:
-    const Document& m_node_document;
+    HTMLHtmlElement(const DOM::Document& node_document, const std::string namespace_, const std::string local_name)
+        : HTMLElement { node_document, namespace_, local_name }
+    {}
 };
-
-Node& pre_insert(Node& node, Node& parent, Node* child);
-void insert(Node& node, Node& parent, Node* child, bool suppress_observers_flag = false);
-Node& append(Node& node, Node& parent);
 
 }

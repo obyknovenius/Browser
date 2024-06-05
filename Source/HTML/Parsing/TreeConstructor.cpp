@@ -160,6 +160,11 @@ void TreeConstructor::process_using_rules_for(InsertionMode insertion_mode, cons
 
 void TreeConstructor::apply_rules_for_initial_insertion_mode(const Token& token)
 {
+    if (token.is_character() && (token == '\t' || token == '\n' || token == '\f' || token == ' '))
+    {
+        return;
+    }
+
     if (token.is_comment())
     {
         insert_comment(token, InsertionLocation { m_document });

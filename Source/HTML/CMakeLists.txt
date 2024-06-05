@@ -1,4 +1,6 @@
-set(HTML_SOURCES)
+set(HTML_SOURCES
+	Document.cpp
+)
 
 add_subdirectory(Parsing)
 
