@@ -14,10 +14,6 @@ namespace CSS {
 
 class Token final
 {
-    friend class Tokenizer;
-    
-    friend std::ostream& operator<<(std::ostream& out, const Token& token);
-    
 public:
     enum class Type
     {
@@ -58,6 +54,10 @@ private:
     Type m_type { Type::Invalid };
     
     std::string m_value {};
+
+    friend class Tokenizer;
+
+    friend std::ostream& operator<<(std::ostream& out, const Token& token);
 };
 
 }

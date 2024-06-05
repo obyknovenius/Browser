@@ -31,7 +31,7 @@ class OrderedSet : public List<Item>
 public:
     using List<Item>::contains;
 
-    void append(Item item) override
+    void append(Item* item) override
     {
         if (contains(item))
             return;

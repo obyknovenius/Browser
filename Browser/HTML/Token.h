@@ -19,10 +19,6 @@ namespace HTML
 
 class Token final
 {
-    friend class Tokenizer;
-    
-    friend std::ostream& operator<<(std::ostream& out, const Token& token);
-
 public:
     struct Attribute
     {
@@ -92,6 +88,10 @@ private:
     
     void start_new_attribute() { m_attributes.push_back(Attribute {}); }
     Attribute& current_attribute() { return m_attributes.back(); }
+
+    friend class Tokenizer;
+
+    friend std::ostream& operator<<(std::ostream& out, const Token& token);
 };
 
 };

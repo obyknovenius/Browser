@@ -17,8 +17,6 @@ class SimpleBlock;
 
 class ComponentValue final
 {
-    friend std::ostream& operator<<(std::ostream& out, const ComponentValue& component_value);
-
 public:
     ComponentValue() = default;
     ComponentValue(const Token& token) : m_type { Type::PreservedToken }, m_token { token } {}
@@ -51,6 +49,9 @@ private:
     Type m_type { Type::Invalid };
     Token m_token {};
     SimpleBlock* m_simple_block { nullptr };
+
+    friend std::ostream& operator<<(std::ostream& out, const ComponentValue& component_value);
 };
 
 }
+

@@ -14,8 +14,6 @@ namespace CSS {
 
 class StyleSheet
 {
-    friend std::ostream& operator<<(std::ostream& out, const StyleSheet& stylesheet);
-
 public:
     List<QualifiedRule*>& value() { return m_value; }
     const List<QualifiedRule*>& value() const { return m_value; }
@@ -23,6 +21,8 @@ public:
     
 private:
     List<QualifiedRule*> m_value {};
+
+    friend std::ostream& operator<<(std::ostream& out, const StyleSheet& stylesheet);
 };
 
 }

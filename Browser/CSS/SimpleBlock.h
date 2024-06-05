@@ -15,8 +15,6 @@ namespace CSS {
 
 class SimpleBlock final
 {
-    friend std::ostream& operator<<(std::ostream& out, const SimpleBlock& simple_block);
-
 public:
     SimpleBlock(const Token& token) : m_token { token } {}
     
@@ -28,6 +26,8 @@ public:
 private:
     Token m_token;
     List<ComponentValue> m_value {};
+
+    friend std::ostream& operator<<(std::ostream& out, const SimpleBlock& simple_block);
 };
 
 }

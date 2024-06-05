@@ -21,8 +21,7 @@
 
 #pragma once
 
-#include <algorithm>
-#include <list>
+#include <cstddef>
 
 namespace Infra {
 
@@ -32,21 +31,76 @@ class List
 public:
     virtual ~List() = default;
 
-    virtual void append(Item item) { m_items.push_back(item); }
+    struct Iterator
+    {
+        explicit Iterator(Item* current) : m_current(current) {}
 
-    bool contains(Item item) const { return std::find(m_items.cbegin(), m_items.cend(), item) != m_items.cend(); }
+        Iterator& operator++()
+        {
+            if (m_current)
+            {
+                m_current = m_current->m_next;
+            }
+            return *this;
+        }
 
-    size_t size() const { return m_items.size(); }
+        bool operator!=(const Iterator& other)
+        {
+            return m_current != other.m_current;
+        }
 
-    bool empty() const { return m_items.empty(); }
+        Item* operator*() const
+        {
+            return m_current;
+        };
 
-    Item last() const { return m_items.back(); }
+    private:
+        Item* m_current;
+    };
 
-    std::list<Item>::const_iterator begin() const { return m_items.cbegin(); }
-    std::list<Item>::const_iterator end() const { return m_items.cend(); }
+    size_t size() const { return m_size; }
+
+    Item* first() const { return m_first; }
+    Item* last() const { return m_last; }
+
+    virtual void append(Item* item)
+    {
+        if (!m_size)
+        {
+            m_first = item;
+            m_last = item;
+        }
+        else
+        {
+            item->m_previous = m_last;
+            m_last->m_next = item;
+            m_last = item;
+        }
+        ++m_size;
+    }
+
+    bool empty() const { return !m_size; }
+
+    bool contains(Item* item) const
+    {
+        for (Item* current = m_first; current != nullptr; current = current->m_next)
+        {
+            if (current == item)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Iterator begin() const { return Iterator { m_first }; }
+    Iterator end() const { return Iterator { nullptr }; }
 
 public:
-    std::list<Item> m_items;
+    size_t m_size { 0 };
+
+    Item* m_first {};
+    Item* m_last {};
 };
 
 }

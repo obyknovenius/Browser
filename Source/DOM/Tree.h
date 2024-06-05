@@ -41,17 +41,17 @@ public:
 
         T* parent() { return m_parent; }
 
-        Infra::OrderedSet<T*>& children() { return m_children; }
-        const Infra::OrderedSet<T*>& children() const { return m_children; }
+        Infra::OrderedSet<T>& children() { return m_children; }
+        const Infra::OrderedSet<T>& children() const { return m_children; }
 
-        T* last_child() { return m_children.empty() ? nullptr : m_children.last(); }
-        const T* last_child() const { return m_children.empty() ? nullptr : m_children.last(); }
+        T* last_child() { return m_children.last(); }
+        const T* last_child() const { return m_children.last(); }
 
-        T* previous_sibling() { return m_previous_sibling; }
-        const T* previous_sibling() const { return m_previous_sibling; }
+        T* previous_sibling() { return m_previous; }
+        const T* previous_sibling() const { return m_previous; }
 
-        T* next_sibling() { return m_next_sibling; }
-        const T* next_sibling() const { return m_next_sibling; }
+        T* next_sibling() { return m_next; }
+        const T* next_sibling() const { return m_next; }
 
     protected:
         Object() = default;
@@ -59,7 +59,7 @@ public:
     private:
         T* m_parent {};
 
-        class Children final : public Infra::OrderedSet<T*>
+        class Children final : public Infra::OrderedSet<T>
         {
         public:
             Children(T* parent) : m_parent { parent } {}
@@ -67,26 +67,19 @@ public:
             void append(T* child)
             {
                 child->m_parent = m_parent;
-
-                if (!m_items.empty())
-                {
-                    child->m_previous_sibling = m_items.back();
-                    m_items.back()->m_next_sibling = child;
-                }
-
-                Infra::OrderedSet<T*>::append(child);
+                Infra::OrderedSet<T>::append(child);
             }
 
         private:
-            using Infra::OrderedSet<T*>::m_items;
-
             T* m_parent {};
         };
 
         Children m_children { static_cast<T*>(this) };
 
-        T* m_previous_sibling { nullptr };
-        T* m_next_sibling { nullptr };
+        T* m_previous { nullptr };
+        T* m_next { nullptr };
+
+        friend class Infra::List<T>;
     };
 };
 

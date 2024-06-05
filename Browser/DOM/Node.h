@@ -51,8 +51,6 @@ public:
     
     virtual std::string to_string() const = 0;
     
-    friend std::ostream& operator<<(std::ostream& out, const Node& node);
-    
 private:
     class Children final : public List<Node*>
     {
@@ -80,6 +78,8 @@ private:
     Node* m_next_sibling {};
     
     Document* m_node_document {};
+
+    friend std::ostream& operator<<(std::ostream& out, const Node& node);
 };
 
 void insert(Node* node, Node* parent, Node* child);

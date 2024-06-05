@@ -17,8 +17,6 @@ class SimpleBlock;
 
 class QualifiedRule final
 {
-    friend std::ostream& operator<<(std::ostream& out, const QualifiedRule& qualified_rule);
-    
 public:
     List<ComponentValue>& prelude() { return m_prelude; }
     const List<ComponentValue>& prelude() const { return m_prelude; }
@@ -30,6 +28,8 @@ public:
 private:
     List<ComponentValue> m_prelude {};
     SimpleBlock* m_block { nullptr };
+
+    friend std::ostream& operator<<(std::ostream& out, const QualifiedRule& qualified_rule);
 };
 
 }
