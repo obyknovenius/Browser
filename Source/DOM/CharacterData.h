@@ -29,7 +29,7 @@ namespace DOM {
 class CharacterData : public Node
 {
 public:
-    CharacterData(const Document& node_document, const std::string& data)
+    CharacterData(std::shared_ptr<Document> node_document, const std::string& data)
         : Node { node_document }
         , m_data { data }
     {}

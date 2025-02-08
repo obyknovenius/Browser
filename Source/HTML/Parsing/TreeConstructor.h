@@ -23,6 +23,7 @@
 
 #include "Parser.h"
 #include <optional>
+#include <memory>
 
 namespace DOM {
 
@@ -39,7 +40,7 @@ class Token;
 struct InsertionLocation
 {
 public:
-    InsertionLocation(DOM::Node& inside, DOM::Node* before = nullptr)
+    InsertionLocation(std::shared_ptr<DOM::Node> inside, std::shared_ptr<DOM::Node> before = nullptr)
         : m_inside { inside }
         , m_before { before }
     {}
@@ -49,34 +50,32 @@ public:
         , m_before { other.m_before }
     {}
 
-    DOM::Node& inside() const { return m_inside; }
-    DOM::Node* before() const { return m_before; }
+    std::shared_ptr<DOM::Node> inside() const { return m_inside; }
+    std::shared_ptr<DOM::Node> before() const { return m_before; }
 
-    DOM::Node* immediately_before() { return m_before ? m_before->previous_sibling() : m_inside.last_child(); }
+    std::shared_ptr<DOM::Node> immediately_before() { return m_before ? m_before->previous_sibling() : m_inside->last_child(); }
 
 private:
-    DOM::Node& m_inside;
-    DOM::Node* m_before;
+    std::shared_ptr<DOM::Node> m_inside;
+    std::shared_ptr<DOM::Node> m_before;
 };
 
 class TreeConstructor final
 {
 public:
-    TreeConstructor(Document& document, ParseState& parse_state)
-        : m_parse_state { parse_state }
-        , m_document { document }
+    TreeConstructor(std::shared_ptr<Document> document, ParseState& parse_state)
+        : m_document { document }
+        , m_parse_state { parse_state }
     {}
 
     void dispatch(const Token& token);
 
-    Document* document() { return nullptr; }
-
 private:
     InsertionLocation appropriate_place_for_inserting_node();
-    DOM::Element* create_element_for(const Token& token, const std::string& namespace_, const DOM::Node& intended_parent);
-    void insert_element_at_adjusted_insertion_location(DOM::Element& element);
-    DOM::Element* insert_foreign_element_for(const Token& token, const std::string& namespace_, bool only_add_to_element_stack);
-    DOM::Element* insert_html_element_for(const Token& token);
+    std::shared_ptr<DOM::Element> create_element_for(const Token& token, const std::string& namespace_, std::shared_ptr<DOM::Node> intended_parent);
+    void insert_element_at_adjusted_insertion_location(std::shared_ptr<DOM::Element> element);
+    std::shared_ptr<DOM::Element> insert_foreign_element_for(const Token& token, const std::string& namespace_, bool only_add_to_element_stack);
+    std::shared_ptr<DOM::Element> insert_html_element_for(const Token& token);
     void insert_character(const Token& token);
     void insert_comment(const Token& token, std::optional<InsertionLocation> position = std::nullopt);
 
@@ -95,7 +94,7 @@ private:
 
     void stop_parsing() { m_parse_state.parsing_stopped = true; }
 
-    Document& m_document;
+    std::shared_ptr<Document> m_document;
     ParseState& m_parse_state;
 };
 

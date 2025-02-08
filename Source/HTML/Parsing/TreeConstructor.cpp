@@ -38,39 +38,39 @@ namespace HTML {
 
 InsertionLocation TreeConstructor::appropriate_place_for_inserting_node()
 {
-    DOM::Node* target { m_parse_state.stack_of_open_elements.current_node() };
+    auto target { m_parse_state.stack_of_open_elements.current_node() };
     assert(target);
-    InsertionLocation adjusted_insertion_location { *target };
+    InsertionLocation adjusted_insertion_location { target };
     return adjusted_insertion_location;
 }
 
-DOM::Element* TreeConstructor::create_element_for(const Token& token, const std::string& namespace_, const DOM::Node& intended_parent)
+std::shared_ptr<DOM::Element> TreeConstructor::create_element_for(const Token& token, const std::string& namespace_, std::shared_ptr<DOM::Node> intended_parent)
 {
-    auto& document { intended_parent.node_document() };
+    auto document { intended_parent->node_document() };
     auto& local_name { token.tag_name() };
-    auto* element { create_element(document, local_name, namespace_) };
+    auto element { create_element(document, local_name, namespace_) };
     return element;
 }
 
-void TreeConstructor::insert_element_at_adjusted_insertion_location(DOM::Element& element)
+void TreeConstructor::insert_element_at_adjusted_insertion_location(std::shared_ptr<DOM::Element> element)
 {
     auto adjusted_insertion_location { appropriate_place_for_inserting_node() };
     insert(element, adjusted_insertion_location.inside(), adjusted_insertion_location.before());
 }
 
-DOM::Element* TreeConstructor::insert_foreign_element_for(const Token& token, const std::string& namespace_, bool only_add_to_element_stack)
+std::shared_ptr<DOM::Element> TreeConstructor::insert_foreign_element_for(const Token& token, const std::string& namespace_, bool only_add_to_element_stack)
 {
     auto adjusted_insertion_location { appropriate_place_for_inserting_node() };
-    auto* element { create_element_for(token, namespace_, adjusted_insertion_location.inside()) };
+    auto element { create_element_for(token, namespace_, adjusted_insertion_location.inside()) };
     if (!only_add_to_element_stack)
     {
-        insert_element_at_adjusted_insertion_location(*element);
+        insert_element_at_adjusted_insertion_location(element);
     }
     m_parse_state.stack_of_open_elements.push(element);
     return element;
 }
 
-DOM::Element* TreeConstructor::insert_html_element_for(const Token& token)
+std::shared_ptr<DOM::Element> TreeConstructor::insert_html_element_for(const Token& token)
 {
     return insert_foreign_element_for(token, Infra::Namespace::HTML, false);
 }
@@ -80,19 +80,19 @@ void TreeConstructor::insert_character(const Token& token)
     const auto& data { token.data() };
     auto adjusted_insertion_location { appropriate_place_for_inserting_node() };
 
-    if (dynamic_cast<DOM::Document*>(&adjusted_insertion_location.inside()))
+    if (std::dynamic_pointer_cast<DOM::Document>(adjusted_insertion_location.inside()))
     {
         return;
     }
 
-    if (auto* text { dynamic_cast<DOM::Text*>(adjusted_insertion_location.immediately_before()) })
+    if (auto text { std::dynamic_pointer_cast<DOM::Text>(adjusted_insertion_location.immediately_before()) })
     {
         text->data() += data;
     }
     else
     {
-        text = new DOM::Text { adjusted_insertion_location.inside().node_document(), data };
-        insert(*text, adjusted_insertion_location.inside(), adjusted_insertion_location.before());
+        text = std::make_shared<DOM::Text>(adjusted_insertion_location.inside()->node_document(), data);
+        insert(text, adjusted_insertion_location.inside(), adjusted_insertion_location.before());
     }
 }
 
@@ -100,8 +100,8 @@ void TreeConstructor::insert_comment(const Token& token, std::optional<Insertion
 {
     const auto& data { token.data() };
     auto adjusted_insertion_location { position ? *position : appropriate_place_for_inserting_node() };
-    auto* node { new DOM::Comment { adjusted_insertion_location.inside().node_document(), data } };
-    insert(*node, adjusted_insertion_location.inside(), adjusted_insertion_location.before());
+    auto node { std::make_shared<DOM::Comment>(adjusted_insertion_location.inside()->node_document(), data) };
+    insert(node, adjusted_insertion_location.inside(), adjusted_insertion_location.before());
 }
 
 void TreeConstructor::dispatch(const Token& token)
@@ -174,8 +174,8 @@ void TreeConstructor::apply_rules_for_initial_insertion_mode(const Token& token)
     if (token.is_doctype())
     {
         std::string name { token.name() ? *token.name() : "" };
-        auto* document_type { new DOM::DocumentType { m_document, name } };
-        append(*document_type, m_document);
+        auto document_type { std::make_shared<DOM::DocumentType>(m_document, name) };
+        append(document_type, m_document);
         m_parse_state.insertion_mode = InsertionMode::BeforeHtml;
         return;
     }
@@ -193,8 +193,8 @@ void TreeConstructor::apply_rules_for_before_html_insertion_mode(const Token& to
 
     if (token.is_start_tag() && token.tag_name() == "html")
     {
-        auto* element { create_element_for(token, Infra::Namespace::HTML, m_document) };
-        append(*element, m_document);
+        auto element { create_element_for(token, Infra::Namespace::HTML, m_document) };
+        append(element, m_document);
         m_parse_state.stack_of_open_elements.push(element);
         m_parse_state.insertion_mode = InsertionMode::BeforeHead;
         return;
@@ -216,7 +216,7 @@ void TreeConstructor::apply_rules_for_before_head_insertion_mode(const Token& to
 
     if (token.is_start_tag() && token.tag_name() == "head")
     {
-        auto* element { insert_html_element_for(token) };
+        auto element { insert_html_element_for(token) };
         m_parse_state.head_element_pointer = element;
         m_parse_state.insertion_mode = InsertionMode::InHead;
         return;
@@ -343,7 +343,7 @@ void TreeConstructor::apply_rules_for_after_body_insertion_mode(const Token& tok
 
     if (token.is_comment())
     {
-        insert_comment(token, InsertionLocation { *m_parse_state.stack_of_open_elements.first() });
+        insert_comment(token, InsertionLocation { m_parse_state.stack_of_open_elements.first() });
         return;
     }
 

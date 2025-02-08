@@ -29,7 +29,7 @@ namespace DOM {
 class DocumentType final : public Node
 {
 public:
-    DocumentType(const Document& node_document, const std::string& name)
+    DocumentType(std::shared_ptr<DOM::Document> node_document, const std::string& name)
         : Node { node_document }
         , m_name { name }
     {}

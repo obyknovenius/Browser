@@ -23,6 +23,7 @@
 
 #include <deque>
 #include <functional>
+#include <memory>
 
 namespace DOM {
 
@@ -35,21 +36,21 @@ namespace HTML {
 class StackOfOpenElements
 {
 public:
-    DOM::Element* first() { return m_deque.front(); }
-    DOM::Element* current_node() { return m_deque.back(); }
+    std::shared_ptr<DOM::Element> first() { return m_deque.front(); }
+    std::shared_ptr<DOM::Element> current_node() { return m_deque.back(); }
 
-    void push(DOM::Element* element) { m_deque.push_back(element); }
-    DOM::Element* pop_current_node();
+    void push(std::shared_ptr<DOM::Element> element) { m_deque.push_back(element); }
+    std::shared_ptr<DOM::Element> pop_current_node();
 
     void pop_until(const std::function<bool(DOM::Element& element)>& condition);
 
 private:
-    std::deque<DOM::Element*> m_deque;
+    std::deque<std::shared_ptr<DOM::Element>> m_deque;
 };
 
-inline DOM::Element* StackOfOpenElements::pop_current_node()
+inline std::shared_ptr<DOM::Element> StackOfOpenElements::pop_current_node()
 {
-    auto* element { m_deque.back() };
+    auto element { m_deque.back() };
     m_deque.pop_back();
     return element;
 }

@@ -48,28 +48,25 @@ static const std::string& element_interface_for(const std::string& name, const s
     return Interface::Element;
 }
 
-Element* create_element(const Document& document, const std::string& local_name, const std::string& namespace_)
+std::shared_ptr<Element> create_element(std::shared_ptr<Document> document, const std::string& local_name, const std::string& namespace_)
 {
-    Element* result {};
+    std::shared_ptr<Element> result {};
     const std::string& interface { element_interface_for(local_name, namespace_) };
 
     if (interface == HTML::Interface::HTMLHeadElement)
     {
-        return new HTML::HTMLHeadElement(document, namespace_, local_name);
+        result = std::make_shared<HTML::HTMLHeadElement>(document, namespace_, local_name);
     }
-
-    if (interface == HTML::Interface::HTMLHtmlElement)
+    else if (interface == HTML::Interface::HTMLHtmlElement)
     {
-        return new HTML::HTMLHtmlElement(document, namespace_, local_name);
+        result = std::make_shared<HTML::HTMLHtmlElement>(document, namespace_, local_name);
     }
-
-    if (interface == Interface::Element)
+    else if (interface == Interface::Element)
     {
-        return new Element(document, namespace_, local_name);
+        result = std::make_shared<Element>(document, namespace_, local_name);
     }
 
-    assert(false);
-    return {};
+    return result;
 }
 
 }

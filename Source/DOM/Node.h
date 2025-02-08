@@ -31,18 +31,24 @@ class Document;
 class Node : public Tree<Node>::Object, public EventTarget
 {
 public:
-    Node(const Document& node_document) : m_node_document { node_document } {}
+    Node(std::shared_ptr<Document> node_document) : m_node_document { node_document } {}
 
-    const Document& node_document() const { return m_node_document; }
+    std::shared_ptr<Document> node_document() const { return m_node_document.lock(); }
 
     virtual const std::string node_name() const = 0;
 
 private:
-    const Document& m_node_document;
+    std::weak_ptr<Document> m_node_document;
 };
 
-Node& pre_insert(Node& node, Node& parent, Node* child);
-void insert(Node& node, Node& parent, Node* child, bool suppress_observers_flag = false);
-Node& append(Node& node, Node& parent);
+std::shared_ptr<Node> pre_insert(std::shared_ptr<Node> node, std::shared_ptr<Node> parent, std::shared_ptr<Node> child);
+void insert(std::shared_ptr<Node> node, std::shared_ptr<Node> parent, std::shared_ptr<Node> child, bool suppress_observers_flag = false);
+std::shared_ptr<Node> append(std::shared_ptr<Node> node, std::shared_ptr<Node> parent);
+
+std::shared_ptr<DOM::Node> next(std::shared_ptr<DOM::Node>& current)
+{
+    return current->next_sibling();
+}
 
 }
+

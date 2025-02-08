@@ -29,14 +29,15 @@ template <typename Item>
 class OrderedSet : public List<Item>
 {
 public:
-    using List<Item>::contains;
-
-    void append(Item* item) override
+    using List<Item>::empty;
+/*
+    void append(Item) override
     {
         if (contains(item))
             return;
         List<Item>::append(item);
     }
+*/
 };
 
 }

@@ -33,7 +33,7 @@ class Parser final
 public:
     Parser(std::ifstream& input_stream) : m_input_stream { input_stream } {}
 
-    Document* parse();
+    std::shared_ptr<Document> parse();
 
 private:
     std::ifstream& m_input_stream;

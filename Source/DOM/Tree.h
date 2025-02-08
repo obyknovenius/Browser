@@ -21,10 +21,10 @@
 
 #pragma once
 
-#include "../Infra/OrderedSet.h"
 #include "../Infra/List.h"
 #include <cassert>
 #include <iostream>
+#include <memory>
 
 namespace DOM {
 
@@ -34,52 +34,76 @@ class Tree final
 public:
     Tree() = delete;
 
-    class Object
+    class Object : public std::enable_shared_from_this<T>
     {
     public:
-        virtual ~Object() = default;
+        virtual ~Object() {}
 
-        T* parent() { return m_parent; }
+        class Children final : public Infra::List<std::shared_ptr<T>>
+        {
+        public:
+            Children(std::shared_ptr<T> parent) : m_parent { parent } {}
 
-        Infra::OrderedSet<T>& children() { return m_children; }
-        const Infra::OrderedSet<T>& children() const { return m_children; }
+            Children(std::shared_ptr<const T> parent) : m_parent { std::const_pointer_cast<T>(parent) } {}
 
-        T* last_child() { return m_children.last(); }
-        const T* last_child() const { return m_children.last(); }
+            Infra::List<std::shared_ptr<T>>::Iterator begin() { return { m_parent->m_first_child }; }
+            Infra::List<std::shared_ptr<T>>::Iterator end() { return { nullptr }; }
 
-        T* previous_sibling() { return m_previous; }
-        const T* previous_sibling() const { return m_previous; }
+            bool empty() const
+            {
+                return !m_parent->m_first_child;
+            }
 
-        T* next_sibling() { return m_next; }
-        const T* next_sibling() const { return m_next; }
+            void append(std::shared_ptr<T> child)
+            {
+                child->m_parent = m_parent;
+                if (!m_parent->m_first_child)
+                {
+                    m_parent->m_first_child = child;
+                    m_parent->m_last_child = child;
+                }
+                else
+                {
+                    child->m_previous_sibling = m_parent->m_last_child;
+                    m_parent->m_last_child->m_next_sibling = child;
+                    m_parent->m_last_child = child;
+                }
+            }
+
+            void append(std::shared_ptr<T> child) const { assert(false); }
+
+        private:
+            std::shared_ptr<T> m_parent;
+        };
+
+        std::weak_ptr<T> parent() { return m_parent; }
+
+        Children children() { return Children { this->shared_from_this() }; }
+        const Children children() const { return Children { this->shared_from_this() }; }
+
+        std::shared_ptr<T> first_child() { return m_first_child; }
+        const std::shared_ptr<T> first_child() const { return m_first_child; }
+
+        std::shared_ptr<T> last_child() { return m_last_child; }
+        const std::shared_ptr<T> last_child() const { return m_last_child; }
+
+        std::shared_ptr<T> previous_sibling() { return m_previous_sibling; }
+        const std::shared_ptr<T> previous_sibling() const { return m_previous_sibling; }
+
+        std::shared_ptr<T> next_sibling() { return m_next_sibling; }
+        const std::shared_ptr<T> next_sibling() const { return m_next_sibling; }
 
     protected:
         Object() = default;
 
     private:
-        T* m_parent {};
+        std::weak_ptr<T> m_parent {};
 
-        class Children final : public Infra::OrderedSet<T>
-        {
-        public:
-            Children(T* parent) : m_parent { parent } {}
+        std::shared_ptr<T> m_first_child {};
+        std::shared_ptr<T> m_last_child {};
 
-            void append(T* child)
-            {
-                child->m_parent = m_parent;
-                Infra::OrderedSet<T>::append(child);
-            }
-
-        private:
-            T* m_parent {};
-        };
-
-        Children m_children { static_cast<T*>(this) };
-
-        T* m_previous { nullptr };
-        T* m_next { nullptr };
-
-        friend class Infra::List<T>;
+        std::shared_ptr<T> m_previous_sibling {};
+        std::shared_ptr<T> m_next_sibling {};
     };
 };
 

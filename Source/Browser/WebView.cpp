@@ -19,7 +19,7 @@ WebView::WebView(const std::string& filename)
 
     std::ifstream input_stream { filename };
     HTML::Parser parser { input_stream };
-    HTML::Document* document { parser.parse() };
+    std::shared_ptr<HTML::Document> document { parser.parse() };
 
     DOM::dump_tree(*document);
 }

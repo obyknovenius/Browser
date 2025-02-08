@@ -23,6 +23,7 @@
 
 #include "StackOfOpenElements.h"
 #include "../../DOM/Element.h"
+#include <memory>
 
 namespace HTML {
 
@@ -50,7 +51,7 @@ struct ParseState
 
     StackOfOpenElements stack_of_open_elements {};
 
-    DOM::Node* head_element_pointer {};
+    std::shared_ptr<DOM::Node> head_element_pointer {};
 
     FramesetOkFlag frameset_ok_flag { FramesetOkFlag::Ok };
 

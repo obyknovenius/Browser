@@ -28,7 +28,7 @@ namespace HTML {
 class HTMLElement : public DOM::Element
 {
 public:
-    HTMLElement(const DOM::Document& node_document, const std::string namespace_, const std::string local_name)
+    HTMLElement(std::shared_ptr<DOM::Document> node_document, const std::string namespace_, const std::string local_name)
         : Element { node_document, namespace_, local_name }
     {}
 };

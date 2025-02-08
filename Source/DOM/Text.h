@@ -28,7 +28,7 @@ namespace DOM {
 class Text final : public CharacterData
 {
 public:
-    Text(const Document& node_document, const std::string& data)
+    Text(std::shared_ptr<Document> node_document, const std::string& data)
         : CharacterData { node_document, data }
     {}
 

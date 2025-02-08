@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include <cstddef>
-
 namespace Infra {
 
 template <typename Item>
@@ -33,13 +31,14 @@ public:
 
     struct Iterator
     {
-        explicit Iterator(Item* current) : m_current(current) {}
+        Iterator(Item current) : m_current { current } {}
 
         Iterator& operator++()
         {
             if (m_current)
             {
-                m_current = m_current->m_next;
+                m_current = next(m_current);
+                //m_current = m_current->m_next_sibling;
             }
             return *this;
         }
@@ -49,58 +48,17 @@ public:
             return m_current != other.m_current;
         }
 
-        Item* operator*() const
+        Item operator*() const
         {
             return m_current;
         };
 
     private:
-        Item* m_current;
+        Item m_current;
     };
 
-    size_t size() const { return m_size; }
-
-    Item* first() const { return m_first; }
-    Item* last() const { return m_last; }
-
-    virtual void append(Item* item)
-    {
-        if (!m_size)
-        {
-            m_first = item;
-            m_last = item;
-        }
-        else
-        {
-            item->m_previous = m_last;
-            m_last->m_next = item;
-            m_last = item;
-        }
-        ++m_size;
-    }
-
-    bool empty() const { return !m_size; }
-
-    bool contains(Item* item) const
-    {
-        for (Item* current = m_first; current != nullptr; current = current->m_next)
-        {
-            if (current == item)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    Iterator begin() const { return Iterator { m_first }; }
-    Iterator end() const { return Iterator { nullptr }; }
-
-public:
-    size_t m_size { 0 };
-
-    Item* m_first {};
-    Item* m_last {};
+    virtual Iterator begin() = 0;
+    virtual Iterator end() = 0;
 };
 
 }

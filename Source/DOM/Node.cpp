@@ -25,33 +25,33 @@
 
 namespace DOM {
 
-Node& pre_insert(Node& node, Node& parent, Node* child)
+std::shared_ptr<Node> pre_insert(std::shared_ptr<Node> node, std::shared_ptr<Node> parent, std::shared_ptr<Node> child)
 {
-    auto* referenceChild { child };
+    auto referenceChild { child };
 
-    if (referenceChild == &node)
-        referenceChild = node.next_sibling();
+    if (referenceChild == node)
+        referenceChild = node->next_sibling();
 
     insert(node, parent, referenceChild);
     return node;
 }
 
-void insert(Node& node, Node& parent, Node* child, bool suppress_observers_flag)
+void insert(std::shared_ptr<Node> node, std::shared_ptr<Node> parent, std::shared_ptr<Node> child, bool suppress_observers_flag)
 {
-    const std::list<Node*> nodes { &node };
+    const std::list<std::shared_ptr<Node>> nodes { node };
 
     auto count { nodes.size() };
     if (count == 0)
         return;
 
-    for (auto* node : nodes)
+    for (auto node : nodes)
     {
         if (!child)
-            parent.children().append(node);
+            parent->children().append(node);
     }
 }
 
-Node& append(Node& node, Node& parent)
+std::shared_ptr<Node> append(std::shared_ptr<Node> node, std::shared_ptr<Node> parent)
 {
     return pre_insert(node, parent, nullptr);
 }

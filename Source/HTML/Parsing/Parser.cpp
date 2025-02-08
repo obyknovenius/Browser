@@ -27,11 +27,11 @@
 
 namespace HTML {
 
-Document* Parser::parse()
+std::shared_ptr<Document> Parser::parse()
 {
-    Document* document { new Document {} };
+    auto document { std::make_shared<Document>() };
     Tokenizer tokenizer { m_input_stream };
-    TreeConstructor tree_constructor { *document, m_parse_state };
+    TreeConstructor tree_constructor { document, m_parse_state };
 
     while (!m_parse_state.parsing_stopped)
     {

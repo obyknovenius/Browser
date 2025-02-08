@@ -26,7 +26,7 @@
 
 namespace DOM {
 
-void dump_tree(const Node& root, int indent)
+void dump_tree(Node& root, int indent)
 {
     for (int i = 0; i < indent; ++i)
     {
@@ -46,7 +46,7 @@ void dump_tree(const Node& root, int indent)
     ++indent;
     if (!root.children().empty())
     {
-        for (const auto* child : root.children())
+        for (auto child : root.children())
         {
             dump_tree(*child, indent);
         }

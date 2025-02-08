@@ -26,6 +26,7 @@
 #include "../Infra/Namespaces.h"
 #include "../Infra/Strings.h"
 #include <format>
+#include <memory>
 #include <optional>
 #include <string>
 
@@ -36,7 +37,7 @@ class Document;
 class Element : public Node
 {
 public:
-    Element(const Document& node_document, const std::string namespace_, const std::string local_name)
+    Element(std::shared_ptr<Document> node_document, const std::string namespace_, const std::string local_name)
         : Node { node_document }
         , m_namespace_ { namespace_ }
         , m_local_name { local_name }
@@ -54,7 +55,7 @@ public:
     std::string html_uppercased_qualified_name() const
     {
         auto qualified_name = this->qualified_name();
-        if (m_namespace_ == Infra::Namespace::HTML && node_document().is_html_document())
+        if (m_namespace_ == Infra::Namespace::HTML && node_document()->is_html_document())
             qualified_name = Infra::ascii_uppercase(qualified_name);
         return qualified_name;
     }
@@ -69,6 +70,6 @@ private:
     std::string m_local_name {};
 };
 
-Element* create_element(const Document& document, const std::string& local_name, const std::string& namespace_);
+std::shared_ptr<Element> create_element(std::shared_ptr<Document> document, const std::string& local_name, const std::string& namespace_);
 
 }

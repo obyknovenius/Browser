@@ -32,7 +32,7 @@ namespace Interface {
 class HTMLHtmlElement : public HTMLElement
 {
 public:
-    HTMLHtmlElement(const DOM::Document& node_document, const std::string namespace_, const std::string local_name)
+    HTMLHtmlElement(std::shared_ptr<DOM::Document> node_document, const std::string namespace_, const std::string local_name)
         : HTMLElement { node_document, namespace_, local_name }
     {}
 };

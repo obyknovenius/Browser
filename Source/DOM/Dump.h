@@ -25,6 +25,6 @@ namespace DOM {
 
 class Node;
 
-void dump_tree(const Node& root, int indent = 0);
+void dump_tree(Node& root, int indent = 0);
 
 }

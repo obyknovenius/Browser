@@ -28,7 +28,7 @@ namespace DOM {
 class Comment final : public CharacterData
 {
 public:
-    Comment(const Document& node_document, const std::string& data)
+    Comment(std::shared_ptr<Document> node_document, const std::string& data)
         : CharacterData { node_document, data }
     {}
 
